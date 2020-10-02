@@ -23,6 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_sign_in: ^4.5.1  #Package pour la connexion avec un compte Google
+  firebase_auth: ^0.16.1  #Package pour controller les connexions et leur paramètres
+  http: ^0.12.1   #Package qui permet de charger l'api
 
 
   # The following adds the Cupertino Icons font to your application.
