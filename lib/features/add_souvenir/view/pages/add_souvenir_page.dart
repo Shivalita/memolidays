@@ -1,0 +1,1 @@
+//! Affichage de la page d'ajout de souvenir

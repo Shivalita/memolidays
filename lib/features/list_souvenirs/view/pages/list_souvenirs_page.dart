@@ -1,0 +1,1 @@
+//! Affichage de la page de liste des souvenirs (page d'accueil)

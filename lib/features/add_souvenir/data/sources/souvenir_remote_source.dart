@@ -1,0 +1,1 @@
+//! Stockage des datas d'un nouveau souvenir
