@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:get/get.dart';
-import 'package:memolidays/core/home/home.dart';
+// import 'package:get/get.dart';
+// import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/login/data/repositories/login_repository.dart';
 
 class LoginPage extends StatelessWidget {
+  final loginRepository = LoginRepository();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,8 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.all(50),
               child: GoogleSignInButton(
                 onPressed: () {
-                  Get.to(MyHomePage());
+                  // Get.to(MyHomePage());
+                  loginRepository.signInWithGoogle();
                 },
                 splashColor: Colors.orange
               ),

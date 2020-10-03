@@ -24,11 +24,15 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^4.5.1  #Package pour la connexion avec un compte Google
-  firebase_auth: ^0.16.1  #Package pour controller les connexions et leur paramètres
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.1  #Package pour controller les connexions et leur paramètres
   http: ^0.12.1   #Package qui permet de charger l'api
   get: ^3.12.1 #Permet de gerer les routes
   motion_tab_bar: ^0.1.5 #Permet la customisation de la BottomTabBar
   flutter_auth_buttons: ^0.10.0 #Permet l'affichage de bouton de connexion Google/Facebook ect..
+
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
