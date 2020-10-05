@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'features/login/view/pages/login_page.dart';
@@ -6,6 +7,9 @@ import 'features/login/view/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
+   SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
       getPages: [
-            // GetPage(name: '/', page: () => SplashScreen()),
+            GetPage(name: '/', page: () => LoginPage()),
             GetPage(name: '/home', page: () => MyHomePage()),
       ],
     );

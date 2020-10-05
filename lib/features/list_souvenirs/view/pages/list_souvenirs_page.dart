@@ -1,14 +1,25 @@
-//! Affichage de la page de liste des souvenirs (page d'accueil)
-
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/list_souvenirs/view/components/category.dart';
+import 'package:memolidays/features/list_souvenirs/view/components/memories.dart';
 
-class ListSouvenirsPage extends StatelessWidget {
+
+class ListSouvenirsPage extends StatefulWidget {
+  @override
+  _ListSouvenirsPageState createState() => _ListSouvenirsPageState();
+}
+
+class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text("Home"),
+    return Container(
+        child: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Category(),
+          Memories(),
+        ],
       ),
+      )
     );
   }
 }
