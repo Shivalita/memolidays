@@ -1,9 +1,11 @@
-// //! Connexion au compte Google et récupération des datas brutes
-
+//! Connexion to Google account, get user data and instanciate User
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-class LoginRemoteSource {
+import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 
+class LoginRemoteSource {
+  
+  //! Google authentification process
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn ();
 
@@ -13,7 +15,7 @@ class LoginRemoteSource {
 
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
-  Future<dynamic> signInWithGoogle() async {
+  Future<entity.User> signInWithGoogle() async {
     
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
@@ -25,15 +27,20 @@ class LoginRemoteSource {
       idToken: googleSignInAuthentication.idToken,
     );
 
+    //! Get logged in user data
     final authResult = await _auth.signInWithCredential(credential);
     final User user = authResult.user;
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
 
-    return user;
+    //! Instanciate and return User 
+    final entity.User userEntity = new entity.User(user.uid, user.displayName, user.email);
+
+    return userEntity;
   }
-  //! Déconnexion du compte Google
+
+  //! Google account disconnection
   void signOutGoogle() async {
     await googleSignIn.signOut();
 
@@ -41,3 +48,6 @@ class LoginRemoteSource {
   }
 
 }
+
+// as entity 
+// entity.user.toto

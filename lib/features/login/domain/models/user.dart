@@ -1,5 +1,4 @@
 //! User Entity
-
 class User {
 
   String id;
