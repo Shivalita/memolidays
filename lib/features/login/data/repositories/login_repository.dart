@@ -1,4 +1,4 @@
-//! Gestion de la connexion au compte Google
+//! Gestion de la connexion/vérification de la connectivité de l'appareil
 
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
@@ -17,8 +17,12 @@ class LoginRepository {
 
   Future<User> signInWithGoogle() async {
 
+    //! Récupération des données et instanciation d'un User
     final userData = await loginRemoteSource.signInWithGoogle();
     final User user = new User(userData.uid, userData.displayName, userData.email);
+
+    //! Vérification de la connectivité
+    
 
     // return user;
     return Get.to(MyHomePage());

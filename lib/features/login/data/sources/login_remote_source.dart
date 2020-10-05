@@ -1,4 +1,4 @@
-// //! Connexion au compte Google
+// //! Connexion au compte Google et récupération des datas brutes
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -33,7 +33,7 @@ class LoginRemoteSource {
 
     return user;
   }
-
+  //! Déconnexion du compte Google
   void signOutGoogle() async {
     await googleSignIn.signOut();
 

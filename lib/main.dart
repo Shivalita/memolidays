@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'features/login/view/pages/login_page.dart';
@@ -7,6 +8,9 @@ import 'features/login/view/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
+   SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+  ]);
 }
 
 class MyApp extends StatelessWidget {

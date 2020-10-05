@@ -54,8 +54,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             "Home","Search","Memories","Map","Profile"
           ],
           initialSelectedTab: "Home",
-          tabIconColor: Colors.orange,
-          tabSelectedColor: Colors.orange,
+          tabIconColor: Colors.white,
+          tabSelectedColor: Colors.white,
           onTabItemSelected: (int value){
             print(value);
             setState(() {
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             Icons.home,Icons.search,Icons.add_box,Icons.public,Icons.account_box
           ],
           textStyle: TextStyle(
-            color: Colors.orange,
+            color: Colors.white,
             fontSize: 12,
             fontWeight: FontWeight.bold
           ),
