@@ -11,9 +11,7 @@ class LoginRemoteSource {
   final GoogleSignIn googleSignIn = GoogleSignIn ();
 
   LoginRemoteSource._();
-
   static LoginRemoteSource _cache;
-
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
   Future<entity.User> signInWithGoogle(context) async {
@@ -46,11 +44,9 @@ class LoginRemoteSource {
 
     //! Handle Google authentication error
     catch (error) {
-
       print('ERROR : ');
       print(error);
       throw GoogleAuthException(context);
-
     }
 
   }
@@ -60,5 +56,5 @@ class LoginRemoteSource {
     await googleSignIn.signOut();
     return 'User disconnected';
   }
-
+  
 }

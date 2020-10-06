@@ -17,9 +17,9 @@ class LoginState {
 
   }
 
+  //! Check connectivity and handle error message display
   Future<void> checkConnectivity(context) async {
 
-    //! Handle connectivity error
     bool hasConnection = await DataConnectionChecker().hasConnection;
 
     if (!hasConnection == true) {
@@ -40,6 +40,7 @@ class LoginState {
 
   }
 
+  //! Check connectivity, if ok handle login and redirection to homepage
   Future<void> signInWithGoogle(context) async {
 
     await checkConnectivity(context);
@@ -47,6 +48,7 @@ class LoginState {
     print(hasConnectivity);
 
     if (hasConnectivity == true) {
+      
       User user = await Login()(context);
 
       if (user != null) {
@@ -54,10 +56,12 @@ class LoginState {
         print('connected = true');
         return Get.to(MyHomePage());
       }
+
     }
 
   }
 
+  //! Check if connected, if ok handle logout and redirection to login page
   Future<void> signOutGoogle(context) async {
 
     if (!isConnected == true) print('Not connected to Google.');
@@ -70,6 +74,5 @@ class LoginState {
     return Get.to(LoginPage());
 
   }
-
 
 }

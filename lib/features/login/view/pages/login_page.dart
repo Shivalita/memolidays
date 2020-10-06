@@ -9,77 +9,46 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: loginState.whenRebuilder(
-            initState: () => loginState.setState((state) => state.checkConnectivity(context)),
-            onIdle: () =>
-                CircularProgressIndicator(), //! displayed on start
-            onWaiting: () =>
-                CircularProgressIndicator(), //! displayed while waiting for async
-            onError: (_) => Text('Error'), //! displayed when there is an error
-            onData: () {
-              //! displayed once complete and data has changed on state
-              return Column(
-                children: <Widget>[
-                  ClipPath(
-                    clipper: MyClipper(),
-                    child: Container(
-                      height: 430,
-                      decoration: BoxDecoration(color: Colors.orange, boxShadow: [
-                        BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
-                      ]),
-                      child: Center(
-                        child: Image(image: AssetImage('assets/images/icon.png'))
-                      ),
-                    ),
+      body: loginState.whenRebuilder(
+        //! Check connectivity on application launch 
+        initState: () => loginState.setState((state) => state.checkConnectivity(context)),
+        onIdle: () =>
+            CircularProgressIndicator(), //! Displayed on start
+        onWaiting: () =>
+            CircularProgressIndicator(), //! Displayed while waiting for async
+        onError: (_) => Text('Error'), //! Displayed when there is an error
+        onData: () {
+          //! Displayed once complete and data has changed on state
+          return Column(
+            children: <Widget>[
+              ClipPath(
+                clipper: MyClipper(),
+                child: Container(
+                  height: 430,
+                  decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+                    BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
+                  ]),
+                  child: Center(
+                    child: Image(image: AssetImage('assets/images/icon.png'))
                   ),
-                  Center(
-                    child: Container(
-                      padding: EdgeInsets.all(50),
-                      child: GoogleSignInButton(
-                        onPressed: () {
-                          loginState.setState((state) => state.signInWithGoogle(context));
-                        },
-                        splashColor: Colors.orange
-                      ),
-                    ),
+                ),
+              ),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.all(50),
+                  child: GoogleSignInButton(
+                    onPressed: () {
+                      loginState.setState((state) => state.signInWithGoogle(context));
+                    },
+                    splashColor: Colors.orange
                   ),
-                ],
-              );
-            }
-          )
-        );
-
-
-
-    // return Scaffold(
-    //   body: Column(
-    //     children: <Widget>[
-    //       ClipPath(
-    //         clipper: MyClipper(),
-    //         child: Container(
-    //           height: 430,
-    //           decoration: BoxDecoration(color: Colors.orange, boxShadow: [
-    //             BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
-    //           ]),
-    //           child: Center(
-    //             child: Image(image: AssetImage('assets/images/icon.png'))
-    //           ),
-    //         ),
-    //       ),
-    //       Center(
-    //         child: Container(
-    //           padding: EdgeInsets.all(50),
-    //           child: GoogleSignInButton(
-    //             onPressed: () {
-    //               loginRepository.signInWithGoogle(context);
-    //             },
-    //             splashColor: Colors.orange
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
+                ),
+              ),
+            ],
+          );
+        }
+      )
+    );
   }
 }
 
