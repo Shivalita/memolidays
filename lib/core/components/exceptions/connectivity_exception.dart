@@ -11,8 +11,10 @@ class ConnectivityException implements ExceptionModel {
 
   //! Displays snackbar with error message
   void displayError() {
+
     final ExceptionModel exceptionModel = ExceptionModel(context, message);
     exceptionModel.displayError();
+    
   }
 
 }

@@ -56,10 +56,9 @@ class LoginRemoteSource {
   }
 
   //! Google account disconnection
-  void signOutGoogle() async {
+  Future<String> signOutGoogle(context) async {
     await googleSignIn.signOut();
-
-    print("User Sign Out");
+    return 'User disconnected';
   }
 
 }

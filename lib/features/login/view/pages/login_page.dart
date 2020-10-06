@@ -10,14 +10,14 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
         body: loginState.whenRebuilder(
-            initState: () => loginState.setState((state) => state.init(context)),
+            initState: () => loginState.setState((state) => state.checkConnectivity(context)),
             onIdle: () =>
-                CircularProgressIndicator(), // ce qu'on affiche à la base
+                CircularProgressIndicator(), //! displayed on start
             onWaiting: () =>
-                CircularProgressIndicator(), // pendant qu'on attend l'async
-            onError: (_) => Text('Error'), // quand y'a une erreur
+                CircularProgressIndicator(), //! displayed while waiting for async
+            onError: (_) => Text('Error'), //! displayed when there is an error
             onData: () {
-              // une fois que c'est fini et que les datas ont changé dans le state
+              //! displayed once complete and data has changed on state
               return Column(
                 children: <Widget>[
                   ClipPath(
@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
                       padding: EdgeInsets.all(50),
                       child: GoogleSignInButton(
                         onPressed: () {
-                          loginRepository.signInWithGoogle(context);
+                          loginState.setState((state) => state.signInWithGoogle(context));
                         },
                         splashColor: Colors.orange
                       ),

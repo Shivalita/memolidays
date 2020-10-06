@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/login/dependencies.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -39,7 +40,9 @@ class MyDrawer extends StatelessWidget {
           ),
           CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
           CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
-          CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {})
+          CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
+            loginState.setState((state) => state.signOutGoogle(context));
+          })
         ],
       ),
     );

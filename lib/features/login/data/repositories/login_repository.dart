@@ -1,9 +1,7 @@
 //! Check connectivity and handle data
-import 'package:memolidays/core/components/exceptions/connectivity_exception.dart';
 import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 import 'package:memolidays/features/login/data/sources/login_remote_source.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 
 class LoginRepository {
 
@@ -19,15 +17,15 @@ class LoginRepository {
   //! Handle sign in 
   Future<User> signInWithGoogle(context) async {
 
-    //! Check of connectivity
-    bool hasConnection = await DataConnectionChecker().hasConnection;
+    // //! Check of connectivity
+    // bool hasConnection = await DataConnectionChecker().hasConnection;
 
-    //! Handle connectivity error
-    if (!hasConnection == true) {
-      print('ERROR : ');
-      print(DataConnectionChecker().lastTryResults);
-      throw ConnectivityException(context);
-    }
+    // //! Handle connectivity error
+    // if (!hasConnection == true) {
+    //   print('ERROR : ');
+    //   print(DataConnectionChecker().lastTryResults);
+    //   throw ConnectivityException(context);
+    // }
     
     try {
 
@@ -46,8 +44,11 @@ class LoginRepository {
 
     }
 
-    // return Get.to(MyHomePage());
+  }
 
+  Future<String> signOutGoogle(context) async {
+    String disconnectionMessage = await loginRemoteSource.signOutGoogle(context);
+    return disconnectionMessage;
   }
 
 }
