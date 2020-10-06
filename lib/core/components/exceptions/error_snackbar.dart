@@ -1,12 +1,20 @@
-//! Snackbar to display on connectivity fail
+//! Snackbar to display on errors
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 
-class Flush {
+class ErrorSnackbar {
 
-  displayFlushbar(BuildContext context) {
+  BuildContext context;
+  String message;
+
+  ErrorSnackbar(BuildContext context, message) {
+    this.context = context;
+    this.message = message;
+  }
+
+  displayErrorSnackbar() {
     return Flushbar(
-      message: "Please check your network connexion and try again.",
+      message: message,
       icon: Icon(
         Icons.info_outline,
         size: 28.0,

@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
+import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 
 class LoginRemoteSource {
   
@@ -15,29 +16,43 @@ class LoginRemoteSource {
 
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
-  Future<entity.User> signInWithGoogle() async {
+  Future<entity.User> signInWithGoogle(context) async {
     
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    //! Google authentication
+    try {
 
-    final GoogleSignInAuthentication googleSignInAuthentication =
-    await googleSignInAccount.authentication;
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-    //! Get logged in user data
-    final authResult = await _auth.signInWithCredential(credential);
-    final User user = authResult.user;
+      //! Get logged in user data
+      final authResult = await _auth.signInWithCredential(credential);
+      final User user = authResult.user;
 
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
 
-    //! Instanciate and return User 
-    final entity.User userEntity = new entity.User(user.uid, user.displayName, user.email);
+      //! Instanciate and return User 
+      final entity.User userEntity = new entity.User(user.uid, user.displayName, user.email);
 
-    return userEntity;
+      return userEntity;
+
+    }
+
+    //! Handle Google authentication error
+    catch (error) {
+
+      print('ERROR : ');
+      print(error);
+      throw GoogleAuthException(context);
+
+    }
+
   }
 
   //! Google account disconnection
@@ -48,6 +63,3 @@ class LoginRemoteSource {
   }
 
 }
-
-// as entity 
-// entity.user.toto

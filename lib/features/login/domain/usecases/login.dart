@@ -1,9 +1,9 @@
-//! Gestion des datas de connexion
+//! Handle Google connexion
 
+import 'package:memolidays/core/components/exceptions/connectivity_exception.dart';
 import 'package:memolidays/core/usecase.dart';
 import 'package:memolidays/features/login/data/repositories/login_repository.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
-import 'package:memolidays/features/login/view/components/flush.dart';
 
 class Login implements Usecase {
 
@@ -12,6 +12,7 @@ class Login implements Usecase {
   @override
   Future<User> call(context) async {
 
+    //! If User received from remote source, return User
     try {
       
       User user = await repository.signInWithGoogle(context);
@@ -19,10 +20,12 @@ class Login implements Usecase {
 
     } 
 
-    on Exception {
+    //! If connectivity exception thrown, display connectivity error snackbar
+    on ConnectivityException {
 
-      final Flush flushbar = Flush();
-      flushbar.displayFlushbar(context);
+      print('ERROR : No connectivity');
+      final ConnectivityException connectivityException = ConnectivityException(context);
+      connectivityException.displayError();
 
     }
 

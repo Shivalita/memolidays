@@ -1,14 +1,13 @@
 //! Check connectivity and handle data
+import 'package:memolidays/core/components/exceptions/connectivity_exception.dart';
+import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
-import 'package:memolidays/features/login/view/components/flush.dart';
 import 'package:memolidays/features/login/data/sources/login_remote_source.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 
 class LoginRepository {
 
- //! Instanciate remote source and snackbar to display on connectivity fail
   final LoginRemoteSource loginRemoteSource = LoginRemoteSource();
-  
 
   //! Singleton repository
   LoginRepository._();
@@ -20,17 +19,34 @@ class LoginRepository {
   //! Handle sign in 
   Future<User> signInWithGoogle(context) async {
 
-    //! Check of connectivity : if not connected return error snackbar, if connected return User from remote source
+    //! Check of connectivity
     bool hasConnection = await DataConnectionChecker().hasConnection;
 
-    // if (!hasConnection == true) return flushbar.displayFlushbar(context);
-    if (!hasConnection == true) throw Exception();
+    //! Handle connectivity error
+    if (!hasConnection == true) {
+      print('ERROR : ');
+      print(DataConnectionChecker().lastTryResults);
+      throw ConnectivityException(context);
+    }
+    
+    try {
 
-    return loginRemoteSource.signInWithGoogle();
+      //! Return User from remote source
+      User user = await loginRemoteSource.signInWithGoogle(context);
+      return user;
+
+    }
+
+    //! If google authentication exception thrown, display google auth error snackbar
+    on GoogleAuthException {
+
+      print('ERROR : Google Authentication failed');
+      final GoogleAuthException googleAuthException = GoogleAuthException(context);
+      googleAuthException.displayError();
+
+    }
 
     // return Get.to(MyHomePage());
-
-    
 
   }
 
