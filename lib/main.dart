@@ -4,9 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'features/login/view/pages/login_page.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-
-void main() {
+void main() async {
+  //! Initialize Hive and open storage box for local data
+  await Hive.initFlutter();
+  await Hive.openBox('storageBox');
   runApp(MyApp());
    SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,

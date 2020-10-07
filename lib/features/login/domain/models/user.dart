@@ -1,14 +1,16 @@
 //! User Entity
 class User {
 
-  String id;
+  String googleId;
   String name;
   String mail;
+  String memolidaysId;
 
-  User(String id, String name, String mail) {
-    this.id = id;
+  User(String googleId, String name, String mail, String memolidaysId) {
+    this.googleId = googleId;
     this.name = name;
     this.mail = mail;
+    this.memolidaysId = memolidaysId;
   }
 
 }

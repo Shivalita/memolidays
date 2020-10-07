@@ -13,8 +13,9 @@ class Login implements Usecase {
   Future<User> call(context) async {
 
     //! If User received from remote source, return User
-    try {     
-      User user = await repository.signInWithGoogle(context);
+    try {
+
+      final User user = await repository.signInWithGoogle(context);
       return user;
     } 
 
