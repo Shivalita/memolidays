@@ -44,7 +44,7 @@ class LoginState {
   Future<void> signInWithGoogle(context) async {
 
     await checkConnectivity(context);
-    print("STATE :");
+    print("LOGIN STATE :");
     print(hasConnectivity);
 
     if (hasConnectivity == true) {
