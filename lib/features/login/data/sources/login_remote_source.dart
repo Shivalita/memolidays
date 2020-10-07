@@ -1,6 +1,5 @@
-//! Connexion to Google account, get user data and instanciate User
+//! Connexion to Google account, get user data from Google and Memolidays, and instanciate User
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;

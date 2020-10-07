@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
+import 'package:memolidays/features/souvenirs/view/pages/list_souvenirs_page.dart';
 import 'package:motion_tab_bar/MotionTabBarView.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
-import '../../features/add_souvenir/view/pages/add_souvenir_page.dart';
-import '../../features/list_souvenirs/view/pages/list_souvenirs_page.dart';
 import '../../features/map/view/pages/map_page.dart';
 import '../../features/profile/view/pages/profile_page.dart';
 import '../../features/search/view/pages/search_page.dart';

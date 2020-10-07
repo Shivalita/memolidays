@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memolidays/features/list_souvenirs/view/components/category.dart';
-import 'package:memolidays/features/list_souvenirs/view/components/memories.dart';
-
+import 'package:memolidays/features/souvenirs/view/components/category.dart';
+import 'package:memolidays/features/souvenirs/view/components/memories.dart';
 
 class ListSouvenirsPage extends StatefulWidget {
   @override
