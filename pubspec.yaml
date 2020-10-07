@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -23,13 +23,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_sign_in: ^4.5.1  #Package pour la connexion avec un compte Google
-  firebase_auth: ^0.16.1  #Package pour controller les connexions et leur paramètres
-  http: ^0.12.1   #Package qui permet de charger l'api
-  get: ^3.12.1 #Permet de gerer les routes
-  motion_tab_bar: ^0.1.5 #Permet la customisation de la BottomTabBar
-  flutter_auth_buttons: ^0.10.0 #Permet l'affichage de bouton de connexion Google/Facebook ect..
-  flushbar: ^1.10.4
+  google_sign_in: ^4.5.1 #Package for connection with Google account
+  firebase_core: ^0.5.0 #Handle Firebase connexion
+  firebase_auth: ^0.18.1 #Handle Firebase connexions and their parameters
+  http: ^0.12.1 #Load API
+  get: ^3.12.1 #Handle routes
+  motion_tab_bar: ^0.1.5 #Customize BottomTabBar
+  flutter_auth_buttons: ^0.10.0 #Display Google connexion button
+  flushbar: ^1.10.4 #Snackbar for errors displays
+  data_connection_checker: ^0.3.4 #Check connectivity
+  states_rebuilder: ^3.1.0 #States manager
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -44,7 +47,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

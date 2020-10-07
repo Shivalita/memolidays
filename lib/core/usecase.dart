@@ -1,1 +1,4 @@
-//! Astract class (base usecase)
+//! Usecase base model
+abstract class Usecase {
+  dynamic call(context);
+}

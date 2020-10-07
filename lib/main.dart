@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,20 +14,42 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
+
+   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Motion Tab Bar Sample',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: LoginPage(),
-      debugShowCheckedModeBanner: false,
-      getPages: [
-            GetPage(name: '/', page: () => LoginPage()),
-            GetPage(name: '/home', page: () => MyHomePage()),
-      ],
+    return FutureBuilder(
+      // Initialize FlutterFire
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          print('Error');
+        }
+
+        // Once complete, show login page
+        if (snapshot.connectionState == ConnectionState.done) {
+          
+          return GetMaterialApp(
+            title: 'Motion Tab Bar Sample',
+            theme: ThemeData(
+              primarySwatch: Colors.orange,
+            ),
+            home: LoginPage(),
+            debugShowCheckedModeBanner: false,
+            getPages: [
+              GetPage(name: '/home', page: () => MyHomePage()),
+            ],
+          );
+          
+        }
+
+        // Otherwise, show something while waiting for initialization to complete
+          print('Loading');
+
+        return Container(width: 0, height: 0);
+      },
+
     );
   }
+
 }
