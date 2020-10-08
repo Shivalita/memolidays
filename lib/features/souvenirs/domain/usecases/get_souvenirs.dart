@@ -9,11 +9,13 @@ class GetSouvenirs implements Usecase {
 
     @override
     Future<List<Category>> call(context) async {
-    List<Category> categories = await repository.getAllHeadings('799');
+      
+    List<Category> categories = await repository.getCategoriesList();
 
     return categories;
     
   }
+
 
     // //! If User received from remote source, return User
     // try {

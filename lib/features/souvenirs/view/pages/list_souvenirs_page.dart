@@ -14,7 +14,7 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
     return Scaffold(
       body: souvenirsState.whenRebuilder(
         //! Check connectivity on application launch 
-        initState: () => souvenirsState.setState((state) => state.init()),
+        initState: () => souvenirsState.setState((state) => state.init(context)),
         onIdle: () =>
             CircularProgressIndicator(), //! Displayed on start
         onWaiting: () =>

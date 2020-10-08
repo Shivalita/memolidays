@@ -1,5 +1,6 @@
-//! Check connectivity and handle data
+//! Handle login data
 import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 import 'package:memolidays/features/login/data/sources/login_remote_source.dart';
 
@@ -16,8 +17,12 @@ class LoginRepository {
   Future<User> signInWithGoogle(context) async {
     
     try {
-      //! Return User from remote source
+      //! Return User and store user ids on local storage
       User user = await loginRemoteSource.signInWithGoogle(context);
+
+      LocalSource localSource = LocalSource();
+      localSource.storeUserIds(user.googleId, user.memolidaysId);
+
       return user;
     }
 

@@ -1,7 +1,7 @@
 //! Set and get user storage user data
 import 'package:hive/hive.dart';
 
-class UserStorage {
+class LocalSource {
 
   var storageBox = Hive.box('storageBox');
 

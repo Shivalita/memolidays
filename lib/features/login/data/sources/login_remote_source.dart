@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:memolidays/features/login/data/sources/user_storage.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:http/http.dart' as http;
@@ -41,16 +40,10 @@ class LoginRemoteSource {
 
       //! Get Memolidays user data
       final dynamic memolidaysUser = await getMemolidaysUser();
-
       final String memolidaysUserId = memolidaysUser['data'][0]['id'].toString();
 
       //! Instanciate and return User 
-      userEntity = new entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
-
-      //! Store user ids on local storage
-      UserStorage userStorage = UserStorage();
-      userStorage.storeUserIds(userEntity.googleId, userEntity.memolidaysId);
-
+      userEntity = entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
       return userEntity;
 
     }
