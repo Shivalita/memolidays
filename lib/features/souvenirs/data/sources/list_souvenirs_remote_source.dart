@@ -24,7 +24,7 @@ class ListSouvenirsRemoteSource {
 
   }
 
-  //! Get all user's headings
+  //! Get all user headings
   Future<List<Category>> getAllHeadings(userId) async {
     
     final String link = api+'headings/'+userId;

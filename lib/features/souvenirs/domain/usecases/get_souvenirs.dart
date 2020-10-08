@@ -9,7 +9,7 @@ class GetSouvenirs implements Usecase {
 
     @override
     Future<List<Category>> call(context) async {
-    List<Category> categories = await repository.getAllHeadings(userId);
+    List<Category> categories = await repository.getAllHeadings('799');
 
     return categories;
     

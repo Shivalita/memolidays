@@ -2,15 +2,17 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:memolidays/features/login/data/sources/user_storage.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:http/http.dart' as http;
-import 'package:hive/hive.dart';
 
 class LoginRemoteSource {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn ();
+
+  static entity.User userEntity;
 
   LoginRemoteSource._();
   static LoginRemoteSource _cache;
@@ -43,12 +45,11 @@ class LoginRemoteSource {
       final String memolidaysUserId = memolidaysUser['data'][0]['id'].toString();
 
       //! Instanciate and return User 
-      final entity.User userEntity = new entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
+      userEntity = new entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
 
       //! Store user ids on local storage
-      var storageBox = Hive.box('storageBox');
-      storageBox.put('googleId', userEntity.googleId);
-      storageBox.put('memolidaysId', userEntity.memolidaysId);
+      UserStorage userStorage = UserStorage();
+      userStorage.storeUserIds(userEntity.googleId, userEntity.memolidaysId);
 
       return userEntity;
 
