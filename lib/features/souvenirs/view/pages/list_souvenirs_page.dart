@@ -16,12 +16,11 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
         //! Check connectivity on application launch 
         initState: () => souvenirsState.setState((state) => state.init(context)),
         onIdle: () =>
-            CircularProgressIndicator(), //! Displayed on start
+            CircularProgressIndicator(),
         onWaiting: () =>
-            CircularProgressIndicator(), //! Displayed while waiting for async
-        onError: (_) => Text('Error'), //! Displayed when there is an error
+            CircularProgressIndicator(),
+        onError: (error) => Text(error.toString()),
         onData: () {
-        //! Displayed once complete and data has changed on state
           return Container(
             child: SingleChildScrollView(
               child: Column(

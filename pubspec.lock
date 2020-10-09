@@ -474,9 +474,11 @@ packages:
   motion_tab_bar:
     dependency: "direct main"
     description:
-      name: motion_tab_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: fc9501a8bd08d92c61e5875c633f125ed7268c57
+      url: "https://github.com/Antonin06/Motion-Tab-Bar.git"
+    source: git
     version: "0.1.5"
   node_interop:
     dependency: transitive

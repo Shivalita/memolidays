@@ -1,15 +1,16 @@
 //! Souvenirs state
-import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenirs.dart';
 
 class SouvenirsState {
 
-    init(context) async {
+    init(BuildContext context) async {
 
-      final ListSouvenirsRepository repository = ListSouvenirsRepository();
-
-      List<Category> categories = await GetSouvenirs()(context);
+      // List<Souvenir> categories = await GetSouvenirs()(context);
+      List<Souvenir> souvenirs = await GetSouvenirs()(context);
+      print(souvenirs);
 
     }
 

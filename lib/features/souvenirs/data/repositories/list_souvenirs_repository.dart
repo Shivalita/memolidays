@@ -1,7 +1,7 @@
-//! Handle 
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/data/sources/list_souvenirs_remote_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class ListSouvenirsRepository {
   
@@ -11,29 +11,28 @@ class ListSouvenirsRepository {
   static ListSouvenirsRepository _cache;
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
-  //! Get user headings list
-  Future<List<Category>> getCategoriesList() async {
-
-    //! Get user memolidays id
+  int getMemolidaysId() {
     final LocalSource localSource = LocalSource();
-    final Map<String, String> idsMap = localSource.getUserIds();
-    final String memolidaysId = idsMap['memolidaysId'];
-
-    final dynamic headings = await listSouvenirsRemoteSource.getCategoriesList(memolidaysId);
-    final headingId = headings[1].id;
-
-    var souvenirs = listSouvenirsRemoteSource.getSouvenirsByHeading(headingId, memolidaysId);
-
-
-    return headings;
-
+    final Map<String, dynamic> idsMap = localSource.getUserIds();
+    final int memolidaysId = idsMap['memolidaysId'];
+    
+    return memolidaysId;
   }
 
-  // Future getSouvenirsByHeading() async {
+  Future<List<Category>> getCategoriesList() async {
+    final int userId = getMemolidaysId();
+    final List<Category> headingsList = await listSouvenirsRemoteSource.getCategoriesList(userId.toString());
 
-  //   var souvenirs = listSouvenirsRemoteSource.getSouvenirsByHeading(headingId, memolidaysId);
-  //   return souvenirs;
+    return headingsList;
+  }
 
-  // }
+  Future<List<Souvenir>> getSouvenirsList() async {
+    final int userId = getMemolidaysId();
+    final List<Category> categories = await getCategoriesList();
+    final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(categories, userId);
+
+    print(souvenirsList);
+    return souvenirsList;
+  }
 
 }

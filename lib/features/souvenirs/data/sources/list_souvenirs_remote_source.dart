@@ -1,4 +1,3 @@
-//! Get souvenirs
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
@@ -12,40 +11,38 @@ class ListSouvenirsRemoteSource {
   static ListSouvenirsRemoteSource _cache;
   factory ListSouvenirsRemoteSource() => _cache ??= ListSouvenirsRemoteSource._();
 
-  Future<List<Category>> getCategoriesList(userId) async {
-    //! Get user headings
-    var categories = await getAllHeadings(userId);
-    return categories;
-  }
-
-  //! Get all user headings
-  Future<List<Category>> getAllHeadings(userId) async {
-    
+  Future<List<Category>> getCategoriesList(String userId) async {
     final String link = api +'headings/'+ userId;
     final dynamic request = await http.get(link);
 
     if (request.statusCode != 200) throw Exception;
 
     List data = json.decode(request.body)['data'];
-    List<Category> result = data.map((element) => Category.fromJson(element)).toList();
+    List<Category> categoriesList = data.map((element) => Category.fromJson(element)).toList();
 
-    return result;
-
+    return categoriesList;
   }
 
-  Future getSouvenirsByHeading(headingId, userId) async {
-
+  Future<List<Souvenir>> getSouvenirsByHeading(String headingId, String userId) async {
     final String link = api +'/memories/' + headingId + '/' + userId;
-    final dynamic request = await http.get(link);
+    final http.Response request = await http.get(link);
 
     if (request.statusCode != 200) throw Exception;
 
     List data = json.decode(request.body)['data'];
-    print(data);
+    List<Souvenir> categorySouvenirsList = data.map((element) => Souvenir.fromJson(element)).toList();
 
-    List<Souvenir> result = data.map((element) => Souvenir.fromJson(element)).toList();
-    print(result[0].thumbnails[0].type);
+    return categorySouvenirsList;
+  }
 
+  Future<List<Souvenir>> getSouvenirsList(List categories, int userId) async {
+    List<Souvenir> allSouvenirsList = [];
+
+    categories.forEach((category) {
+      allSouvenirsList.add(getSouvenirsByHeading(category.id, userId.toString()));
+    }); 
+
+    return allSouvenirsList;
   }
 
 }

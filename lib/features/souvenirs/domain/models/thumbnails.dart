@@ -9,15 +9,17 @@ class Thumbnails {
   String tempLink;
 
   Thumbnails(
-      {this.path,
-      this.type,
-      this.frame,
-      this.status,
-      this.flag1,
-      this.flag2,
-      this.id,
-      this.tempLink});
+    {this.path,
+    this.type,
+    this.frame,
+    this.status,
+    this.flag1,
+    this.flag2,
+    this.id,
+    this.tempLink}
+  );
 
+  //! Souvenir constructor from map
   Thumbnails.fromJson(Map<String, dynamic> json) {
     path = json['path'];
     type = json['type'];
@@ -29,16 +31,16 @@ class Thumbnails {
     tempLink = json['temp_link'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['path'] = this.path;
-    data['type'] = this.type;
-    data['frame'] = this.frame;
-    data['status'] = this.status;
-    data['flag1'] = this.flag1;
-    data['flag2'] = this.flag2;
-    data['id'] = this.id;
-    data['temp_link'] = this.tempLink;
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['path'] = this.path;
+  //   data['type'] = this.type;
+  //   data['frame'] = this.frame;
+  //   data['status'] = this.status;
+  //   data['flag1'] = this.flag1;
+  //   data['flag2'] = this.flag2;
+  //   data['id'] = this.id;
+  //   data['temp_link'] = this.tempLink;
+  //   return data;
+  // }
 }
