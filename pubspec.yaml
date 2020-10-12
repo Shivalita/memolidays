@@ -27,10 +27,15 @@ dependencies:
   firebase_auth: ^0.16.1  #Package pour controller les connexions et leur paramètres
   http: ^0.12.1   #Package qui permet de charger l'api
   get: ^3.12.1 #Permet de gerer les routes
-  motion_tab_bar: ^0.1.5 #Permet la customisation de la BottomTabBar
+  motion_tab_bar: #Permet la customisation de la BottomTabBar
+    git: 
+      url : https://github.com/Antonin06/Motion-Tab-Bar.git
   flutter_auth_buttons: ^0.10.0 #Permet l'affichage de bouton de connexion Google/Facebook ect..
   flushbar: ^1.10.4
-
+  flutter_form_builder: ^3.13.6
+  intl: ^0.16.1
+  material_tag_editor: ^0.0.4
+  flutter_material_pickers: ^1.8.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
