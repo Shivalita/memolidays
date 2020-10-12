@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:memolidays/features/add_souvenir/view/components/date_picker.dart';
-import 'package:memolidays/features/add_souvenir/view/components/input_location.dart';
-import 'package:memolidays/features/add_souvenir/view/components/input_title.dart';
-import 'package:memolidays/features/add_souvenir/view/components/more_info.dart';
-import 'package:memolidays/features/add_souvenir/view/components/tags.dart';
+import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
+import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
+import 'package:memolidays/features/souvenirs/view/components/input_title.dart';
+import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
+import 'package:memolidays/features/souvenirs/view/components/tags.dart';
+
 
 class AddSouvenirsPage extends StatefulWidget {
   @override

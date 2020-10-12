@@ -1,39 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:get/get.dart';
-import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/login/data/repositories/login_repository.dart';
+import 'package:memolidays/features/login/dependencies.dart';
+
 class LoginPage extends StatelessWidget {
+  final loginRepository = LoginRepository();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: 430,
-              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
-                BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
-              ]),
-              child: Center(
-                child: Image(image: AssetImage('assets/images/icon.png'))
+      body: loginState.whenRebuilder(
+        initState: () => loginState.setState((state) => state.checkConnectivity(context)),
+        onIdle: () =>
+            CircularProgressIndicator(),
+        onWaiting: () =>
+            CircularProgressIndicator(),
+        onError: (_) => Text('Error'),
+        onData: () {
+          return Column(
+            children: <Widget>[
+              ClipPath(
+                clipper: MyClipper(),
+                child: Container(
+                  height: 430,
+                  decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+                    BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
+                  ]),
+                  child: Center(
+                    child: Image(image: AssetImage('assets/images/icon.png'))
+                  ),
+                ),
               ),
-            ),
-          ),
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(50),
-              child: GoogleSignInButton(
-                onPressed: () {
-                  Get.to(MyHomePage());
-            
-                },
-                splashColor: Colors.orange
+              Center(
+                child: Container(
+                  padding: EdgeInsets.all(50),
+                  child: GoogleSignInButton(
+                    onPressed: () {
+                      loginState.setState((state) => state.signInWithGoogle(context));
+                    },
+                    splashColor: Colors.orange
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            ],
+          );
+        }
+      )
     );
   }
 }
