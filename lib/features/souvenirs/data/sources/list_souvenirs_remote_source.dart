@@ -11,8 +11,8 @@ class ListSouvenirsRemoteSource {
   static ListSouvenirsRemoteSource _cache;
   factory ListSouvenirsRemoteSource() => _cache ??= ListSouvenirsRemoteSource._();
 
-  Future<List<Category>> getCategoriesList(String userId) async {
-    final String link = api +'headings/'+ userId;
+  Future<List<Category>> getCategoriesList(int userId) async {
+    final String link = api +'headings/'+ userId.toString();
     final dynamic request = await http.get(link);
 
     if (request.statusCode != 200) throw Exception;
@@ -23,8 +23,8 @@ class ListSouvenirsRemoteSource {
     return categoriesList;
   }
 
-  Future<List<Souvenir>> getSouvenirsByHeading(String headingId, String userId) async {
-    final String link = api +'/memories/' + headingId + '/' + userId;
+  Future<List<Souvenir>> getSouvenirsByHeading(int headingId, int userId) async {
+    final String link = api +'/memories/' + headingId.toString() + '/' + userId.toString();
     final http.Response request = await http.get(link);
 
     if (request.statusCode != 200) throw Exception;
@@ -35,11 +35,13 @@ class ListSouvenirsRemoteSource {
     return categorySouvenirsList;
   }
 
-  Future<List<Souvenir>> getSouvenirsList(List categories, int userId) async {
-    List<Souvenir> allSouvenirsList = [];
+  Future<List<List<Souvenir>>> getSouvenirsList(List categories, int userId) async {
+    List<List<Souvenir>> allSouvenirsList = [];
+    List<Category> categoriesList = await getCategoriesList(userId);
 
-    categories.forEach((category) {
-      allSouvenirsList.add(getSouvenirsByHeading(category.id, userId.toString()));
+    categoriesList.forEach((category) async {
+      List<Souvenir> souvenirs = await getSouvenirsByHeading(category.id, userId);
+      allSouvenirsList.add(souvenirs);
     }); 
 
     return allSouvenirsList;

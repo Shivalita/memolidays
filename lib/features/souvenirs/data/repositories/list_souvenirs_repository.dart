@@ -21,15 +21,15 @@ class ListSouvenirsRepository {
 
   Future<List<Category>> getCategoriesList() async {
     final int userId = getMemolidaysId();
-    final List<Category> headingsList = await listSouvenirsRemoteSource.getCategoriesList(userId.toString());
+    final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
 
-    return headingsList;
+    return categoriesList;
   }
 
-  Future<List<Souvenir>> getSouvenirsList() async {
+  Future<List<List<Souvenir>>> getSouvenirsList() async {
     final int userId = getMemolidaysId();
     final List<Category> categories = await getCategoriesList();
-    final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(categories, userId);
+    final List<List<Souvenir>> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(categories, userId);
 
     print(souvenirsList);
     return souvenirsList;

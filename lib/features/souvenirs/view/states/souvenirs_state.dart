@@ -8,9 +8,14 @@ class SouvenirsState {
 
     init(BuildContext context) async {
 
-      // List<Souvenir> categories = await GetSouvenirs()(context);
-      List<Souvenir> souvenirs = await GetSouvenirs()(context);
-      print(souvenirs);
+      List<Category> categoriesList = await GetSouvenirs()(context);
+      // List<List<Souvenir>> souvenirs = await GetSouvenirs()(context);
+      // print(souvenirs);
+
+      print(categoriesList);
+      print(categoriesList[0].name);
+
+      return categoriesList;
 
     }
 
