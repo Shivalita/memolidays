@@ -8,7 +8,6 @@ class ExceptionModel implements Exception {
 
   ExceptionModel(this.context, this.message);
 
-  //! Displays snackbar with error message
   void displayError() {
     final ErrorSnackbar snackbar = ErrorSnackbar(context, message);
     snackbar.displayErrorSnackbar();

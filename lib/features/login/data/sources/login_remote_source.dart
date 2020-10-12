@@ -1,27 +1,26 @@
-//! Connexion to Google account, get user data and instanciate User
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:http/http.dart' as http;
-import 'package:hive/hive.dart';
 
 class LoginRemoteSource {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn ();
 
+  entity.User userEntity;
+
   LoginRemoteSource._();
   static LoginRemoteSource _cache;
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
-  Future<entity.User> signInWithGoogle(context) async {
+  Future<entity.User> signInWithGoogle(BuildContext context) async {
     
     try {
 
-      //! Google authentication
       final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
       await googleSignInAccount.authentication;
@@ -31,31 +30,20 @@ class LoginRemoteSource {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      //! Get logged in Google user data
       final authResult = await _auth.signInWithCredential(credential);
       final User user = authResult.user;
 
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
 
-      //! Get Memolidays user data
       final dynamic memolidaysUser = await getMemolidaysUser();
+      final int memolidaysUserId = memolidaysUser['data'][0]['id'];
 
-      final String memolidaysUserId = memolidaysUser['data'][0]['id'].toString();
-
-      //! Instanciate and return User 
-      final entity.User userEntity = new entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
-
-      //! Store user ids on local storage
-      var storageBox = Hive.box('storageBox');
-      storageBox.put('googleId', userEntity.googleId);
-      storageBox.put('memolidaysId', userEntity.memolidaysId);
-
+      userEntity = entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
       return userEntity;
 
     }
 
-    //! Handle Google authentication error
     catch (error) {
       print('ERROR : ');
       print(error);
@@ -64,13 +52,11 @@ class LoginRemoteSource {
 
   }
 
-  //! Google account disconnection
-  Future<String> signOutGoogle(context) async {
+  Future<String> signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
     return 'User disconnected';
   }
 
-  //! Get Memolidays user data using mail and id (not dynamic for now)
   Future<dynamic> getMemolidaysUser() async {
     final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
     final String link = api+'user/find';

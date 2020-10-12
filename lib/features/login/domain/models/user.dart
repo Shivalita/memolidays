@@ -1,12 +1,11 @@
-//! User Entity
 class User {
 
   String googleId;
   String name;
   String mail;
-  String memolidaysId;
+  int memolidaysId;
 
-  User(String googleId, String name, String mail, String memolidaysId) {
+  User(String googleId, String name, String mail, int memolidaysId) {
     this.googleId = googleId;
     this.name = name;
     this.mail = mail;

@@ -1,1 +1,0 @@
-//! State du formulaire d'ajout de souvenir

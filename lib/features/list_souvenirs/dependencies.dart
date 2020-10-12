@@ -1,1 +1,0 @@
-//! Injection du state

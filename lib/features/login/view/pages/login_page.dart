@@ -10,15 +10,13 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       body: loginState.whenRebuilder(
-        //! Check connectivity on application launch 
         initState: () => loginState.setState((state) => state.checkConnectivity(context)),
         onIdle: () =>
-            CircularProgressIndicator(), //! Displayed on start
+            CircularProgressIndicator(),
         onWaiting: () =>
-            CircularProgressIndicator(), //! Displayed while waiting for async
-        onError: (_) => Text('Error'), //! Displayed when there is an error
+            CircularProgressIndicator(),
+        onError: (_) => Text('Error'),
         onData: () {
-          //! Displayed once complete and data has changed on state
           return Column(
             children: <Widget>[
               ClipPath(

@@ -1,4 +1,3 @@
-//! Snackbar to display on errors
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 
