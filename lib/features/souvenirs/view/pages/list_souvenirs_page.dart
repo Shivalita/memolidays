@@ -13,8 +13,7 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: souvenirsState.whenRebuilder(
-        //! Check connectivity on application launch 
-        initState: () => souvenirsState.setState((state) => state.init(context)),
+        initState: () => souvenirsState.setState((state) async => await state.init(context)),
         onIdle: () =>
             CircularProgressIndicator(),
         onWaiting: () =>
@@ -25,6 +24,7 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
+                  // Text(souvenirsState.state.categoriesList[0].name),
                   Category(),
                   Memories(),
                 ],

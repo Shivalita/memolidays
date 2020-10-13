@@ -59,7 +59,7 @@ class LoginRemoteSource {
 
   Future<dynamic> getMemolidaysUser() async {
     final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
-    final String link = api+'user/find';
+    final String link = '${api}user/find';
     final dynamic request = await http.post(
       link,
       headers: <String, String>{

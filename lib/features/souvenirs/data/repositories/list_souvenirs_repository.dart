@@ -15,23 +15,18 @@ class ListSouvenirsRepository {
     final LocalSource localSource = LocalSource();
     final Map<String, dynamic> idsMap = localSource.getUserIds();
     final int memolidaysId = idsMap['memolidaysId'];
-    
     return memolidaysId;
   }
 
   Future<List<Category>> getCategoriesList() async {
     final int userId = getMemolidaysId();
     final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
-
     return categoriesList;
   }
 
   Future<List<List<Souvenir>>> getSouvenirsList() async {
     final int userId = getMemolidaysId();
-    final List<Category> categories = await getCategoriesList();
-    final List<List<Souvenir>> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(categories, userId);
-
-    print(souvenirsList);
+    final List<List<Souvenir>> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(userId);
     return souvenirsList;
   }
 
