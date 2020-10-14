@@ -10,13 +10,13 @@ class CategoryComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: souvenirsState.whenRebuilder(
-      initState: () => souvenirsState.setState((state) async => await state.getCategoriesList(context)),
-      onIdle: () => CircularProgressIndicator(),
-      onWaiting: () => CircularProgressIndicator(),
-      onError: (error) => Text(error.toString()),
-      onData: () {
-        return Container(
+      // child: souvenirsState.whenRebuilder(
+      // initState: () => souvenirsState.setState((state) async => await state.getCategoriesList(context)),
+      // onIdle: () => CircularProgressIndicator(),
+      // onWaiting: () => CircularProgressIndicator(),
+      // onError: (error) => Text(error.toString()),
+      // onData: () {
+      //   return Container(
         // return chargement == "idle" ? Container( //!
         child: Column(children: <Widget>[
           SingleChildScrollView(
@@ -33,7 +33,7 @@ class CategoryComponent extends StatelessWidget {
       ]));
       // ])) : //!
       // chargement == "waiting" ?  //!
-    }));
+    // };
   }
 
   Widget rowChips() {
@@ -42,18 +42,10 @@ class CategoryComponent extends StatelessWidget {
 
     categoriesList.forEach((element) {
       widgetsList.add(chipForRow(element.name, Color(0xFF4fc3f7)));
-      print(widgetsList);
     });
 
     return Row(
       children: widgetsList,
-      // children: <Widget>[
-      //   chipForRow('Health', Color(0xFFff8a65)),
-      //   chipForRow('Food', Color(0xFF4fc3f7)),
-      //   chipForRow('Lifestyle', Color(0xFF9575cd)),
-      //   chipForRow('Sports', Color(0xFF4db6ac)),
-      //   chipForRow('Nature', Color(0xFF5cda65)),
-      // ],
     );
   }
 
