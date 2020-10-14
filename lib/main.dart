@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
+import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
 import 'features/login/view/pages/login_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -38,10 +40,13 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.orange,
             ),
-            home: LoginPage(),
+            home: LoginPage(), // Interface de demarrage. 
+            // home: SouvenirPage(), // [Antonin] Pour raccourcir le chargement de l'appli en dev
             debugShowCheckedModeBanner: false,
             getPages: [
               GetPage(name: '/home', page: () => MyHomePage()),
+              GetPage(name: '/souvenir', page: () => SouvenirPage()),
+              GetPage(name: '/detailsphoto', page: () => DetailsPhoto()),
             ],
           );
           

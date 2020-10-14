@@ -50,7 +50,7 @@ class _MemoriesState extends State<Memories> {
             itemBuilder: (ctx, i) {
               return GestureDetector(
                   onTap: () {
-                    Get.toNamed('/');
+                    Get.toNamed('/souvenir');
                   },
                   child: Card(
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
