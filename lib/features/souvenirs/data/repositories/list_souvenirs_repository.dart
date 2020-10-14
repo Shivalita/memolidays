@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:memolidays/core/components/exceptions/api_exception.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/data/sources/list_souvenirs_remote_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
@@ -15,24 +17,35 @@ class ListSouvenirsRepository {
     final LocalSource localSource = LocalSource();
     final Map<String, dynamic> idsMap = localSource.getUserIds();
     final int memolidaysId = idsMap['memolidaysId'];
-    
     return memolidaysId;
   }
 
-  Future<List<Category>> getCategoriesList() async {
-    final int userId = getMemolidaysId();
-    final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
+  Future<List<Category>> getCategoriesList(BuildContext context) async {
+    try {
+      final int userId = getMemolidaysId();
+      final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
+      return categoriesList;
+    }
 
-    return categoriesList;
+    on ApiException {
+      print('ERROR : API request failed');
+      final ApiException apiException = ApiException(context);
+      apiException.displayError();
+    }
   }
 
-  Future<List<List<Souvenir>>> getSouvenirsList() async {
-    final int userId = getMemolidaysId();
-    final List<Category> categories = await getCategoriesList();
-    final List<List<Souvenir>> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(categories, userId);
+  Future<List<List<Souvenir>>> getSouvenirsList(BuildContext context) async {
+    try {
+      final int userId = getMemolidaysId();
+      final List<List<Souvenir>> souvenirsList = await listSouvenirsRemoteSource.getSouvenirsList(userId);
+      return souvenirsList;
+    }
 
-    print(souvenirsList);
-    return souvenirsList;
+    on ApiException {
+      print('ERROR : API request failed');
+      final ApiException apiException = ApiException(context);
+      apiException.displayError();
+    }
   }
 
 }

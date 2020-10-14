@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Memories extends StatefulWidget {
-  @override
-  _MemoriesState createState() => _MemoriesState();
-}
+class MemoriesComponent extends StatelessWidget {
 
-class _MemoriesState extends State<Memories> {
 //Liste en dur des photos qui se trouveront dans les memories.
   List<Post> memories = [
     Post(
