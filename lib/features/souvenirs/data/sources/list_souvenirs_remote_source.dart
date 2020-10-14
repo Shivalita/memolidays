@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:memolidays/core/components/exceptions/api_exception.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
@@ -16,7 +18,7 @@ class ListSouvenirsRemoteSource {
     final String link = '${api}headings/$userId';
     final dynamic request = await http.get(link);
 
-    if (request.statusCode != 200) throw Exception;
+    if (request.statusCode != 200) throw ApiException;
 
     List data = json.decode(request.body)['data'];
     List<Category> categoriesList = data.map((element) => Category.fromJson(element)).toList();
@@ -27,7 +29,7 @@ class ListSouvenirsRemoteSource {
     final String link = '${api}memories/$headingId/$userId';
     final http.Response request = await http.get(link);
     
-    if (request.statusCode != 200) throw Exception;
+    if (request.statusCode != 200) throw ApiException;
 
     List data = json.decode(request.body)['data'];
     List<Souvenir> categorySouvenirsList = data.map((element) => Souvenir.fromJson(element)).toList();
@@ -39,7 +41,6 @@ class ListSouvenirsRemoteSource {
     List<List<Souvenir>> souvenirsList = await getSouvenirsForEachCategory(userId, categoriesList);
     return souvenirsList;
   }
-
 
   Future<List<List<Souvenir>>> getSouvenirsForEachCategory(int userId, List<Category> categoriesList) async {
     for ( int i = 0; i < categoriesList.length; i++ ) { 

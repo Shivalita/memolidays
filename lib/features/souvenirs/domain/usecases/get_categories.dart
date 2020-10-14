@@ -9,7 +9,7 @@ class GetCategories implements Usecase {
   @override
   
   Future<List<Category>> call(BuildContext context) async {
-    List<Category> categoriesList = await repository.getCategoriesList();
+    List<Category> categoriesList = await repository.getCategoriesList(context);
     return categoriesList;
   }
   

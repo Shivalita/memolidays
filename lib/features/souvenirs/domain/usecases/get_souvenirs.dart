@@ -9,7 +9,7 @@ class GetSouvenirs implements Usecase {
   @override
 
   Future<List<List<Souvenir>>> call(BuildContext context) async {
-    List<List<Souvenir>> souvenirs = await repository.getSouvenirsList();
+    List<List<Souvenir>> souvenirs = await repository.getSouvenirsList(context);
     return souvenirs;
   }
   

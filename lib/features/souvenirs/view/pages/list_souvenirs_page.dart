@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/view/components/category.dart';
-import 'package:memolidays/features/souvenirs/view/components/memories.dart';
+import 'package:memolidays/features/souvenirs/view/components/category_component.dart';
+import 'package:memolidays/features/souvenirs/view/components/memories_component.dart';
 
 class ListSouvenirsPage extends StatefulWidget {
   @override
@@ -11,22 +11,20 @@ class ListSouvenirsPage extends StatefulWidget {
 class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: souvenirsState.whenRebuilder(
+    return Container(
+      child: souvenirsState.whenRebuilder(
         initState: () => souvenirsState.setState((state) async => await state.init(context)),
-        onIdle: () =>
-            CircularProgressIndicator(),
-        onWaiting: () =>
-            CircularProgressIndicator(),
+        onIdle: () => CircularProgressIndicator(),
+        onWaiting: () => CircularProgressIndicator(),
         onError: (error) => Text(error.toString()),
         onData: () {
           return Container(
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  // Text(souvenirsState.state.categoriesList[0].name),
-                  Category(),
-                  Memories(),
+                  // Text(souvenirsState.state.allCategoriesList[0].name),
+                  CategoryComponent(),
+                  MemoriesComponent(),
                 ],
               ),
             )
