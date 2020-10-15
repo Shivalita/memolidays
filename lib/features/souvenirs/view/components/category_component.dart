@@ -4,36 +4,23 @@ import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
 class CategoryComponent extends StatelessWidget {
-
-  String chargement = "waiting"; //!
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      // child: souvenirsState.whenRebuilder(
-      // initState: () => souvenirsState.setState((state) async => await state.getCategoriesList(context)),
-      // onIdle: () => CircularProgressIndicator(),
-      // onWaiting: () => CircularProgressIndicator(),
-      // onError: (error) => Text(error.toString()),
-      // onData: () {
-      //   return Container(
-        // return chargement == "idle" ? Container( //!
-        child: Column(children: <Widget>[
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {Get.toNamed('/');},
-                  child: rowChips(),
-                )
-              ],
-            ),
+      child: Column(children: <Widget>[
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {Get.toNamed('/');},
+                child: rowChips(),
+              )
+            ],
           ),
-      ]));
-      // ])) : //!
-      // chargement == "waiting" ?  //!
-    // };
+        ),
+      ])
+    );
   }
 
   Widget rowChips() {

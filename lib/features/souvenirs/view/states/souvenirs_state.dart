@@ -6,10 +6,10 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenirs.dart
 class SouvenirsState {
 
   List<Category> allCategoriesList;
-  Category currentCategory;
+  Category selectedCategory;
   List<List<Souvenir>> allSouvenirsList;
-  List<Souvenir> currentCategorySouvenirsList;
-  Souvenir currentSouvenir;
+  Souvenir selectedSouvenir;
+  List<Souvenir> selectedCategorySouvenirsList;
 
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
