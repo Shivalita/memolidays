@@ -42,8 +42,6 @@ class MemoriesComponent extends StatelessWidget {
       Souvenir souvenir = allSouvenirs[i][0];
       memories.add(souvenir);
     }
-    print(memories);
-    print(memories[0].owner);
     return memories;
   }
 

@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:memolidays/core/components/exceptions/api_exception.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
 
 class ListSouvenirsRemoteSource {
 
   final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
   List<List<Souvenir>> allSouvenirsList = [];
+  int index = 0;
 
   ListSouvenirsRemoteSource._();
   static ListSouvenirsRemoteSource _cache;
@@ -25,8 +27,8 @@ class ListSouvenirsRemoteSource {
     return categoriesList;
   }
 
-  Future<List<Souvenir>> getSouvenirsByHeading(int headingId, int userId) async {
-    final String link = '${api}memories/$headingId/$userId';
+  Future<List<Souvenir>> getSouvenirsByCategory(int categoryId, int userId) async {
+    final String link = '${api}memories/$categoryId/$userId';
     final http.Response request = await http.get(link);
     
     if (request.statusCode != 200) throw ApiException;
@@ -38,16 +40,40 @@ class ListSouvenirsRemoteSource {
 
   Future<List<List<Souvenir>>> getSouvenirsList(int userId) async {
     List<Category> categoriesList = await getCategoriesList(userId);
-    List<List<Souvenir>> souvenirsList = await getSouvenirsForEachCategory(userId, categoriesList);
-    return souvenirsList;
+    List<String> linksList = [
+      "https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/247298/pexels-photo-247298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/169191/pexels-photo-169191.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
+      "https://images.pexels.com/photos/1252983/pexels-photo-1252983.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150"
+    ];
+
+    for (int i = 0; i < categoriesList.length; i++) { 
+      List<Souvenir> souvenirs = await getSouvenirsByCategory(categoriesList[i].id, userId);
+      List<Souvenir> souvenirsList = getSouvenirsImagesLinks(souvenirs, linksList); //! Temporary (NOT DYNAMIC IMAGES)
+
+      allSouvenirsList.add(souvenirsList);
+    }
+
+    return allSouvenirsList;
   }
 
-  Future<List<List<Souvenir>>> getSouvenirsForEachCategory(int userId, List<Category> categoriesList) async {
-    for ( int i = 0; i < categoriesList.length; i++ ) { 
-      List<Souvenir> souvenirs = await getSouvenirsByHeading(categoriesList[i].id, userId);
-      allSouvenirsList.add(souvenirs);
+  //! Process for getting images links, for now NOT DYNAMIC
+  List<Souvenir> getSouvenirsImagesLinks(List<Souvenir> souvenirs, List<String> linksList) {
+    for (int i = 0; i < souvenirs.length; i++) {
+      souvenirs[i].cover = linksList[index];
+      index++;
+
+      List<Thumbnails> souvenirThumbnails = souvenirs[i].thumbnails;
+
+      souvenirThumbnails.forEach((thumbnail) {
+        thumbnail.path = linksList[index];
+        index++;
+      });
     }
-    return allSouvenirsList;
+    return souvenirs;
   }
 
 }
