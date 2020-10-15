@@ -47,7 +47,11 @@ class MemoriesComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isCategorySelected = (souvenirsState.state.selectedCategoryId != 0);
+    print(isCategorySelected);
+
     buildSouvenirsList();
+
     return Container(
       child: souvenirsState.whenRebuilder(
       // initState: () => souvenirsState.setState((state) async => await state.getSouvenirsList(context)),
@@ -109,9 +113,13 @@ class MemoriesComponent extends StatelessWidget {
   }
 }
 
-// class Post {
-//   final String postImage;
-//   final String title;
+  // final LocalSource localSource = LocalSource();
+  // final Map<String, dynamic> idsMap = localSource.getUserIds();
+  // final int userId = idsMap['memolidaysId'];
 
-//   Post({this.postImage, this.title});
-// }
+  // List<Souvenir> categorySouvenirs = await souvenirsState.state.getSouvenirsByCategory(context, categoryId, userId);
+  // print(categorySouvenirs);
+
+  // souvenirsState.setState((state) => state.selectedCategorySouvenirsList = categorySouvenirs);
+  // print(souvenirsState.state.selectedCategorySouvenirsList);
+  // // print(souvenirsState.state.selectedCategorySouvenirsList[0].title);

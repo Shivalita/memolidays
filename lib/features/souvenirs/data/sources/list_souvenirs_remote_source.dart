@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:memolidays/core/components/exceptions/api_exception.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
@@ -20,9 +18,9 @@ class ListSouvenirsRemoteSource {
     final String link = '${api}headings/$userId';
     final dynamic request = await http.get(link);
 
-    if (request.statusCode != 200) throw ApiException;
-
+    if (request.statusCode != 200) throw Exception;
     List data = json.decode(request.body)['data'];
+
     List<Category> categoriesList = data.map((element) => Category.fromJson(element)).toList();
     return categoriesList;
   }
@@ -31,15 +29,33 @@ class ListSouvenirsRemoteSource {
     final String link = '${api}memories/$categoryId/$userId';
     final http.Response request = await http.get(link);
     
-    if (request.statusCode != 200) throw ApiException;
-
+    if (request.statusCode != 200) throw Exception;
     List data = json.decode(request.body)['data'];
+
     List<Souvenir> categorySouvenirsList = data.map((element) => Souvenir.fromJson(element)).toList();
+
+    //! Temporary (NOT DYNAMIC)  
+    categorySouvenirsList.forEach((souvenir) {
+      getSouvenirsImagesLinks(categorySouvenirsList); 
+    });
+
     return categorySouvenirsList;
   }
 
-  Future<List<List<Souvenir>>> getSouvenirsList(int userId) async {
+  Future<List<List<Souvenir>>> getAllSouvenirsList(int userId) async {
     List<Category> categoriesList = await getCategoriesList(userId);
+
+    for (int i = 0; i < categoriesList.length; i++) { 
+      List<Souvenir> souvenirs = await getSouvenirsByCategory(categoriesList[i].id, userId);
+      allSouvenirsList.add(souvenirs);
+    }
+
+    return allSouvenirsList;
+  }
+
+  //! Process for getting images links, for now NOT DYNAMIC
+  List<Souvenir> getSouvenirsImagesLinks(List<Souvenir> souvenirs) {
+
     List<String> linksList = [
       "https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
       "https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
@@ -50,18 +66,6 @@ class ListSouvenirsRemoteSource {
       "https://images.pexels.com/photos/1252983/pexels-photo-1252983.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150"
     ];
 
-    for (int i = 0; i < categoriesList.length; i++) { 
-      List<Souvenir> souvenirs = await getSouvenirsByCategory(categoriesList[i].id, userId);
-      List<Souvenir> souvenirsList = getSouvenirsImagesLinks(souvenirs, linksList); //! Temporary (NOT DYNAMIC IMAGES)
-
-      allSouvenirsList.add(souvenirsList);
-    }
-
-    return allSouvenirsList;
-  }
-
-  //! Process for getting images links, for now NOT DYNAMIC
-  List<Souvenir> getSouvenirsImagesLinks(List<Souvenir> souvenirs, List<String> linksList) {
     for (int i = 0; i < souvenirs.length; i++) {
       souvenirs[i].cover = linksList[index];
       index++;
@@ -73,6 +77,7 @@ class ListSouvenirsRemoteSource {
         index++;
       });
     }
+
     return souvenirs;
   }
 
