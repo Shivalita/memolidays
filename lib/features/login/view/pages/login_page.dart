@@ -11,8 +11,12 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: loginState.whenRebuilder(
         initState: () => loginState.setState((state) => state.checkConnectivity(context)),
-        onIdle: () => CircularProgressIndicator(),
-        onWaiting: () => CircularProgressIndicator(),
+        onIdle: () => Center(
+          child: CircularProgressIndicator()
+        ),
+        onWaiting: () => Center(
+          child: CircularProgressIndicator()
+        ),
         onError: (_) => Text('Error'),
         onData: () {
           return Column(
