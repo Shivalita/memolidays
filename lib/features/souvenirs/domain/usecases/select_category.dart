@@ -6,8 +6,8 @@ class SelectCategory {
   final ListSouvenirsRepository repository = ListSouvenirsRepository();
 
   Future<List<Souvenir>> call(int categoryId, int userId) async {
-    List<Souvenir> souvenirs = await repository.getSouvenirsByCategory(categoryId, userId);
-    return souvenirs;
+    // List<Souvenir> souvenirs = await repository.getSouvenirsByCategory(categoryId, userId);
+    // return souvenirs;
   }
   
 }

@@ -7,7 +7,6 @@ import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
 class ListSouvenirsRemoteSource {
 
   final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
-  List<List<Souvenir>> allSouvenirsList = [];
   int index = 0;
 
   ListSouvenirsRemoteSource._();
@@ -21,7 +20,13 @@ class ListSouvenirsRemoteSource {
     if (request.statusCode != 200) throw Exception;
     List data = json.decode(request.body)['data'];
 
-    List<Category> categoriesList = data.map((element) => Category.fromJson(element)).toList();
+    List<Category> categoriesList = data.map((category) => Category.fromJson(category)).toList();
+
+    await Future.forEach(categoriesList, (category) async {
+      List<Souvenir> souvenirsList = await getSouvenirsByCategory(category.id, userId);
+      category.souvenirsList = souvenirsList;
+    });
+
     return categoriesList;
   }
 
@@ -32,7 +37,7 @@ class ListSouvenirsRemoteSource {
     if (request.statusCode != 200) throw Exception;
     List data = json.decode(request.body)['data'];
 
-    List<Souvenir> categorySouvenirsList = data.map((element) => Souvenir.fromJson(element)).toList();
+    List<Souvenir> categorySouvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
     //! Temporary (NOT DYNAMIC)  
     categorySouvenirsList.forEach((souvenir) {
@@ -42,20 +47,8 @@ class ListSouvenirsRemoteSource {
     return categorySouvenirsList;
   }
 
-  Future<List<List<Souvenir>>> getAllSouvenirsList(int userId) async {
-    List<Category> categoriesList = await getCategoriesList(userId);
-
-    for (int i = 0; i < categoriesList.length; i++) { 
-      List<Souvenir> souvenirs = await getSouvenirsByCategory(categoriesList[i].id, userId);
-      allSouvenirsList.add(souvenirs);
-    }
-
-    return allSouvenirsList;
-  }
-
   //! Process for getting images links, for now NOT DYNAMIC
   List<Souvenir> getSouvenirsImagesLinks(List<Souvenir> souvenirs) {
-
     List<String> linksList = [
       "https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
       "https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
@@ -70,14 +63,14 @@ class ListSouvenirsRemoteSource {
       souvenirs[i].cover = linksList[index];
       index++;
 
-      List<Thumbnails> souvenirThumbnails = souvenirs[i].thumbnails;
+      List<Thumbnail> souvenirThumbnails = souvenirs[i].thumbnails;
 
       souvenirThumbnails.forEach((thumbnail) {
         thumbnail.path = linksList[index];
         index++;
       });
     }
-
+    
     return souvenirs;
   }
 

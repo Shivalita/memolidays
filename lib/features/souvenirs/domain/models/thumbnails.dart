@@ -1,4 +1,4 @@
-class Thumbnails {
+class Thumbnail {
   String path;
   String type;
   String frame;
@@ -8,7 +8,7 @@ class Thumbnails {
   int id;
   String tempLink;
 
-  Thumbnails(
+  Thumbnail(
     {this.path,
     this.type,
     this.frame,
@@ -20,7 +20,7 @@ class Thumbnails {
   );
 
   //! Souvenir constructor from map
-  Thumbnails.fromJson(Map<String, dynamic> json) {
+  Thumbnail.fromJson(Map<String, dynamic> json) {
     path = json['path'];
     type = json['type'];
     frame = json['frame'];

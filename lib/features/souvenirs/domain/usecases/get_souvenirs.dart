@@ -6,8 +6,8 @@ class GetSouvenirs {
   final ListSouvenirsRepository repository = ListSouvenirsRepository();
 
   Future<List<List<Souvenir>>> call() async {
-    List<List<Souvenir>> souvenirs = await repository.getAllSouvenirsList();
-    return souvenirs;
+    // List<List<Souvenir>> souvenirs = await repository.getAllSouvenirsList();
+    // return souvenirs;
   }
   
 }

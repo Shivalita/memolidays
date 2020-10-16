@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
-import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class CategoryComponent extends StatelessWidget {
   @override
@@ -20,10 +17,11 @@ class CategoryComponent extends StatelessWidget {
 
   Widget rowChips() {
     List<Category> categoriesList = souvenirsState.state.allCategoriesList;
-    List<Widget> widgetsList = [chipForRow(1, 'All')];
+    Category allCategory = Category(id: 0, name: 'All');
+    List<Widget> widgetsList = [chipForRow(allCategory)];
 
-    categoriesList.forEach((element) {
-      widgetsList.add(chipForRow(element.id, element.name));
+    categoriesList.forEach((category) {
+      widgetsList.add(chipForRow(category));
     });
 
     return Row(
@@ -31,19 +29,19 @@ class CategoryComponent extends StatelessWidget {
     );
   }
 
-  Widget chipForRow(int id, String label) {
-    bool isSelected = ((souvenirsState.state.selectedCategoryId != 0) && (souvenirsState.state.selectedCategoryId == id));
+  Widget chipForRow(Category category) {
+    bool isSelected = ((souvenirsState.state.selectedCategory != null) && (souvenirsState.state.selectedCategory.id == category.id));
 
     return Container(
       margin: EdgeInsets.all(6.0),
       child: Row(
         children: <Widget>[
           GestureDetector(
-            onTap: () => selectCategory(id),
+            onTap: () => selectCategory(category),
             child: isSelected ? Chip(
               labelPadding: EdgeInsets.all(5.0),
               label: Text(
-                label,
+                category.name,
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w600
@@ -58,7 +56,7 @@ class CategoryComponent extends StatelessWidget {
             : Chip(
               labelPadding: EdgeInsets.all(5.0),
               label: Text(
-                label,
+                category.name,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -75,10 +73,10 @@ class CategoryComponent extends StatelessWidget {
     ); 
   }
 
-  selectCategory(int categoryId) async {
-    if (souvenirsState.state.selectedCategoryId != categoryId) {
-      souvenirsState.setState((state) => state.selectedCategoryId = categoryId);
-      print(souvenirsState.state.selectedCategoryId);
+  selectCategory(Category category) async {
+    if ((category.id != 0) || (souvenirsState.state.selectedCategory.id != category.id)) { //! setState even if selects the same category
+      souvenirsState.setState((state) => state.selectedCategory = category);
+      print(souvenirsState.state.selectedCategory.id);
     }
   }
 

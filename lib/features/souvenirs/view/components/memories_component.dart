@@ -5,8 +5,8 @@ import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class MemoriesComponent extends StatelessWidget {
 
-  List<List<Souvenir>> allSouvenirs = souvenirsState.state.allSouvenirsList;
-  List<Souvenir> memories = [
+  // List<List<Souvenir>> allSouvenirs = souvenirsState.state.allSouvenirsList;
+  List<Souvenir> souvenirs = [
     // Post(
     //     postImage:
     //         "https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=150&w=150",
@@ -37,34 +37,22 @@ class MemoriesComponent extends StatelessWidget {
     //     title: "Vacances Rome"),
   ];
 
-  List<Souvenir> buildSouvenirsList() {
-    for (int i = 0; i < allSouvenirs.length; i++) {
-      Souvenir souvenir = allSouvenirs[i][0];
-      memories.add(souvenir);
-    }
-    return memories;
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool isCategorySelected = (souvenirsState.state.selectedCategoryId != 0);
-    print(isCategorySelected);
-
-    buildSouvenirsList();
-
     return Container(
       child: souvenirsState.whenRebuilder(
-      // initState: () => souvenirsState.setState((state) async => await state.getSouvenirsList(context)),
+      initState: () => souvenirsState.setState((state) => state.getSouvenirsList()),
       onIdle: () => CircularProgressIndicator(),
       onWaiting: () => CircularProgressIndicator(),
       onError: (error) => Text(error.toString()),
       onData: () {
+        getSouvenirsList();
         return Container(
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: memories.length,
+            itemCount: souvenirs.length,
             itemBuilder: (ctx, i) {
               return GestureDetector(
                 onTap: () {
@@ -89,8 +77,8 @@ class MemoriesComponent extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(4),
                                   child: Image(
                                     image:
-                                        NetworkImage(memories[i].thumbnails[0].path),
-                                        // NetworkImage(memories[i].cover),
+                                        // NetworkImage(souvenirs[i].thumbnail[0].path),
+                                        NetworkImage(souvenirs[i].cover),
                                     width: 150,
                                     height: 150,
                                     fit: BoxFit.cover,
@@ -99,7 +87,7 @@ class MemoriesComponent extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(memories[i].title),
+                                Text(souvenirs[i].title),
                               ],
                             ),
                           ],
@@ -111,15 +99,10 @@ class MemoriesComponent extends StatelessWidget {
             }));
     }));
   }
+
+  Future<List<Souvenir>> getSouvenirsList() async {
+    souvenirs = await souvenirsState.state.getSouvenirsList();
+    // print(souvenirs);
+    return souvenirs;
+  }
 }
-
-  // final LocalSource localSource = LocalSource();
-  // final Map<String, dynamic> idsMap = localSource.getUserIds();
-  // final int userId = idsMap['memolidaysId'];
-
-  // List<Souvenir> categorySouvenirs = await souvenirsState.state.getSouvenirsByCategory(context, categoryId, userId);
-  // print(categorySouvenirs);
-
-  // souvenirsState.setState((state) => state.selectedCategorySouvenirsList = categorySouvenirs);
-  // print(souvenirsState.state.selectedCategorySouvenirsList);
-  // // print(souvenirsState.state.selectedCategorySouvenirsList[0].title);
