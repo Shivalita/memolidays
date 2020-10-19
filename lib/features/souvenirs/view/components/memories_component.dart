@@ -152,11 +152,11 @@ class MemoriesComponent extends StatelessWidget {
   }
 }
 
-// class Post {
-//   final String postImage;
-//   final String title;
-//   final String location;
-//   final String distance;
+//class Post {
+  //final String postImage;
+  //final String title;
+  //final String location;
+  //final String distance;
 
-//   Post({this.postImage, this.title, this.location, this.distance});
-// }
+  //Post({this.postImage, this.title, this.location, this.distance});
+//}
