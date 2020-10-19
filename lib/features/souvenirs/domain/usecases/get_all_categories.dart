@@ -1,7 +1,7 @@
 import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_repository.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
-class GetCategories {
+class GetAllCategories {
 
   final ListSouvenirsRepository repository = ListSouvenirsRepository();
   

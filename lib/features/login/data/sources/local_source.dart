@@ -9,12 +9,14 @@ class LocalSource {
     storageBox.put('memolidaysId', memolidaysId);
   }
 
-  Map<String, dynamic> getUserIds() {
-    String gId = storageBox.get('googleId');
-    int mId = storageBox.get('memolidaysId');
+  String getGoogleUserId() {
+    String googleId = storageBox.get('googleId');
+    return googleId;
+  }
 
-    Map<String, dynamic> idsMap = {'googleId' : gId, 'memolidaysId' : mId};
-    return idsMap;
+  int getMemolidaysUserId() {
+    int memolidaysId = storageBox.get('memolidaysId');
+    return memolidaysId;
   }
 
 }

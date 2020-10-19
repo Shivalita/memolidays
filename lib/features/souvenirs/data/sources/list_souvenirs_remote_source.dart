@@ -26,7 +26,6 @@ class ListSouvenirsRemoteSource {
       List<Souvenir> souvenirsList = await getSouvenirsByCategory(category.id, userId);
       category.souvenirsList = souvenirsList;
     });
-
     return categoriesList;
   }
 

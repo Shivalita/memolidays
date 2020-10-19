@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
-import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/usecases/get_categories.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
 class SouvenirsState {
 
   List<Category> allCategoriesList;
@@ -11,46 +11,51 @@ class SouvenirsState {
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
 
-  int getMemolidaysId() {
-  final LocalSource localSource = LocalSource();
-  final Map<String, dynamic> idsMap = localSource.getUserIds();
-  final int memolidaysId = idsMap['memolidaysId'];
-  return memolidaysId;
-  }
-
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
+    souvenirsList = await getSouvenirsList(context);
   }
 
   Future<List<Category>> getCategoriesList(BuildContext context) async {
     try {
-      allCategoriesList = await GetCategories()();
-      return allCategoriesList;
+      allCategoriesList = await GetAllCategories()();
     }
 
     on Exception {
       final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
+    
+    return allCategoriesList;
   }
 
-  Future<List<Souvenir>> getSouvenirsList() async {
-    if (selectedCategory != null) {
+  Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
+    if ((selectedCategory != null) && (selectedCategory.id != 0)) {
       souvenirsList = selectedCategory.souvenirsList;
       return souvenirsList;
     }
 
     else {
-      List<List<Souvenir>> allSouvenirsList = [];
+      try {
+        List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
+        souvenirsList = allSouvenirsList;
+      }
 
-      allCategoriesList.forEach((category) {
-        List<Souvenir> categorySouvenirs = category.souvenirsList;
-        allSouvenirsList.add(categorySouvenirs);
-      });
+      on Exception {
+        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+        errorSnackbar.displayErrorSnackbar();
+      }
 
-      souvenirsList = allSouvenirsList.expand((element) => element).toList();
       return souvenirsList;
     }
+  }
+
+   Future<Category> selectCategory(BuildContext context, Category category) async {
+    if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
+      selectedCategory = category;
+      souvenirsList = await getSouvenirsList(context);
+    }
+    return selectedCategory;
   }
 
 }
