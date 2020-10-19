@@ -5,8 +5,46 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class DetailsPhoto extends StatelessWidget {
+class DetailsPhoto extends StatefulWidget {
 
+  final String imagePath;
+  final String title;
+  final String date;
+  final String location;
+  final String comment;
+  final int index;
+  DetailsPhoto(
+      {this.imagePath,
+      this.title,
+      this.date,
+      this.location,
+      this.comment,
+      this.index});
+
+  @override
+  _DetailsPhotoState createState() => _DetailsPhotoState();
+  
+}
+
+class _DetailsPhotoState extends State<DetailsPhoto> {
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,  
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  dispose(){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
   List<ImageDetails> _images = [
     ImageDetails(
         imagePath: "https://source.unsplash.com/VFRTXGw1VjU",
@@ -69,24 +107,10 @@ class DetailsPhoto extends StatelessWidget {
         location: "Roanne",
         comment: "Super Week-end à Rome!"),
   ];
-  final String imagePath;
-  final String title;
-  final String date;
-  final String location;
-  final String comment;
-  final int index;
-  DetailsPhoto(
-      {this.imagePath,
-      this.title,
-      this.date,
-      this.location,
-      this.comment,
-      this.index});
-
-  PageController pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
+  PageController pageController = PageController(initialPage: widget.index);
     return Scaffold(
       body: PageView.builder(
           controller: pageController,
