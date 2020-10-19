@@ -14,8 +14,8 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
     return Container(
       child: souvenirsState.whenRebuilder(
         initState: () => souvenirsState.setState((state) async => await state.init(context)),
-        onIdle: () => CircularProgressIndicator(),
-        onWaiting: () => CircularProgressIndicator(),
+        onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator())),
+        onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator())),
         onError: (error) => Text(error.toString()),
         onData: () {
           return Container(
