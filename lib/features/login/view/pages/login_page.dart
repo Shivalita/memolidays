@@ -19,52 +19,74 @@ class LoginPage extends StatelessWidget {
         ),
         onError: (_) => Text('Error'),
         onData: () {
-          return Column(
-            children: <Widget>[
-              ClipPath(
-                clipper: MyClipper(),
-                child: Container(
-                  height: 430,
-                  decoration: BoxDecoration(color: Colors.orange, boxShadow: [
-                    BoxShadow(color: Colors.black, blurRadius: 7, spreadRadius: 5)
-                  ]),
+          return Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+              minWidth: MediaQuery.of(context).size.width,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange[800],
+                  Colors.orange
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.centerRight,
+              )
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height/1.5,
                   child: Center(
                     child: Image(image: AssetImage('assets/images/icon.png'))
                   ),
                 ),
-              ),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(50),
-                  child: GoogleSignInButton(
-                    onPressed: () {
-                      loginState.setState((state) => state.signInWithGoogle(context));
-                    },
-                    splashColor: Colors.orange
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height/3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40) ,
+                      topRight: Radius.circular(40),
+                    ),
+                    boxShadow: [],
+                    color: Colors.white
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        child: Center(
+                          child: Text(
+                            "Welcome",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              fontStyle: FontStyle.italic
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Center(
+                          child: GoogleSignInButton(
+                            onPressed: () {
+                              loginState.setState((state) => state.signInWithGoogle(context));
+                            },
+                            splashColor: Colors.orange
+                        ),
+                        )
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       )
     );
   }
-}
-
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width / 2, size.height - 150, size.width, size.height);
-    path.lineTo(size.width, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
