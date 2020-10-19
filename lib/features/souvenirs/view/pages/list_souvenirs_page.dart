@@ -3,12 +3,7 @@ import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/category_component.dart';
 import 'package:memolidays/features/souvenirs/view/components/memories_component.dart';
 
-class ListSouvenirsPage extends StatefulWidget {
-  @override
-  _ListSouvenirsPageState createState() => _ListSouvenirsPageState();
-}
-
-class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
+class ListSouvenirsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +11,9 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
         initState: () => souvenirsState.setState((state) async => await state.init(context)),
         onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator())),
         onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator())),
-        onError: (error) => Text(error.toString()),
+        onError: (error) {
+          throw error;
+        },
         onData: () {
           return Container(
             child: SingleChildScrollView(

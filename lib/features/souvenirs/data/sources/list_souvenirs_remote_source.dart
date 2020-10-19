@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 
 class ListSouvenirsRemoteSource {
 
