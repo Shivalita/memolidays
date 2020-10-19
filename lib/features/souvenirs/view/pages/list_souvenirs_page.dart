@@ -22,7 +22,6 @@ class _ListSouvenirsPageState extends State<ListSouvenirsPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  // Text(souvenirsState.state.allCategoriesList[0].name),
                   CategoryComponent(),
                   MemoriesComponent(),
                 ],

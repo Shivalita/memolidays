@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:memolidays/core/usecase.dart';
 import 'package:memolidays/features/login/data/repositories/login_repository.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 
-class Login implements Usecase {
+class Login {
 
   final LoginRepository repository = LoginRepository();
 
-  @override
-  Future<User> call(BuildContext context) async {
-    final User user = await repository.signInWithGoogle(context);
+  Future<User> call() async {
+    final User user = await repository.signInWithGoogle();
     return user;
   }
   
