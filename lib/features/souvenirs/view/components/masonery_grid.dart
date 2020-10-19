@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 
 class MasoneryGrid extends StatefulWidget {
   @override
@@ -13,34 +10,74 @@ class MasoneryGrid extends StatefulWidget {
 
 List<ImageDetails> _images = [
   ImageDetails(
-      imagePath: "https://source.unsplash.com/VFRTXGw1VjU", title: "Toto"
+      imagePath: "https://source.unsplash.com/VFRTXGw1VjU",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/7ybKmhDTcz0", title: "Toto"
+      imagePath: "https://source.unsplash.com/7ybKmhDTcz0",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/S0hS0HfH_B8", title: "Toto"
+      imagePath: "https://source.unsplash.com/S0hS0HfH_B8",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/8CGT0Kq6K3k", title: "Toto"
+      imagePath: "https://source.unsplash.com/8CGT0Kq6K3k",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/BchXuilibLA", title: "Toto"
+      imagePath: "https://source.unsplash.com/BchXuilibLA",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/2N-kwvSeU5U", title: "Toto"
+      imagePath: "https://source.unsplash.com/2N-kwvSeU5U",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/tHXX4fl3-ms", title: "Toto"
+      imagePath: "https://source.unsplash.com/tHXX4fl3-ms",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/cjBLfrjE-XU", title: "Toto"
+      imagePath: "https://source.unsplash.com/cjBLfrjE-XU",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/RH0QUHYPeW4", title: "Toto"
+      imagePath: "https://source.unsplash.com/RH0QUHYPeW4",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
   ImageDetails(
-      imagePath: "https://source.unsplash.com/kaEhf0eZme8", title: "Toto"
+      imagePath: "https://source.unsplash.com/kaEhf0eZme8",
+      title: "Toto",
+      date: "14 Octobre 2020",
+      location: "Roanne",
+      comment: "Super Week-end à Rome!"
   ),
 ];
 
@@ -99,6 +136,9 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                         builder: (context) => DetailsPhoto(
                           imagePath: _images[index].imagePath,
                           title: _images[index].title,
+                          date: _images[index].date,
+                          location: _images[index].location,
+                          comment: _images[index].comment,
                           index: index,
                         ),
                       ),
@@ -131,12 +171,16 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               }),
         ),
       ],
-    ));
+    )
+  );
   }
 }
 
 class ImageDetails {
   final String imagePath;
   final String title;
-  ImageDetails({this.imagePath, this.title});
+  final String date;
+  final String location;
+  final String comment;
+  ImageDetails({this.imagePath, this.title, this.date, this.location, this.comment});
 }

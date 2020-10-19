@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
+// ignore: must_be_immutable
 class CategoryComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,26 @@ class CategoryComponent extends StatelessWidget {
         ]
       )  
     ); 
+  }
+
+   Widget chipForRowDisable(String label, Color color) {
+    return Container(
+      margin: EdgeInsets.all(6.0),
+      child: Chip(
+        labelPadding: EdgeInsets.all(5.0),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        
+        backgroundColor: color,
+        elevation: 3.0,
+        shadowColor: Colors.grey[60],
+        padding: EdgeInsets.all(6.0),
+      ),
+    );
   }
 
 }

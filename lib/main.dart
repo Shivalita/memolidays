@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
-import 'features/login/view/pages/login_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'features/login/view/pages/login_page.dart';
 
 void main() async {
   //! Initialize Hive and open storage box for local data
@@ -39,9 +40,11 @@ class MyApp extends StatelessWidget {
             title: 'Motion Tab Bar Sample',
             theme: ThemeData(
               primarySwatch: Colors.orange,
+              scaffoldBackgroundColor: Colors.white,
+              canvasColor: Colors.transparent,
             ),
-            home: LoginPage(), // Interface de demarrage. 
-            // home: SouvenirPage(), // [Antonin] Pour raccourcir le chargement de l'appli en dev
+            // home: LoginPage(), // Interface de demarrage. 
+            home: MyHomePage(), // [Antonin] Pour raccourcir le chargement de l'appli en dev
             debugShowCheckedModeBanner: false,
             getPages: [
               GetPage(name: '/home', page: () => MyHomePage()),

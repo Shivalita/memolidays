@@ -5,15 +5,17 @@ class SouvenirHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      // padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(bottom: 10),
       child: Stack(
         alignment: Alignment.bottomLeft, 
         children: <Widget>[
         Container(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            // borderRadius: BorderRadius.circular(12),
             child: Image.network(
-              "https://source.unsplash.com/random/400x200/?Rome",
+              // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait
+              "https://source.unsplash.com/VFRTXGw1VjU/", //Paysage
             ),
           ),
         ),
