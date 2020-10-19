@@ -16,7 +16,7 @@ class Souvenir {
   String token;
   String storage;
   String tempLink;
-  List<Thumbnails> thumbnails;
+  List<Thumbnail> thumbnails;
 
   Souvenir(
     {this.id,
@@ -54,9 +54,9 @@ class Souvenir {
     tempLink = json['temp_link'];
 
     if (json['thumbnails'] != null) {
-      thumbnails = List<Thumbnails>();
+      thumbnails = List<Thumbnail>();
       json['thumbnails'].forEach((element) {
-        thumbnails.add(Thumbnails.fromJson(element));
+        thumbnails.add(Thumbnail.fromJson(element));
       });
     }
 

@@ -1,7 +1,7 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:memolidays/core/components/exceptions/connectivity_exception.dart';
+import 'package:memolidays/core/components/error_snackbar.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 import 'package:memolidays/features/login/domain/usecases/login.dart';
@@ -21,39 +21,53 @@ class LoginState {
     bool hasConnection = await DataConnectionChecker().hasConnection;
 
     if (!hasConnection == true) {
-      print('ERROR: No connectivity. Exception :');
+      print('Connectivity error. Exception :');
       print(DataConnectionChecker().lastTryResults);
 
       hasConnectivity = false;
-      final ConnectivityException connectivityException = ConnectivityException(context);
-      connectivityException.displayError();
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Please check your device connectivity.');
+      errorSnackbar.displayErrorSnackbar();
 
     } else {
       hasConnectivity = true;
-      print('Connectivity ok');
     }
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
     await checkConnectivity(context);
 
-    if (hasConnectivity == true) {
-      User user = await Login()(context);
+    if (hasConnectivity) {
+      try {
+        User user = await Login()();    
 
-      if (user != null) {
-        isConnected = true;
-        print('User connected');
-        return Get.to(MyHomePage());
+        if (user != null) {
+          isConnected = true;
+          print('User connected');
+          return Get.to(MyHomePage());
+        }
+      }
+
+      on Exception {
+        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Google authentication failed.');
+        errorSnackbar.displayErrorSnackbar();
       }
     }
+
   }
 
   Future<void> signOutGoogle(BuildContext context) async {
-    if (!isConnected == true) print('Not connected to Google anyway.');
+    if (!isConnected == true) print('User is not logged in.');
 
-    String disconnectionMessage = await Logout()(context);
-    print(disconnectionMessage);
-    isConnected = false;
+    try {
+      String disconnectionMessage = await Logout()();
+      print(disconnectionMessage);
+      isConnected = false;
+    }
+
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
     
     return Get.to(LoginPage());
   }

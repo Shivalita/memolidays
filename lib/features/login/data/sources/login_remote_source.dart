@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
-import 'package:memolidays/core/components/exceptions/google_auth_exception.dart';
 import 'package:http/http.dart' as http;
 
 class LoginRemoteSource {
@@ -17,7 +15,7 @@ class LoginRemoteSource {
   static LoginRemoteSource _cache;
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
-  Future<entity.User> signInWithGoogle(BuildContext context) async {
+  Future<entity.User> signInWithGoogle() async {
     
     try {
 
@@ -47,12 +45,12 @@ class LoginRemoteSource {
     catch (error) {
       print('ERROR : ');
       print(error);
-      throw GoogleAuthException(context);
+      throw Exception();
     }
 
   }
 
-  Future<String> signOutGoogle(BuildContext context) async {
+  Future<String> signOutGoogle() async {
     await googleSignIn.signOut();
     return 'User disconnected';
   }
