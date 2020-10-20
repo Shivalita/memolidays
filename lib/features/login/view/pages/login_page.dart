@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:memolidays/features/login/data/repositories/login_repository.dart';
 import 'package:memolidays/features/login/dependencies.dart';
@@ -71,16 +70,6 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Container(
-                      //   child: Center(
-                      //     child: GoogleSignInButton(
-                      //       onPressed: () {
-                              // loginState.setState((state) => state.signInWithGoogle(context));
-                      //       },
-                      //       splashColor: Colors.orange
-                      //   ),
-                      //   )
-                      // ),
                       Text(
                         "Sign in with :",
                         style: TextStyle(
