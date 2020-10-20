@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
 class MasoneryGrid extends StatefulWidget {
-  List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
   @override
   _MasoneryGridState createState() => _MasoneryGridState();
@@ -86,6 +86,8 @@ List<ImageDetails> _images = [
 ];
 
 class _MasoneryGridState extends State<MasoneryGrid> {
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+  List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,7 +102,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                 children: <Widget>[
                   Icon(Icons.location_on, color: Colors.red, size: 35),
                   Text(
-                    "Rome, Italie",
+                    souvenir.place,
                     style: TextStyle(
                         fontSize: 17,
                         fontStyle: FontStyle.italic,
@@ -112,7 +114,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "13 Octobre 2020",
+                souvenir.date,
                 style: TextStyle(
                     fontSize: 15,
                     fontStyle: FontStyle.italic,
@@ -130,7 +132,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              itemCount: _images.length,
+              itemCount: thumbnails.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -138,11 +140,13 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPhoto(
-                          imagePath: _images[index].imagePath,
-                          title: _images[index].title,
-                          date: _images[index].date,
-                          location: _images[index].location,
-                          comment: _images[index].comment,
+                          thumbnails: thumbnails,
+                          imagePath: thumbnails[index].path,
+                          // imagePath: _images[index].imagePath,
+                          // title: _images[index].title,
+                          // date: _images[index].date,
+                          // location: _images[index].location,
+                          // comment: _images[index].comment,
                           index: index,
                         ),
                       ),
@@ -163,7 +167,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: _images[index].imagePath,
+                        image: thumbnails[index].path,
                         fit: BoxFit.cover,
                       ),
                     ),

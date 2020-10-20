@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DetailsPhoto extends StatelessWidget {
@@ -75,13 +76,15 @@ class DetailsPhoto extends StatelessWidget {
   final String location;
   final String comment;
   final int index;
+  final List<Thumbnail> thumbnails;
   DetailsPhoto(
       {this.imagePath,
       this.title,
       this.date,
       this.location,
       this.comment,
-      this.index});
+      this.index,
+      this.thumbnails});
 
   PageController pageController = PageController(initialPage: 0);
 
@@ -91,7 +94,7 @@ class DetailsPhoto extends StatelessWidget {
       body: PageView.builder(
           controller: pageController,
           pageSnapping: true,
-          itemCount: _images.length,
+          itemCount: thumbnails.length,
           itemBuilder: (context, int index) {
             return Scaffold(
               backgroundColor: Colors.black,
@@ -234,7 +237,7 @@ class DetailsPhoto extends StatelessWidget {
                 child: Center(
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: _images[index].imagePath,
+                    image: thumbnails[index].path,
                     fit: BoxFit.cover,
                   ),
                 ),
