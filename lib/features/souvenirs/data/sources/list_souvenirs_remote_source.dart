@@ -26,6 +26,8 @@ class ListSouvenirsRemoteSource {
       List<Souvenir> souvenirsList = await getSouvenirsByCategory(category.id, userId);
       category.souvenirsList = souvenirsList;
     });
+
+    index = 0;
     return categoriesList;
   }
 
@@ -60,7 +62,6 @@ class ListSouvenirsRemoteSource {
 
     for (int i = 0; i < souvenirs.length; i++) {
       souvenirs[i].cover = linksList[index];
-      index++;
 
       List<Thumbnail> souvenirThumbnails = souvenirs[i].thumbnails;
 
