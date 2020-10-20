@@ -42,8 +42,7 @@ class SouvenirPage extends StatelessWidget {
                                       padding: EdgeInsets.all(10),
                                       child: Center(
                                         child: Text(
-                                          "Title",
-                                          // _images[index].title,
+                                          souvenir.title,
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 22,
@@ -58,8 +57,7 @@ class SouvenirPage extends StatelessWidget {
                                     ),
                                     Center(
                                       child: Text(
-                                        "Comment",
-                                        // _images[index].comment,
+                                        souvenir.comment,
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontStyle: FontStyle.italic,
@@ -78,8 +76,7 @@ class SouvenirPage extends StatelessWidget {
                                             Icon(Icons.location_on,
                                                 color: Colors.red, size: 35),
                                             Text(
-                                              "Location",
-                                              // _images[index].location,
+                                              souvenir.place,
                                               style: TextStyle(
                                                   fontSize: 17,
                                                   fontStyle: FontStyle.italic,
@@ -88,8 +85,7 @@ class SouvenirPage extends StatelessWidget {
                                           ],
                                         ),
                                         Text(
-                                          "Date",
-                                          // _images[index].date,
+                                          souvenir.date,
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontStyle: FontStyle.italic,
@@ -105,7 +101,7 @@ class SouvenirPage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          "Email",
+                                          souvenir.email,
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontStyle: FontStyle.italic,
@@ -113,7 +109,7 @@ class SouvenirPage extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "Telephone",
+                                          souvenir.phone,
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontStyle: FontStyle.italic,
