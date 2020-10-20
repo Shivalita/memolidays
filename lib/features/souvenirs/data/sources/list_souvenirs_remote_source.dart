@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 
 class ListSouvenirsRemoteSource {
 
@@ -26,6 +26,8 @@ class ListSouvenirsRemoteSource {
       List<Souvenir> souvenirsList = await getSouvenirsByCategory(category.id, userId);
       category.souvenirsList = souvenirsList;
     });
+
+    index = 0;
     return categoriesList;
   }
 
@@ -60,7 +62,6 @@ class ListSouvenirsRemoteSource {
 
     for (int i = 0; i < souvenirs.length; i++) {
       souvenirs[i].cover = linksList[index];
-      index++;
 
       List<Thumbnail> souvenirThumbnails = souvenirs[i].thumbnails;
 
