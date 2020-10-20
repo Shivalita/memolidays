@@ -4,46 +4,51 @@ import 'package:memolidays/features/login/dependencies.dart';
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: <Widget>[
-          Container(
-            color: Colors.orange,
-            width: double.infinity,
-            padding: EdgeInsets.all(20),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.only(top: 20, bottom: 5),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://source.unsplash.com/random/100x100/'),
-                          fit: BoxFit.fill),
+    return Theme(
+      data: ThemeData(
+        canvasColor: Colors.white
+      ),
+      child: Drawer(
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: Colors.orange,
+              width: double.infinity,
+              padding: EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 100,
+                      margin: EdgeInsets.only(top: 20, bottom: 5),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://source.unsplash.com/random/100x100/'),
+                            fit: BoxFit.fill),
+                      ),
                     ),
-                  ),
-                  Text(
-                    "Memolidays",
-                    style: TextStyle(fontSize: 22, color: Colors.white),
-                  ),
-                  Text(
-                    "memolidays@contact.fr",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+                    Text(
+                      "Memolidays",
+                      style: TextStyle(fontSize: 22, color: Colors.white),
+                    ),
+                    Text(
+                      "memolidays@contact.fr",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
-          CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
-          CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
-            loginState.setState((state) => state.signOutGoogle(context));
-          })
-        ],
+            CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
+            CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
+            CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
+              loginState.setState((state) => state.signOutGoogle(context));
+            })
+          ],
+        ),
       ),
     );
   }
