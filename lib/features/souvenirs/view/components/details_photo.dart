@@ -3,22 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DetailsPhoto extends StatefulWidget {
-  final String imagePath;
-  final String title;
-  final String date;
-  final String location;
-  final String comment;
   final int index;
-  DetailsPhoto(
-      {this.imagePath,
-      this.title,
-      this.date,
-      this.location,
-      this.comment,
-      this.index});
+
+  DetailsPhoto({this.index});
 
   @override
   _DetailsPhotoState createState() => _DetailsPhotoState();
@@ -44,78 +36,16 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
     super.dispose();
   }
 
-  List<ImageDetails> _images = [
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/VFRTXGw1VjU",
-        title: "Photo1",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome1!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/7ybKmhDTcz0",
-        title: "Photo2",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome2!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/S0hS0HfH_B8",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae justo eget magna fermentum iaculis eu."),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/8CGT0Kq6K3k",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/BchXuilibLA",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/2N-kwvSeU5U",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/tHXX4fl3-ms",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/cjBLfrjE-XU",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/RH0QUHYPeW4",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-    ImageDetails(
-        imagePath: "https://source.unsplash.com/kaEhf0eZme8",
-        title: "Toto",
-        date: "14 Octobre 2020",
-        location: "Roanne",
-        comment: "Super Week-end à Rome!"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
+    List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+
     return Scaffold(
       body: PageView.builder(
           controller: pageController,
           pageSnapping: true,
-          itemCount: _images.length,
+          itemCount: thumbnails.length,
           itemBuilder: (context, int index) {
             return Scaffold(
               backgroundColor: Colors.black,
@@ -280,7 +210,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                 child: Center(
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: _images[index].imagePath,
+                    image: thumbnails[index].path,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -289,14 +219,4 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
           }),
     );
   }
-}
-
-class ImageDetails {
-  final String imagePath;
-  final String title;
-  final String date;
-  final String location;
-  final String comment;
-  ImageDetails(
-      {this.imagePath, this.title, this.date, this.location, this.comment});
 }

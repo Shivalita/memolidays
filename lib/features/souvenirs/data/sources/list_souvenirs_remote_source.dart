@@ -62,6 +62,7 @@ class ListSouvenirsRemoteSource {
 
     for (int i = 0; i < souvenirs.length; i++) {
       souvenirs[i].cover = linksList[index];
+        index++;
 
       List<Thumbnail> souvenirThumbnails = souvenirs[i].thumbnails;
 
