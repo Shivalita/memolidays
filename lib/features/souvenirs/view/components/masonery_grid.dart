@@ -18,71 +18,61 @@ List<ImageDetails> _images = [
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/7ybKmhDTcz0",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/S0hS0HfH_B8",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/8CGT0Kq6K3k",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/BchXuilibLA",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/2N-kwvSeU5U",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/tHXX4fl3-ms",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/cjBLfrjE-XU",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/RH0QUHYPeW4",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
   ImageDetails(
       imagePath: "https://source.unsplash.com/kaEhf0eZme8",
       title: "Toto",
       date: "14 Octobre 2020",
       location: "Roanne",
-      comment: "Super Week-end à Rome!"
-  ),
+      comment: "Super Week-end à Rome!"),
 ];
 
 class _MasoneryGridState extends State<MasoneryGrid> {
@@ -92,34 +82,49 @@ class _MasoneryGridState extends State<MasoneryGrid> {
         child: Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.location_on, color: Colors.red, size: 35),
-                  Text(
-                    "Rome, Italie",
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "13 Octobre 2020",
+                "Vos Souvenirs",
                 style: TextStyle(
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.normal),
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 17
+                ),
+              )
             ),
           ],
+          // DANS LE DOUTE JE LAISSE CA ICI
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // children: <Widget>[
+          //   Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 10),
+          //     child: Row(
+          //       children: <Widget>[
+          //         Icon(Icons.location_on, color: Colors.red, size: 35),
+          //         Text(
+          //           "Rome, Italie",
+          //           style: TextStyle(
+          //               fontSize: 17,
+          //               fontStyle: FontStyle.italic,
+          //               fontWeight: FontWeight.bold),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          //   Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 10),
+          //     child: Text(
+          //       "13 Octobre 2020",
+          //       style: TextStyle(
+          //           fontSize: 15,
+          //           fontStyle: FontStyle.italic,
+          //           fontWeight: FontWeight.normal),
+          //     ),
+          //   ),
+          // ],
         ),
         SizedBox(height: 10),
         Container(
@@ -175,8 +180,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               }),
         ),
       ],
-    )
-  );
+    ));
   }
 }
 
@@ -186,5 +190,6 @@ class ImageDetails {
   final String date;
   final String location;
   final String comment;
-  ImageDetails({this.imagePath, this.title, this.date, this.location, this.comment});
+  ImageDetails(
+      {this.imagePath, this.title, this.date, this.location, this.comment});
 }

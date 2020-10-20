@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:memolidays/features/login/data/repositories/login_repository.dart';
 import 'package:memolidays/features/login/dependencies.dart';
 
@@ -7,7 +7,7 @@ class LoginPage extends StatelessWidget {
   final loginRepository = LoginRepository();
   @override
   Widget build(BuildContext context) {
-
+    final String googleLogo = 'assets/images/google.svg';
     return Scaffold(
       body: loginState.whenRebuilder(
         initState: () => loginState.setState((state) => state.checkConnectivity(context)),
@@ -60,25 +60,35 @@ class LoginPage extends StatelessWidget {
                       Container(
                         child: Center(
                           child: Text(
-                            "Welcome",
+                            "Welcome to Memolidays",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                              color: Colors.orange[800]
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        child: Center(
-                          child: GoogleSignInButton(
-                            onPressed: () {
-                              loginState.setState((state) => state.signInWithGoogle(context));
-                            },
-                            splashColor: Colors.orange
+                      Text(
+                        "Sign in with :",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold
                         ),
-                        )
                       ),
+                      FloatingActionButton(
+                        onPressed: (){
+                          loginState.setState((state) => state.signInWithGoogle(context));
+                        },
+                        child: SvgPicture.asset(
+                          googleLogo, 
+                          height: 35,
+                          width: 35
+                        ), 
+                        backgroundColor: Colors.white, 
+                        elevation: 3
+                      )
                     ],
                   ),
                 ),
