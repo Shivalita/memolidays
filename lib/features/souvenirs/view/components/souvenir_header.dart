@@ -1,7 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class SouvenirHeader extends StatelessWidget {
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,16 +17,19 @@ class SouvenirHeader extends StatelessWidget {
         Container(
           child: ClipRRect(
             // borderRadius: BorderRadius.circular(12),
-            child: Image.network(
+             child: Image.network(
               // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait
-              "https://source.unsplash.com/VFRTXGw1VjU/", //Paysage
+              souvenir.cover, //Paysage
+            // child: Image.network(
+            //   // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait
+            //   "https://source.unsplash.com/VFRTXGw1VjU/", //Paysage
             ),
           ),
         ),
         Container(
           padding: EdgeInsets.all(10),
           child: Text(
-            "VACANCES ROME AVEC LES ENFANTS",
+            souvenir.title,
             maxLines: 4,
             style: TextStyle(
               fontSize: 35,

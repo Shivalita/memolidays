@@ -67,6 +67,7 @@ class MemoriesComponent extends StatelessWidget {
             itemBuilder: (ctx, i) {
               return GestureDetector(
                 onTap: () {
+                  souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]); 
                   Get.toNamed('/souvenir');
                 },
                 child: Container(

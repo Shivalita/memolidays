@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/components/souvenir_header.dart';
 import 'package:memolidays/features/souvenirs/view/components/masonery_grid.dart';
 import 'package:get/get.dart';
 
-class SouvenirPage extends StatefulWidget {
-  @override
-  _SouvenirPageState createState() => _SouvenirPageState();
-}
+class SouvenirPage extends StatelessWidget {
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
 
-class _SouvenirPageState extends State<SouvenirPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Vacances Rome'),
+          title: Text(souvenir.title),
           centerTitle: true,
           actions: <Widget>[
             PopupMenuButton(

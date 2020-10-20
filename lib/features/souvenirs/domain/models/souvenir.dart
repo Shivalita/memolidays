@@ -1,4 +1,4 @@
-import 'package:memolidays/features/souvenirs/domain/models/thumbnails.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 
 class Souvenir {
 

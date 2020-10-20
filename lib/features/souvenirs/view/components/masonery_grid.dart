@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
 class MasoneryGrid extends StatefulWidget {
+  List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+
   @override
   _MasoneryGridState createState() => _MasoneryGridState();
 }
