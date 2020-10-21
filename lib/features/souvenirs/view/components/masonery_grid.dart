@@ -6,6 +6,7 @@ import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
+// ignore: must_be_immutable
 class MasoneryGrid extends StatefulWidget {
   @override
   _MasoneryGridState createState() => _MasoneryGridState();

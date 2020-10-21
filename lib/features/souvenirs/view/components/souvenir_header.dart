@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
+// ignore: must_be_immutable
 class SouvenirHeader extends StatelessWidget {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
 
