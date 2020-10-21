@@ -19,7 +19,6 @@ class SouvenirHeader extends StatelessWidget {
           child: ClipRRect(
             // borderRadius: BorderRadius.circular(12),
              child: Image.network(
-              // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait
               souvenir.cover, //Paysage
             // child: Image.network(
             //   // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait

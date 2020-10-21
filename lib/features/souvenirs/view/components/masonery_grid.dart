@@ -1,100 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
 // ignore: must_be_immutable
 class MasoneryGrid extends StatefulWidget {
-  List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
-
   @override
   _MasoneryGridState createState() => _MasoneryGridState();
 }
 
-List<ImageDetails> _images = [
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/VFRTXGw1VjU",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/7ybKmhDTcz0",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/S0hS0HfH_B8",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/8CGT0Kq6K3k",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/BchXuilibLA",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/2N-kwvSeU5U",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/tHXX4fl3-ms",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/cjBLfrjE-XU",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/RH0QUHYPeW4",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-  ImageDetails(
-      imagePath: "https://source.unsplash.com/kaEhf0eZme8",
-      title: "Toto",
-      date: "14 Octobre 2020",
-      location: "Roanne",
-      comment: "Super Week-end à Rome!"),
-];
-
 class _MasoneryGridState extends State<MasoneryGrid> {
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+  List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.location_on, color: Colors.red, size: 35),
+                  Text(
+                    souvenir.place,
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "Vos Souvenirs",
+                souvenir.date,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                  fontSize: 17
-                ),
-              )
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
           ],
         ),
@@ -107,7 +60,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              itemCount: _images.length,
+              itemCount: thumbnails.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -115,12 +68,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPhoto(
-                          imagePath: _images[index].imagePath,
-                          title: _images[index].title,
-                          date: _images[index].date,
-                          location: _images[index].location,
-                          comment: _images[index].comment,
-                          index: index,
+                          index: index
                         ),
                       ),
                     );
@@ -140,7 +88,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: _images[index].imagePath,
+                        image: thumbnails[index].path,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -152,16 +100,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               }),
         ),
       ],
-    ));
+    )
+  );
   }
-}
-
-class ImageDetails {
-  final String imagePath;
-  final String title;
-  final String date;
-  final String location;
-  final String comment;
-  ImageDetails(
-      {this.imagePath, this.title, this.date, this.location, this.comment});
 }
