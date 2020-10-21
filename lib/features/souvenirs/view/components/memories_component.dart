@@ -6,52 +6,6 @@ import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
-//Liste en dur des photos qui se trouveront dans les memories.
-  // List<Post> memories = [
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Visite Tour Eiffel",
-  //       location: "Paris,France",
-  //       distance: "400 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/VFRTXGw1VjU",
-  //       title: "Vacances à Rome",
-  //       location: "Rome, Italie",
-  //       distance: "800 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/2N3zNl0rQEI",
-  //       title: "Chateau Loire",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  // ];
-
   List<Souvenir> souvenirs;
 
   @override
@@ -88,7 +42,7 @@ class MemoriesComponent extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image(
-                          image: NetworkImage(souvenirs[i].cover),
+                          image: NetworkImage(souvenirs[i].tempLink),
                           width: 125,
                           height: 125,
                           fit: BoxFit.cover,
@@ -152,12 +106,3 @@ class MemoriesComponent extends StatelessWidget {
             }));
   }
 }
-
-//class Post {
-  //final String postImage;
-  //final String title;
-  //final String location;
-  //final String distance;
-
-  //Post({this.postImage, this.title, this.location, this.distance});
-//}

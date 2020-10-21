@@ -87,7 +87,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: thumbnails[index].path,
+                        image: thumbnails[index].tempLink,
                         fit: BoxFit.cover,
                       ),
                     ),

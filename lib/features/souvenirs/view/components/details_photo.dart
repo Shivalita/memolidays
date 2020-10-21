@@ -210,7 +210,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                 child: Center(
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: thumbnails[index].path,
+                    image: thumbnails[index].tempLink,
                     fit: BoxFit.cover,
                   ),
                 ),
