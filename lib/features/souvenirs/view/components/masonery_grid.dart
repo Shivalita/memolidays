@@ -5,6 +5,7 @@ import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
+// ignore: must_be_immutable
 class MasoneryGrid extends StatefulWidget {
   List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
@@ -96,35 +97,6 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               )
             ),
           ],
-          // DANS LE DOUTE JE LAISSE CA ICI
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          // children: <Widget>[
-          //   Container(
-          //     padding: EdgeInsets.symmetric(horizontal: 10),
-          //     child: Row(
-          //       children: <Widget>[
-          //         Icon(Icons.location_on, color: Colors.red, size: 35),
-          //         Text(
-          //           "Rome, Italie",
-          //           style: TextStyle(
-          //               fontSize: 17,
-          //               fontStyle: FontStyle.italic,
-          //               fontWeight: FontWeight.bold),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          //   Container(
-          //     padding: EdgeInsets.symmetric(horizontal: 10),
-          //     child: Text(
-          //       "13 Octobre 2020",
-          //       style: TextStyle(
-          //           fontSize: 15,
-          //           fontStyle: FontStyle.italic,
-          //           fontWeight: FontWeight.normal),
-          //     ),
-          //   ),
-          // ],
         ),
         SizedBox(height: 10),
         Container(
