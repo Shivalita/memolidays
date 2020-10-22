@@ -211,10 +211,11 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               body: Container(
                 child: Center(
                   child : CachedNetworkImage(
-                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 800),
+                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 1000),
                     progressIndicatorBuilder: (context, url, downloadProgress) => 
                       CircularProgressIndicator(value: downloadProgress.progress),
                     errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.cover,
                   )
                   // child: FadeInImage.memoryNetwork(
                   //   placeholder: kTransparentImage,

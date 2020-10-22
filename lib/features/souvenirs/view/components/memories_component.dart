@@ -43,12 +43,17 @@ class MemoriesComponent extends StatelessWidget {
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child : CachedNetworkImage(
-                          imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 125),
-                          progressIndicatorBuilder: (context, url, downloadProgress) => 
-                            CircularProgressIndicator(value: downloadProgress.progress),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                        ),
+                        child : Container(
+                          width: 125,
+                          height: 125,
+                          child: CachedNetworkImage(
+                            imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 300),
+                            progressIndicatorBuilder: (context, url, downloadProgress) => 
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
+                        )
                         // child: Image(
                         //   // image: NetworkImage(souvenirs[i].tempLink),
                         //   image: CachedNetworkImage(

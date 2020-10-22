@@ -89,7 +89,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child : CachedNetworkImage(
-                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 400),
+                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
                         progressIndicatorBuilder: (context, url, downloadProgress) => 
                           CircularProgressIndicator(value: downloadProgress.progress),
                         errorWidget: (context, url, error) => Icon(Icons.error),

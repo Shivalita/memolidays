@@ -11,7 +11,6 @@ class SouvenirHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var thumbnailLink = ThumbnailLink();
     return Container(
       // padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(bottom: 10),
@@ -22,13 +21,11 @@ class SouvenirHeader extends StatelessWidget {
           child: ClipRRect(
             // borderRadius: BorderRadius.circular(12),
             child : CachedNetworkImage(
-              // imageUrl: getImageLink(souvenir.tempLink, 400),
-              // imageUrl: await thumbnailLink.getThumbnailLink(souvenir.tempLink, 400),
-              // imageUrl: ThumbnailLink() async => await getThumbnailLink(souvenir.tempLink, 400),
-              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.tempLink, 400),
+              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.tempLink, 600),
               progressIndicatorBuilder: (context, url, downloadProgress) => 
                 CircularProgressIndicator(value: downloadProgress.progress),
               errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -57,9 +54,4 @@ class SouvenirHeader extends StatelessWidget {
     );
   }
 
-  // Future<String> getImageLink(String fullSizeLink, int desiredSize) async {
-  //   ThumbnailLink thumbnailLink = ThumbnailLink();
-  //   String imageLink = await thumbnailLink.getThumbnailLink(fullSizeLink, desiredSize);
-  //   return imageLink;
-  // }
 }
