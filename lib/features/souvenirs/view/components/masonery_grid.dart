@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
@@ -86,11 +88,18 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                         ]),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      child: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: thumbnails[index].tempLink,
+                      child : CachedNetworkImage(
+                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 400),
+                        progressIndicatorBuilder: (context, url, downloadProgress) => 
+                          CircularProgressIndicator(value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
-                      ),
+                      )
+                      // child: FadeInImage.memoryNetwork(
+                      //   placeholder: kTransparentImage,
+                      //   image: thumbnails[index].tempLink,
+                      //   fit: BoxFit.cover,
+                      // ),
                     ),
                   ),
                 );

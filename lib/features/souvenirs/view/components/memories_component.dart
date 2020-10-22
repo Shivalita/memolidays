@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
@@ -41,12 +43,24 @@ class MemoriesComponent extends StatelessWidget {
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image(
-                          image: NetworkImage(souvenirs[i].tempLink),
-                          width: 125,
-                          height: 125,
-                          fit: BoxFit.cover,
+                        child : CachedNetworkImage(
+                          imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 125),
+                          progressIndicatorBuilder: (context, url, downloadProgress) => 
+                            CircularProgressIndicator(value: downloadProgress.progress),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
                         ),
+                        // child: Image(
+                        //   // image: NetworkImage(souvenirs[i].tempLink),
+                        //   image: CachedNetworkImage(
+                        //     imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 400),
+                        //     progressIndicatorBuilder: (context, url, downloadProgress) => 
+                        //       CircularProgressIndicator(value: downloadProgress.progress),
+                        //     errorWidget: (context, url, error) => Icon(Icons.error),
+                        //   ),
+                        //   width: 125,
+                        //   height: 125,
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                       Expanded(
                         child: Container(
