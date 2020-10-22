@@ -5,8 +5,6 @@ import 'package:motion_tab_bar/MotionTabBarView.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import '../../features/map/view/pages/map_page.dart';
-import '../../features/profile/view/pages/profile_page.dart';
-import '../../features/search/view/pages/search_page.dart';
 import 'components/drawer.dart';
 
 
@@ -40,9 +38,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           title: Text(     
           _tabController.index == 0 ? 'Home' : 
-          _tabController.index == 1 ? "Search" :
-          _tabController.index == 2 ? "Memories" : 
-          _tabController.index == 3 ? "Map" : 
+          _tabController.index == 1 ? "Memories" :
+          "Map"
           "Profile"  
         ),
 
@@ -51,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         drawer: MyDrawer(),
         bottomNavigationBar: MotionTabBar(
           labels: [
-            "Home","Search","Memories","Map","Profile"
+            "Home","Memories","Map"
           ],
           initialSelectedTab: "Home",
           tabIconColor: Colors.white,
@@ -63,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             });
           },
           icons: [
-            Icons.home,Icons.search,Icons.add_box,Icons.public,Icons.account_box
+            Icons.home,Icons.add_box,Icons.public
           ],
           textStyle: TextStyle(
             color: Colors.white,
@@ -78,17 +75,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               child: ListSouvenirsPage()
             ),
             Container(
-              child: SearchPage()
-            ),
-            Container(
               child: AddSouvenirsPage()
             ),
             Container(
               child: MapPage()
-            ),
-            Container(
-              child: ProfilePage()
-            ),
+            )
           ],
         ));
   }

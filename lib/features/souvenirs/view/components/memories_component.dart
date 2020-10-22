@@ -1,57 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
-//Liste en dur des photos qui se trouveront dans les memories.
-  // List<Post> memories = [
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Visite Tour Eiffel",
-  //       location: "Paris,France",
-  //       distance: "400 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/VFRTXGw1VjU",
-  //       title: "Vacances à Rome",
-  //       location: "Rome, Italie",
-  //       distance: "800 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/2N3zNl0rQEI",
-  //       title: "Chateau Loire",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  //   Post(
-  //       postImage: "https://source.unsplash.com/nnzkZNYWHaU",
-  //       title: "Vacances Rome",
-  //       location: "Loire, France",
-  //       distance: "62 km"
-  //   ),
-  // ];
-
   List<Souvenir> souvenirs;
 
   @override
@@ -87,12 +43,29 @@ class MemoriesComponent extends StatelessWidget {
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image(
-                          image: NetworkImage(souvenirs[i].cover),
+                        child : Container(
                           width: 125,
                           height: 125,
-                          fit: BoxFit.cover,
-                        ),
+                          child: CachedNetworkImage(
+                            imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 300),
+                            progressIndicatorBuilder: (context, url, downloadProgress) => 
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                        // child: Image(
+                        //   // image: NetworkImage(souvenirs[i].tempLink),
+                        //   image: CachedNetworkImage(
+                        //     imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 400),
+                        //     progressIndicatorBuilder: (context, url, downloadProgress) => 
+                        //       CircularProgressIndicator(value: downloadProgress.progress),
+                        //     errorWidget: (context, url, error) => Icon(Icons.error),
+                        //   ),
+                        //   width: 125,
+                        //   height: 125,
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                       Expanded(
                         child: Container(
@@ -152,12 +125,3 @@ class MemoriesComponent extends StatelessWidget {
             }));
   }
 }
-
-//class Post {
-  //final String postImage;
-  //final String title;
-  //final String location;
-  //final String distance;
-
-  //Post({this.postImage, this.title, this.location, this.distance});
-//}

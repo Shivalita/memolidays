@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -208,11 +210,18 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               ),
               body: Container(
                 child: Center(
-                  child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: thumbnails[index].path,
+                  child : CachedNetworkImage(
+                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 1000),
+                    progressIndicatorBuilder: (context, url, downloadProgress) => 
+                      CircularProgressIndicator(value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     fit: BoxFit.cover,
-                  ),
+                  )
+                  // child: FadeInImage.memoryNetwork(
+                  //   placeholder: kTransparentImage,
+                  //   image: thumbnails[index].tempLink,
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
               ),
             );
