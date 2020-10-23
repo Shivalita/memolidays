@@ -37,6 +37,10 @@ class ListSouvenirsRemoteSource {
 
     List<Souvenir> categorySouvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
+    categorySouvenirsList.forEach((souvenir) {
+      // souvenir.thumbnails
+    });
+
     return categorySouvenirsList;
   }
 

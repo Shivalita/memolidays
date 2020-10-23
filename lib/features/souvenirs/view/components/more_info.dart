@@ -13,7 +13,7 @@ class MoreInfo extends StatelessWidget {
           title: Text('More infos'),
           children: <Widget>[
             FormBuilderTextField(
-              attribute: 'Email',
+              attribute: 'email',
               readOnly: false,
               decoration: InputDecoration(
                 hintText: 'Email',
@@ -38,7 +38,7 @@ class MoreInfo extends StatelessWidget {
               height: 10,
             ),
             FormBuilderTextField(
-              attribute: 'Phone',
+              attribute: 'phone',
               readOnly: false,
               decoration: InputDecoration(
                 hintText: 'Phone',
@@ -63,10 +63,10 @@ class MoreInfo extends StatelessWidget {
               height: 10,
             ),
             FormBuilderTextField(
-              attribute: 'Comments',
+              attribute: 'comment',
               readOnly: false,
               decoration: InputDecoration(
-                hintText: 'Comments',
+                hintText: 'Comment',
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.orange,

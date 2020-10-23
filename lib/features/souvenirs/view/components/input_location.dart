@@ -5,7 +5,7 @@ class InputLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
-      attribute: 'Location',
+      attribute: 'location',
       readOnly: false,
       decoration: InputDecoration(
         hintText: 'Location',
