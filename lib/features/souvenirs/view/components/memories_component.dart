@@ -41,31 +41,38 @@ class MemoriesComponent extends StatelessWidget {
                       ]),
                   child: Row(
                     children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child : Container(
-                          width: 125,
-                          height: 125,
-                          child: CachedNetworkImage(
-                            imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 300),
-                            progressIndicatorBuilder: (context, url, downloadProgress) => 
-                              CircularProgressIndicator(value: downloadProgress.progress),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                            fit: BoxFit.cover,
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child : Container(
+                              width: 125,
+                              height: 125,
+                              child: CachedNetworkImage(
+                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 300),
+                                progressIndicatorBuilder: (context, url, downloadProgress) => 
+                                  CircularProgressIndicator(value: downloadProgress.progress),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                fit: BoxFit.cover,
+                              ),
+                            )
                           ),
-                        )
-                        // child: Image(
-                        //   // image: NetworkImage(souvenirs[i].tempLink),
-                        //   image: CachedNetworkImage(
-                        //     imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 400),
-                        //     progressIndicatorBuilder: (context, url, downloadProgress) => 
-                        //       CircularProgressIndicator(value: downloadProgress.progress),
-                        //     errorWidget: (context, url, error) => Icon(Icons.error),
-                        //   ),
-                        //   width: 125,
-                        //   height: 125,
-                        //   fit: BoxFit.cover,
-                        // ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: new Color.fromRGBO(0, 0, 0, 0.5)
+                            ),
+                            padding: EdgeInsets.all(5),
+                            margin: EdgeInsets.all(5),
+                            child: Row(
+                              children: [
+                                Text("4", style: TextStyle(color: Colors.white)),
+                                SizedBox(width: 3,),
+                                Icon(Icons.photo_library, color: Colors.white, size: 17,)
+                              ],)
+                          )
+                        ],
                       ),
                       Expanded(
                         child: Container(

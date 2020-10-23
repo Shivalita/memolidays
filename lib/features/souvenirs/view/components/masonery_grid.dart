@@ -77,15 +77,17 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey[350],
-                              offset: Offset(1.0, 2.0),
-                              blurRadius: 1.0,
-                              spreadRadius: 1.0),
-                        ]),
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[350],
+                          offset: Offset(1.0, 2.0),
+                          blurRadius: 1.0,
+                          spreadRadius: 1.0
+                        ),
+                      ]
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child : CachedNetworkImage(
@@ -94,19 +96,15 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                           CircularProgressIndicator(value: downloadProgress.progress),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
-                      )
-                      // child: FadeInImage.memoryNetwork(
-                      //   placeholder: kTransparentImage,
-                      //   image: thumbnails[index].tempLink,
-                      //   fit: BoxFit.cover,
-                      // ),
+                      ),                     
                     ),
-                  ),
+                  ),                  
                 );
               },
               staggeredTileBuilder: (index) {
                 return StaggeredTile.count(1, index.isEven ? 1.2 : 1.8);
-              }),
+              }
+          ),
         ),
       ],
     )

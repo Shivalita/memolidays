@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
@@ -246,7 +247,9 @@ class PopUpOptionMenu extends StatelessWidget {
                                 size: 30,
                                 color: HexColor("#000000"),
                               ),
-                              onPressed: () {}
+                              onPressed: () {
+                                launch(_emailLaunchUri.toString());
+                              }
                             ),
                             IconButton(
                                 icon: FaIcon(
@@ -290,3 +293,11 @@ class PopUpOptionMenu extends StatelessWidget {
     );
   }
 }
+
+final Uri _emailLaunchUri = Uri(
+  scheme: 'mailto',
+  path: '',
+  queryParameters: {
+    'subject': 'Example Subject & Symbols are allowed!'
+  }
+);
