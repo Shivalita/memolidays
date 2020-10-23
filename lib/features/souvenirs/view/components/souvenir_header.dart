@@ -29,25 +29,53 @@ class SouvenirHeader extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.all(10),
-          child: Text(
-            souvenir.title,
-            maxLines: 4,
-            style: TextStyle(
-              fontSize: 35,
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 10.0,
-                  color: Colors.black,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width/1.5,
+              padding: EdgeInsets.all(10),
+              child: Text(
+                souvenir.title,
+                maxLines: 4,
+                style: TextStyle(
+                  fontSize: 35,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(2, 2),
+                      blurRadius: 10.0,
+                      color: Colors.black,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: new Color.fromRGBO(0, 0, 0, 0.5)
+              ),
+              padding: EdgeInsets.all(5),
+              child: Row(
+                children: [
+                  Text(
+                    "12", 
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20
+                    )
+                  ),
+                  SizedBox(width: 5),
+                  Icon(Icons.photo_library, color: Colors.white, size: 25)
+                ],
+              )
+            )
+          ],
         ),
         ]
       ),
