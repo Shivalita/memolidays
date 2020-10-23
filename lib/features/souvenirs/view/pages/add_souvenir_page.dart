@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
 import 'package:memolidays/features/souvenirs/view/components/input_title.dart';
@@ -126,7 +127,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: FormBuilder(
-          initialValue: {'title': '', 'Location': ''},
+          initialValue: {'title': '', 'location' :''},
           key: _fbKey,
           child: Column(
             children: <Widget>[
@@ -183,7 +184,18 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
               RaisedButton(
                 elevation: 3,
                 child: Text('Valider'),
-                onPressed: () {},
+                onPressed: () {
+                  souvenirsState.setState((state) => state.getTata()); 
+                  if (_fbKey.currentState.saveAndValidate()) {
+                    var data = _fbKey.currentState.value;
+                  //   print(_fbKey.currentState.value);
+                  //   print(_fbKey.currentState.value.runtimeType);
+                    print(souvenirsState.state.toto);
+                    // souvenirsState.setState((state) => state.addSouvenir(data)); 
+                    souvenirsState.setState((state) => state.getTata()); 
+
+                  }
+                },
               )
             ],
           ),

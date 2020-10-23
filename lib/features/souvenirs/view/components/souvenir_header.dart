@@ -63,7 +63,7 @@ class SouvenirHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "12", 
+                    souvenir.thumbnails.length.toString(),
                     style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,

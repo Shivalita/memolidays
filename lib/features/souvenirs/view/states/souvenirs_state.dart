@@ -10,6 +10,7 @@ class SouvenirsState {
   Category selectedCategory;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
+  String toto = "toto";
 
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
@@ -56,6 +57,24 @@ class SouvenirsState {
       souvenirsList = await getSouvenirsList(context);
     }
     return selectedCategory;
+  }
+
+  Souvenir addSouvenir(data) {
+    print('ok');
+    print('data = $data');
+    Map dataMap = Map<String, dynamic>.from(data);
+    print('dataMap = $dataMap');
+
+    // Souvenir newSouvenir = dataMap.map((data) => Souvenir.fromForm(data)).toList();
+    Souvenir newSouvenir = Souvenir.fromForm(dataMap);
+    print('newSouvenir = $newSouvenir');
+    print(newSouvenir.title);
+    print(newSouvenir.comment);
+    return newSouvenir;
+  }
+
+  getTata() {
+    print('TATAAAAA');
   }
 
 }
