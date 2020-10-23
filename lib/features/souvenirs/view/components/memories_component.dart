@@ -67,7 +67,7 @@ class MemoriesComponent extends StatelessWidget {
                             margin: EdgeInsets.all(5),
                             child: Row(
                               children: [
-                                Text("4", style: TextStyle(color: Colors.white)),
+                                Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
                                 SizedBox(width: 3,),
                                 Icon(Icons.photo_library, color: Colors.white, size: 17,)
                               ],)
