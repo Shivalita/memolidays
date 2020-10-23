@@ -40,18 +40,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           title: Text(     
           _tabController.index == 0 ? 'Home' : 
-          _tabController.index == 1 ? "Search" :
-          _tabController.index == 2 ? "Memories" : 
-          _tabController.index == 3 ? "Map" : 
-          "Profile"  
+          _tabController.index == 1 ? "Memories" :
+          "Map" 
         ),
-
           centerTitle: true,
         ),
         drawer: MyDrawer(),
         bottomNavigationBar: MotionTabBar(
           labels: [
-            "Home","Search","Memories","Map","Profile"
+            "Home","Memories","Map"
           ],
           initialSelectedTab: "Home",
           tabIconColor: Colors.white,
@@ -63,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             });
           },
           icons: [
-            Icons.home,Icons.search,Icons.add_box,Icons.public,Icons.account_box
+            Icons.home,Icons.add_box,Icons.public
           ],
           textStyle: TextStyle(
             color: Colors.white,
@@ -78,16 +75,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               child: ListSouvenirsPage()
             ),
             Container(
-              child: SearchPage()
-            ),
-            Container(
               child: AddSouvenirsPage()
             ),
             Container(
               child: MapPage()
-            ),
-            Container(
-              child: ProfilePage()
             ),
           ],
         ));

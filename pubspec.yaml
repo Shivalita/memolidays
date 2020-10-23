@@ -29,12 +29,9 @@ dependencies:
   firebase_auth: ^0.18.1 #Handle Firebase connexions and their parameters
   http: ^0.12.1 #Load API
   get: ^3.12.1 #Handle routes
-  flutter_auth_buttons: ^0.10.0 #Display Google connexion button
   flushbar: ^1.10.4 #Snackbar for errors displays
   flutter_form_builder: ^3.13.6
-  intl: ^0.16.1
   material_tag_editor: ^0.0.4
-  flutter_material_pickers: ^1.8.0
   data_connection_checker: ^0.3.4 #Check connectivity
   states_rebuilder: ^3.1.0 #States manager
   hive: ^1.4.4+1 #Store local data
@@ -42,12 +39,16 @@ dependencies:
   motion_tab_bar: #Permet la customisation de la BottomTabBar
     git: 
       url : https://github.com/Antonin06/Motion-Tab-Bar.git
-  flutter_staggered_grid_view: ^0.3.2
-  transparent_image : ^1.0.0
-  photo_view: ^0.10.2
+  flutter_staggered_grid_view: ^0.3.2 #Permet la masonry grid
+  transparent_image : ^1.0.0 
+  photo_view: ^0.10.2 
   font_awesome_flutter: ^8.10.0
-  hexcolor: ^1.0.6
-  flutter_svg: ^0.19.1
+  hexcolor: ^1.0.6 #Permet de convertir les Colors.### en hexadecimal
+  flutter_svg: ^0.19.1 #Permet l'utilisation de SVG
+  url_launcher: ^5.7.5
+  image_picker: ^0.6.7+12
+  multi_image_picker: ^4.7.14
+
 
 
 dev_dependencies:
