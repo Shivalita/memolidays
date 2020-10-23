@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
 class ListSouvenirsRemoteSource {
 
   final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
@@ -39,6 +37,12 @@ class ListSouvenirsRemoteSource {
     List data = json.decode(request.body)['data'];
 
     List<Souvenir> categorySouvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
+
+    categorySouvenirsList.forEach((souvenir) {
+      List<Thumbnail> thumbnailsList = souvenir.thumbnails;
+      Thumbnail coverThumbnail = Thumbnail.fromCover(souvenir.tempLink);
+      thumbnailsList.insert(0, coverThumbnail);
+    });
 
     return categorySouvenirsList;
   }

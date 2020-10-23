@@ -62,4 +62,29 @@ class Souvenir {
 
   }
 
+  Souvenir.fromForm(Map<String, dynamic> map) {
+    // id = map['id'];
+    // owner = map['owner'];
+    title = map['title'];
+    // cover = map['cover'];
+    // date = map['date'];
+    email = map['email'];
+    phone = map['phone'];
+    comment = map['comment'];
+    place = map['location'];
+    // lat = map['lat'];
+    // lon = map['lon'];
+    // token = map['token'];
+    // storage = map['storage'];
+    // tempLink = map['temp_link'];
+
+    // if (map['thumbnails'] != null) {
+    //   thumbnails = List<Thumbnail>();
+    //   map['thumbnails'].forEach((element) {
+    //     thumbnails.add(Thumbnail.fromJson(element));
+    //   });
+    // }
+
+  }
+
 }

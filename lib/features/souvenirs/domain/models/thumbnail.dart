@@ -31,6 +31,17 @@ class Thumbnail {
     tempLink = json['temp_link'];
   }
 
+  Thumbnail.fromCover(String link) {
+    // path = "empty";
+    // type = "empty";
+    // frame = "empty";
+    // status = 0;
+    // flag1 = 0;
+    // flag2 = 0;
+    // id = 0;
+    tempLink = link;
+  }
+
   // Map<String, dynamic> toJson() {
   //   final Map<String, dynamic> data = new Map<String, dynamic>();
   //   data['path'] = this.path;
