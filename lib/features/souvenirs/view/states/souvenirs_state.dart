@@ -62,15 +62,15 @@ class SouvenirsState {
   Souvenir addSouvenir(data) {
     print('ok');
     print('data = $data');
-    Map dataMap = Map<String, dynamic>.from(data);
-    print('dataMap = $dataMap');
+    // Map dataMap = Map<String, dynamic>.from(data);
+    // print('dataMap = $dataMap');
 
     // Souvenir newSouvenir = dataMap.map((data) => Souvenir.fromForm(data)).toList();
-    Souvenir newSouvenir = Souvenir.fromForm(dataMap);
-    print('newSouvenir = $newSouvenir');
-    print(newSouvenir.title);
-    print(newSouvenir.comment);
-    return newSouvenir;
+    // Souvenir newSouvenir = Souvenir.fromForm(dataMap);
+    // print('newSouvenir = $newSouvenir');
+    // print(newSouvenir.title);
+    // print(newSouvenir.comment);
+    // return newSouvenir;
   }
 
   getTata() {
