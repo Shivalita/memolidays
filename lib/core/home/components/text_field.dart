@@ -10,7 +10,7 @@ class CustomTextField extends TextField{
     }) :
     super(
       keyboardType: keyboard, 
-      decoration: new InputDecoration(
+      decoration: InputDecoration(
         border: const OutlineInputBorder(), 
         icon: iconparam,
         hintText: hintText,

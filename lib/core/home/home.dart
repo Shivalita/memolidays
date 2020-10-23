@@ -39,10 +39,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           title: Text(     
           _tabController.index == 0 ? 'Home' : 
           _tabController.index == 1 ? "Memories" :
-          "Map"
-          "Profile"  
+          "Map" 
         ),
-
           centerTitle: true,
         ),
         drawer: MyDrawer(),
@@ -79,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
             Container(
               child: MapPage()
-            )
+            ),
           ],
         ));
   }
