@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:lat_lon_grid_plugin/lat_lon_grid_plugin.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapPage extends StatelessWidget {
   @override
