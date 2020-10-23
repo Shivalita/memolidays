@@ -3,10 +3,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 
 
 class PopUpOptionMenu extends StatelessWidget {
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
@@ -138,8 +142,7 @@ class PopUpOptionMenu extends StatelessWidget {
                           padding: EdgeInsets.all(10),
                           child: Center(
                             child: Text(
-                              "Title",
-                              // _images[index].title,
+                              souvenir.title,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
@@ -154,8 +157,7 @@ class PopUpOptionMenu extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            "Comment",
-                            // _images[index].comment,
+                            souvenir.comment,
                             style: TextStyle(
                               fontSize: 15,
                               fontStyle: FontStyle.italic,
@@ -175,8 +177,7 @@ class PopUpOptionMenu extends StatelessWidget {
                                 Icon(Icons.location_on,
                                     color: Colors.red, size: 35),
                                 Text(
-                                  "Location",
-                                  // _images[index].location,
+                                  souvenir.place,
                                   style: TextStyle(
                                       fontSize: 17,
                                       fontStyle: FontStyle.italic,
@@ -185,8 +186,7 @@ class PopUpOptionMenu extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "Date",
-                              // _images[index].date,
+                              souvenir.date,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontStyle: FontStyle.italic,
@@ -203,7 +203,7 @@ class PopUpOptionMenu extends StatelessWidget {
                               MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Email",
+                              souvenir.email,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontStyle: FontStyle.italic,
@@ -211,7 +211,7 @@ class PopUpOptionMenu extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Telephone",
+                              souvenir.phone,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontStyle: FontStyle.italic,

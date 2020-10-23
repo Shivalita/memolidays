@@ -5,8 +5,6 @@ import 'package:motion_tab_bar/MotionTabBarView.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
 import '../../features/map/view/pages/map_page.dart';
-import '../../features/profile/view/pages/profile_page.dart';
-import '../../features/search/view/pages/search_page.dart';
 import 'components/drawer.dart';
 
 

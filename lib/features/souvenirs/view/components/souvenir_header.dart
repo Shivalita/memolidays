@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 
 // ignore: must_be_immutable
 class SouvenirHeader extends StatelessWidget {
@@ -18,11 +20,12 @@ class SouvenirHeader extends StatelessWidget {
         Container(
           child: ClipRRect(
             // borderRadius: BorderRadius.circular(12),
-             child: Image.network(
-              souvenir.cover, //Paysage
-            // child: Image.network(
-            //   // "https://source.unsplash.com/S0hS0HfH_B8" //Portrait
-            //   "https://source.unsplash.com/VFRTXGw1VjU/", //Paysage
+            child : CachedNetworkImage(
+              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.tempLink, 600),
+              progressIndicatorBuilder: (context, url, downloadProgress) => 
+                CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -50,4 +53,5 @@ class SouvenirHeader extends StatelessWidget {
       ),
     );
   }
+
 }
