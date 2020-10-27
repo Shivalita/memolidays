@@ -124,11 +124,6 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   @override
   Widget build(BuildContext context) {
     return souvenirsState.rebuilder(
-    //   initState: () => souvenirsState.setState((state) => state.getTata()),
-    //   onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator())),
-    //   onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator())),
-    //   onError: (error) => Text('ERROR'),
-    //   onData: () {
       () => Container(
         padding: EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -191,16 +186,10 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                   elevation: 3,
                   child: Text('Valider'),
                   onPressed: () {
-                    souvenirsState.setState((state) async => await state.getTata());
-                    souvenirsState.setState((s) => s.getTata());
                     if (_fbKey.currentState.saveAndValidate()) {
                       var data = _fbKey.currentState.value;
-                      print('data = $data');
-                    //   print(_fbKey.currentState.value);
-                    //   print(_fbKey.currentState.value.runtimeType);
-                      print(souvenirsState.state.toto);
+                      // print('data = $data');
                       souvenirsState.setState((state) => state.addSouvenir(data)); 
-                      souvenirsState.setState((state) => state.getTata()); 
                     }
                   },
                 )

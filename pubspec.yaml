@@ -50,6 +50,7 @@ dependencies:
   image_picker: ^0.6.7+12
   multi_image_picker: ^4.7.14
   cached_network_image: ^2.3.3
+  intl: ^0.16.1
 
 
 dev_dependencies:
