@@ -64,14 +64,6 @@ class SouvenirsState {
     data['date'] = formattedDate;
 
     print('data = $data');
-    // print('data["tags"][0].name = ${data["tags"][0].name}');
-
-    // bool contains(Object element) {
-    //   for (E e in this) {
-    //     if (e == element) return true;
-    //   }
-    //   return false;
-    // }
 
     bool isCategoryRegistered(String value) {
       var result = allCategoriesList.where((category) => (category.name.contains(value)));
@@ -82,23 +74,14 @@ class SouvenirsState {
       }
     } 
 
-    List<Category> tagsList = data['tags'];
+    
 
+    List<dynamic> tagsList = data['tags'];
     tagsList.forEach((tag) {
       print('tag.name = ${tag.name}');
       bool isRegistered = isCategoryRegistered(tag.name);
       print(isRegistered);
     });
-
-    // tagsList.where((i) => allCategoriesList.contains(i.name)).map((category) {
-    //   print('${category.name}');
-    //   return category;
-    // }).toList();
-
-
-    // allCategoriesList.forEach((category) {
-    //   if (category.)
-    // });
 
     Souvenir newSouvenir = Souvenir.fromForm(data);
     // souvenirsList.insert(0, newSouvenir);
