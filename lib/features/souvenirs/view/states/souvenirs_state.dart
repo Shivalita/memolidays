@@ -10,7 +10,6 @@ class SouvenirsState {
   Category selectedCategory;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
-  String toto = "toto";
 
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
@@ -59,22 +58,34 @@ class SouvenirsState {
     return selectedCategory;
   }
 
-  Souvenir addSouvenir(data) {
-    print('ok');
+  addSouvenir(data) {
+    String date = data['date'].toString();
+    String formattedDate = date.substring(0, 10);
+    data['date'] = formattedDate;
+
     print('data = $data');
-    Map dataMap = Map<String, dynamic>.from(data);
-    print('dataMap = $dataMap');
 
-    // Souvenir newSouvenir = dataMap.map((data) => Souvenir.fromForm(data)).toList();
-    Souvenir newSouvenir = Souvenir.fromForm(dataMap);
-    print('newSouvenir = $newSouvenir');
-    print(newSouvenir.title);
-    print(newSouvenir.comment);
-    return newSouvenir;
-  }
+    bool isCategoryRegistered(String value) {
+      var result = allCategoriesList.where((category) => (category.name.contains(value)));
+      if (result.length >= 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } 
 
-  getTata() {
-    print('TATAAAAA');
+    
+
+    List<dynamic> tagsList = data['tags'];
+    tagsList.forEach((tag) {
+      print('tag.name = ${tag.name}');
+      bool isRegistered = isCategoryRegistered(tag.name);
+      print(isRegistered);
+    });
+
+    Souvenir newSouvenir = Souvenir.fromForm(data);
+    // souvenirsList.insert(0, newSouvenir);
+    // return newSouvenir;
   }
 
 }

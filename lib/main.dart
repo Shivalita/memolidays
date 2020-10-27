@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
 import 'package:hive/hive.dart';

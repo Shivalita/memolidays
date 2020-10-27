@@ -67,7 +67,7 @@ class Souvenir {
     // owner = map['owner'];
     title = map['title'];
     // cover = map['cover'];
-    // date = map['date'];
+    date = map['date'];
     email = map['email'];
     phone = map['phone'];
     comment = map['comment'];

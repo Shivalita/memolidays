@@ -123,84 +123,82 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: SingleChildScrollView(
-        child: FormBuilder(
-          initialValue: {'title': '', 'location' :''},
-          key: _fbKey,
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: LinearProgressIndicator(
-                  backgroundColor: Colors.grey,
-                )
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      onPressed: () {
-                        getImage();
-                      },
-                      child: Icon(
-                        Icons.photo_camera,
-                        size: 35,
+    return souvenirsState.rebuilder(
+      () => Container(
+        padding: EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: FormBuilder(
+            initialValue: {'title': '', 'location' :''},
+            key: _fbKey,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.grey,
+                  )
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                        onPressed: () {
+                          getImage();
+                        },
+                        child: Icon(
+                          Icons.photo_camera,
+                          size: 35,
+                        ),
+                        elevation: 3,
+                        backgroundColor: Colors.white,
                       ),
-                      elevation: 3,
-                      backgroundColor: Colors.white,
-                    ),
-                    FloatingActionButton(
-                      onPressed: 
-                        loadAssets,
-                      child: Icon(
-                        Icons.photo_library,
-                        size: 35,
-                      ),
-                      elevation: 3,
-                      backgroundColor: Colors.white,
-                    )
+                      FloatingActionButton(
+                        onPressed: 
+                          loadAssets,
+                        child: Icon(
+                          Icons.photo_library,
+                          size: 35,
+                        ),
+                        elevation: 3,
+                        backgroundColor: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+                Stack(
+                  children: [
+                    buildGridView(),
+                    cameraView(),
                   ],
                 ),
-              ),
-              Stack(
-                children: [
-                  buildGridView(),
-                  cameraView(),
-                ],
-              ),
-              SizedBox(height: 10),
-              InputTitle(),
-              SizedBox(height: 10),
-              InputLocation(),
-              SizedBox(height: 10),
-              Tags(),
-              SizedBox(height: 10),
-              DatePicker(),
-              SizedBox(height: 10),
-              MoreInfo(),
-              RaisedButton(
-                elevation: 3,
-                child: Text('Valider'),
-                onPressed: () {
-                  souvenirsState.setState((state) => state.getTata()); 
-                  if (_fbKey.currentState.saveAndValidate()) {
-                    var data = _fbKey.currentState.value;
-                  //   print(_fbKey.currentState.value);
-                  //   print(_fbKey.currentState.value.runtimeType);
-                    print(souvenirsState.state.toto);
-                    // souvenirsState.setState((state) => state.addSouvenir(data)); 
-                    souvenirsState.setState((state) => state.getTata()); 
-
-                  }
-                },
-              )
-            ],
+                SizedBox(height: 10),
+                InputTitle(),
+                SizedBox(height: 10),
+                InputLocation(),
+                SizedBox(height: 10),
+                Tags(),
+                SizedBox(height: 10),
+                DatePicker(),
+                SizedBox(height: 10),
+                MoreInfo(),
+                RaisedButton(
+                  elevation: 3,
+                  child: Text('Valider'),
+                  onPressed: () {
+                    if (_fbKey.currentState.saveAndValidate()) {
+                      var data = _fbKey.currentState.value;
+                      // print('data = $data');
+                      souvenirsState.setState((state) => state.addSouvenir(data)); 
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      )
+     );
+    // return Container(height: 0, width: 0,);
   }
 }
