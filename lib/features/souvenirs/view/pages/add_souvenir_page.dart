@@ -23,7 +23,6 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
 
   DateTime pickedDate;
 
-
   @override
   void initState() {
     super.initState();
@@ -35,16 +34,15 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   String _error;
 
   Widget buildGridView() {
-    if (images != null)
+    if (images.isNotEmpty)
       return Container(
         child: GridView.count(
           padding: EdgeInsets.all(10),
           mainAxisSpacing: 5,
           crossAxisSpacing: 5,
           shrinkWrap: true,
-          // physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 3,
-          children: List.generate(images.length, (index) {         
+          children: List.generate(images.length, (index) {
             Asset asset = images[index];
             return AssetThumb(
               asset: asset,
@@ -54,10 +52,8 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           }),
         ),
       );
-    else 
-      return Container(
-        color: Colors.red
-      );
+    else
+      return Container(color: Colors.red);
   }
 
   Future<void> loadAssets() async {
@@ -65,7 +61,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
       images = List<Asset>();
     });
 
-    List<Asset> resultList;
+    List<Asset> resultList = List<Asset>();
     String error;
 
     try {
@@ -75,7 +71,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
     } on Exception catch (e) {
       error = e.toString();
     }
-    if (!mounted) return;
+    if (!mounted) return Container();
 
     setState(() {
       images = resultList;
@@ -99,43 +95,38 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
       }
     });
   }
-  
+
   Widget cameraView() {
     if (_image != null)
       return ClipRRect(
-        child: Container(
-          child: Align(
-            alignment: Alignment.center,
-            widthFactor: 0.5,
-            heightFactor: 0.5,
-            child: Image.file(
-              _image,
-              height: 230,
-              width: 230,
-            )
-          )
-        )
-      );
+          child: Container(
+              child: Align(
+                  alignment: Alignment.center,
+                  widthFactor: 0.5,
+                  heightFactor: 0.5,
+                  child: Image.file(
+                    _image,
+                    height: 230,
+                    width: 230,
+                  ))));
     else
       return Container();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: FormBuilder(
-          initialValue: {'title': '', 'location' :''},
+          initialValue: {'title': '', 'location': ''},
           key: _fbKey,
           child: Column(
             children: <Widget>[
               Container(
-                child: LinearProgressIndicator(
-                  backgroundColor: Colors.grey,
-                )
-              ),
+                  child: LinearProgressIndicator(
+                backgroundColor: Colors.grey,
+              )),
               Container(
                 padding: EdgeInsets.all(10),
                 child: Row(
@@ -153,8 +144,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                       backgroundColor: Colors.white,
                     ),
                     FloatingActionButton(
-                      onPressed: 
-                        loadAssets,
+                      onPressed: loadAssets,
                       child: Icon(
                         Icons.photo_library,
                         size: 35,
@@ -168,7 +158,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
               Stack(
                 children: [
                   buildGridView(),
-                  cameraView(),
+                  // cameraView(),
                 ],
               ),
               SizedBox(height: 10),
@@ -185,15 +175,14 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                 elevation: 3,
                 child: Text('Valider'),
                 onPressed: () {
-                  souvenirsState.setState((state) => state.getTata()); 
+                  souvenirsState.setState((state) => state.getTata());
                   if (_fbKey.currentState.saveAndValidate()) {
                     var data = _fbKey.currentState.value;
-                  //   print(_fbKey.currentState.value);
-                  //   print(_fbKey.currentState.value.runtimeType);
+                    //   print(_fbKey.currentState.value);
+                    //   print(_fbKey.currentState.value.runtimeType);
                     print(souvenirsState.state.toto);
-                    // souvenirsState.setState((state) => state.addSouvenir(data)); 
-                    souvenirsState.setState((state) => state.getTata()); 
-
+                    // souvenirsState.setState((state) => state.addSouvenir(data));
+                    souvenirsState.setState((state) => state.getTata());
                   }
                 },
               )
