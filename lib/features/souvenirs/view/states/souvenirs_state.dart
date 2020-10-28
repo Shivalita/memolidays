@@ -64,28 +64,45 @@ class SouvenirsState {
     data['date'] = formattedDate;
 
     print('data = $data');
+    registerCategories(data);
+  
+    // Souvenir newSouvenir = Souvenir.fromForm(data);
+    // souvenirsList.insert(0, newSouvenir);
+    // return newSouvenir;
+  }
 
-    bool isCategoryRegistered(String value) {
-      var result = allCategoriesList.where((category) => (category.name.contains(value)));
+  registerCategories(Map data) {
+    List<Category> existingCategories = [];
+
+    dynamic isCategoryRegistered(String value) {
+      var result = allCategoriesList.where((category) => (category.name.contains(value))).toList();
       if (result.length >= 1) {
-        return true;
-      } else {
-        return false;
+        // print('result = $result');
+        // print('result[0].name = ${result[0].name}');
+        existingCategories.add(result[0]);
       }
+      //   return result;
+      // } else {
+      //   return false;
+      // }
     } 
-
-    
 
     List<dynamic> tagsList = data['tags'];
     tagsList.forEach((tag) {
-      print('tag.name = ${tag.name}');
-      bool isRegistered = isCategoryRegistered(tag.name);
-      print(isRegistered);
+      isCategoryRegistered(tag.name);
     });
 
-    Souvenir newSouvenir = Souvenir.fromForm(data);
-    // souvenirsList.insert(0, newSouvenir);
-    // return newSouvenir;
+    print('existingCategories = $existingCategories');
+    // print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
+    // print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
+
+    if (existingCategories.isNotEmpty) {
+      print('not empty');
+    } else {
+      print('empty');
+    }
+
+
   }
 
 }

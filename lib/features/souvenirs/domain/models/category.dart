@@ -7,9 +7,10 @@ class Category {
   String name;
   List<Souvenir> souvenirsList;
 
-  Category({int id, String name}) {
+  Category({int id, String name, List<Souvenir> souvenirsList}) {
     this.id = id;
     this.name = name;
+    this.souvenirsList = souvenirsList;
   }
 
   //! Category constructor from map
@@ -19,7 +20,8 @@ class Category {
   );
 
    Category.fromForm(Map<String, dynamic> data) : this(
-    name : data['name']
+    name : data['name'],
+    souvenirsList : data['souvenirs']
   );
 
 }
