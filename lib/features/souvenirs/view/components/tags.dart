@@ -159,6 +159,7 @@ class Tags extends StatelessWidget {
       },
       suggestionBuilder: (context, state, category) {
         return ListTile(
+          tileColor: Colors.white,
           key: ObjectKey(category),
           title: Text(category.name),
           onTap: () => state.selectSuggestion(category),

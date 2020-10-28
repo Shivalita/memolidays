@@ -9,8 +9,8 @@ class ListSouvenirsPage extends StatelessWidget {
     return Container(
       child: souvenirsState.whenRebuilder(
         initState: () => souvenirsState.setState((state) async => await state.init(context)),
-        onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator())),
-        onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator())),
+        onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
+        onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
         onError: (error) {
           throw error;
         },

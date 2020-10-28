@@ -23,7 +23,7 @@ class SouvenirHeader extends StatelessWidget {
             child : CachedNetworkImage(
               imageUrl: ThumbnailLink().getThumbnailLink(souvenir.tempLink, 600),
               progressIndicatorBuilder: (context, url, downloadProgress) => 
-                CircularProgressIndicator(value: downloadProgress.progress),
+                Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.cover,
             ),

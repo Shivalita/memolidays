@@ -93,7 +93,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       child : CachedNetworkImage(
                         imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
                         progressIndicatorBuilder: (context, url, downloadProgress) => 
-                          CircularProgressIndicator(value: downloadProgress.progress),
+                          Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
                       ),                     
