@@ -50,9 +50,9 @@ class MemoriesComponent extends StatelessWidget {
                               width: 125,
                               height: 125,
                               child: CachedNetworkImage(
-                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 300),
+                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 250),
                                 progressIndicatorBuilder: (context, url, downloadProgress) => 
-                                  CircularProgressIndicator(value: downloadProgress.progress),
+                                  Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
                                 fit: BoxFit.cover,
                               ),

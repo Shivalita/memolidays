@@ -143,7 +143,7 @@ class _MapPage2State extends State<MapPage2> {
           layers: [MarkerLayerOptions(markers: markers), userLocationOptions],
           children: [
             TileLayerWidget(
-                options: TileLayerOptions(
+              options: TileLayerOptions(
               urlTemplate:
                   'https://api.mapbox.com/styles/v1/antonin06/ckfnx5e3j05m019s0o8pjvs60/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW50b25pbjA2IiwiYSI6ImNrZm53ejI3NDBsbGQycnM1YXlsYzhtNTcifQ.IrQsUXT8P7nQZpkwuDtPjw',
               additionalOptions: {
