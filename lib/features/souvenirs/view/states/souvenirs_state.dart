@@ -58,48 +58,52 @@ class SouvenirsState {
     return selectedCategory;
   }
 
-  addSouvenir(data) {
+  void addSouvenir(data) {
     String date = data['date'].toString();
     String formattedDate = date.substring(0, 10);
     data['date'] = formattedDate;
 
     print('data = $data');
-    registerCategories(data);
-  
-    // Souvenir newSouvenir = Souvenir.fromForm(data);
-    // souvenirsList.insert(0, newSouvenir);
-    // return newSouvenir;
+    Souvenir newSouvenir = Souvenir.fromForm(data);
+
+    registerCategories(data, newSouvenir);
   }
 
-  registerCategories(Map data) {
+  registerCategories(Map data, Souvenir newSouvenir) {
     List<Category> existingCategories = [];
-
-    dynamic isCategoryRegistered(String value) {
-      var result = allCategoriesList.where((category) => (category.name.contains(value))).toList();
-      if (result.length >= 1) {
-        // print('result = $result');
-        // print('result[0].name = ${result[0].name}');
-        existingCategories.add(result[0]);
-      }
-      //   return result;
-      // } else {
-      //   return false;
-      // }
-    } 
+    List<Category> result;
 
     List<dynamic> tagsList = data['tags'];
     tagsList.forEach((tag) {
-      isCategoryRegistered(tag.name);
+      result = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
+      if (result.length >= 1) {
+        existingCategories.add(result[0]);
+      }
     });
 
-    print('existingCategories = $existingCategories');
+    // print('existingCategories = $existingCategories');
     // print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
     // print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
 
     if (existingCategories.isNotEmpty) {
-      print('not empty');
+      existingCategories.forEach((category) {
+        // print('category.name = ${category.name}');
+        // print('category.souvenirsList.length = ${category.souvenirsList.length}');
+        // print('category.souvenirsList[0].title = ${category.souvenirsList[0].title}');
+        category.souvenirsList.insert(0, newSouvenir);
+        // print('category.name = ${category.name}');
+        // print('category.souvenirsList.length = ${category.souvenirsList.length}');
+        // print('category.souvenirsList[0].title = ${category.souvenirsList[0].title}');
+      });
     } else {
-      print('empty');
+      print('allCategoriesList.length = ${allCategoriesList.length}');
+      print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
+      tagsList.forEach((tag) {
+        allCategoriesList.insert(0, tag);
+        // print('allCategoriesList = ${allCategoriesList}');
+    });
+      print('allCategoriesList.length = ${allCategoriesList.length}');
+      print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
     }
 
 

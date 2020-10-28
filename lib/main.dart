@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
+import 'package:memolidays/features/login/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
@@ -11,11 +13,23 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'features/login/view/pages/login_page.dart';
 
+bool checkIfConnected() {
+  final LocalSource localSource = LocalSource();
+  bool isConnected = false;
+  
+  if (localSource.getGoogleUserId() != null) {
+    isConnected = true;
+  }
+
+  return isConnected;
+}
+
 
 void main() async {
   //! Initialize Hive and open storage box for local data
   await Hive.initFlutter();
   await Hive.openBox('storageBox');
+
   runApp(MyApp());
    SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -23,9 +37,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
    @override
   Widget build(BuildContext context) {
+    bool isConnected = checkIfConnected();
     return FutureBuilder(
       // Initialize FlutterFire
       future: Firebase.initializeApp(),
@@ -44,8 +58,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.orange,
               scaffoldBackgroundColor: Colors.white,
               canvasColor: Colors.transparent,
-            ),
-            home: LoginPage(), // Interface de demarrage. 
+            ),        
+            home: (isConnected == true) ? MyHomePage() : LoginPage(), // Interface de demarrage. 
             // home: SouvenirPage(), // [Antonin] Pour raccourcir le chargement de l'appli en dev
             debugShowCheckedModeBanner: false,
             getPages: [
