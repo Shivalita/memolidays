@@ -66,6 +66,7 @@ class _MapPage2State extends State<MapPage2> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.all(Radius.circular(12)) ,
                                   child: Container(
+                                    
                                     height: 125,
                                     width: 125,
                                     child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)

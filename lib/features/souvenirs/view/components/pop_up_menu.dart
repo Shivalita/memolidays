@@ -74,12 +74,15 @@ class PopUpOptionMenu extends StatelessWidget {
                           readOnly: false,
                           decoration: InputDecoration(
                             hintText: 'Title',
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            prefixIcon: Icon(Icons.title_rounded, size: 20),
                             enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.orange,
-                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderSide: BorderSide(color: Colors.black54),
                             ),
                             focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
                               borderSide: BorderSide(color: Colors.orange),
                             ),
                             border: InputBorder.none,
