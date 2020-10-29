@@ -58,7 +58,7 @@ dependencies:
   user_location:
     git:
       url: https://github.com/igaurab/user_location_plugin.git
-
+  progress_state_button: ^1.0.1
 
 dev_dependencies:
   flutter_test:
