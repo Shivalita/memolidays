@@ -23,6 +23,13 @@ class MyDrawer extends StatelessWidget {
                       height: 100,
                       margin: EdgeInsets.only(top: 20, bottom: 5),
                       decoration: BoxDecoration(
+                        boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0, 3),
+                          blurRadius: 5.0,
+                        ),
+                        ],
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
@@ -36,7 +43,7 @@ class MyDrawer extends StatelessWidget {
                     ),
                     Text(
                       "memolidays@contact.fr",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),

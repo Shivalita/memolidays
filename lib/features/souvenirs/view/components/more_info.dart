@@ -6,81 +6,105 @@ class MoreInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(accentColor: Colors.black),
-      child: Card(
+      child: Card(        
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         elevation: 3,
-        child: ExpansionTile(
+        child: ExpansionTile(          
           childrenPadding: EdgeInsets.all(10),
           title: Text('More infos'),
           children: <Widget>[
-            FormBuilderTextField(
-              attribute: 'email',
-              readOnly: false,
-              decoration: InputDecoration(
-                hintText: 'Email',
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.orange,
+            Material(
+              elevation: 3,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: FormBuilderTextField(
+                attribute: 'email',
+                readOnly: false,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  prefixIcon: Icon(Icons.mail, size: 20),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.black54),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange),
-                ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(
-                  left: 16,
-                  right: 20,
-                  top: 14,
-                  bottom: 14,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.orange),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.only(
+                    left: 16,
+                    right: 20,
+                    top: 14,
+                    bottom: 14,
+                  ),
                 ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            FormBuilderTextField(
-              attribute: 'phone',
-              readOnly: false,
-              decoration: InputDecoration(
-                hintText: 'Phone',
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.orange,
+            Material(
+              elevation: 3,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: FormBuilderTextField(
+                attribute: 'phone',
+                readOnly: false,
+                decoration: InputDecoration(
+                  hintText: 'Phone',
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  prefixIcon: Icon(Icons.phone, size: 20),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.black54),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange),
-                ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(
-                  left: 16,
-                  right: 20,
-                  top: 14,
-                  bottom: 14,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.orange),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.only(
+                    left: 16,
+                    right: 20,
+                    top: 14,
+                    bottom: 14,
+                  ),
                 ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            FormBuilderTextField(
-              attribute: 'comment',
-              readOnly: false,
-              decoration: InputDecoration(
-                hintText: 'Comment',
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.orange,
+            Material(
+              elevation: 3,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: FormBuilderTextField(
+                attribute: 'comment',
+                readOnly: false,
+                decoration: InputDecoration(
+                  hintText: 'Comment',
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  prefixIcon: Icon(Icons.comment, size: 20),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.black54),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange),
-                ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(
-                  left: 16,
-                  right: 20,
-                  top: 14,
-                  bottom: 14,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.orange),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.only(
+                    left: 16,
+                    right: 20,
+                    top: 14,
+                    bottom: 14,
+                  ),
                 ),
               ),
             )
