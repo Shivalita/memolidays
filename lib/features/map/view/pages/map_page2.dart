@@ -10,9 +10,9 @@ class MapPage2 extends StatefulWidget {
 
 class _MapPage2State extends State<MapPage2> {
   static final List<LatLng> _points = [
-    LatLng(44.421, 10.404),
-    LatLng(45.683, 10.839),
-    LatLng(45.246, 5.783),
+    LatLng(48.866667,2.333333),
+    LatLng(43.7,7.25),
+    LatLng(44.833333,-0.566667),
   ];
 
   static const _markerSize = 30.0;
@@ -31,7 +31,7 @@ class _MapPage2State extends State<MapPage2> {
             width: _markerSize,
             height: _markerSize,
             builder: (BuildContext context) => IconButton(
-            icon: Icon(Icons.location_on),
+            icon: Icon(Icons.location_on, color: Colors.red, size: 22,),
             iconSize: _markerSize,
             onPressed: () {
               showModalBottomSheet(
@@ -55,23 +55,44 @@ class _MapPage2State extends State<MapPage2> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)) ,
-                                  child: Image.network("https://source.unsplash.com/random/150x84/?2")
+                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
+                                  child: Container(
+                                    height: 125,
+                                    width: 125,
+                                    child: Image.network("https://source.unsplash.com/random/?2", fit: BoxFit.cover)
+                                  )
                                 ),
                                 SizedBox(width: 5),
                                 ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)) ,
-                                  child: Image.network("https://source.unsplash.com/random/150x84/?1")
+                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
+                                  child: Container(
+                                    height: 125,
+                                    width: 125,
+                                    child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)
+                                  )
                                 ),
                                 SizedBox(width: 5),
                                 ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)) ,
-                                  child: Image.network("https://source.unsplash.com/random/150x84/?3")
+                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  child: Container(
+                                    height: 125,
+                                    width: 125,
+                                    child: Image.network("https://source.unsplash.com/random/?3", fit: BoxFit.cover)
+                                  )
+                                ),
+                                SizedBox(width: 5),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  child: Container(
+                                    height: 125,
+                                    width: 125,
+                                    child: Image.network("https://source.unsplash.com/random/?4", fit: BoxFit.cover)
+                                  )
                                 )
                                 ]
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 20),
                             Center(
                               child: Text(
                                 "Titre du Souvenir",
@@ -85,11 +106,19 @@ class _MapPage2State extends State<MapPage2> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "SomeWhere",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic
-                                  ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.red, size: 25
+                                    ),
+                                    Text(
+                                      "SomeWhere",
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   "99/99/2020",
@@ -99,7 +128,14 @@ class _MapPage2State extends State<MapPage2> {
                                 )
                               ],
                             ),
-                            SizedBox(height: 10)
+                            SizedBox(height: 10),
+                            FloatingActionButton(
+                              onPressed: (){},
+                              child: Icon(Icons.arrow_forward, color: Colors.orange),
+                              backgroundColor: Colors.white,
+                              elevation: 3,
+                            ),
+                            SizedBox(height: 10),
                           ],
                         ),
                       ),

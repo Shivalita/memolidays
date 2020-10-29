@@ -1,9 +1,11 @@
 //! Affichage de la page d'ajout de souvenir
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
@@ -12,6 +14,8 @@ import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
 import 'package:memolidays/features/souvenirs/view/components/tags.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 
 class AddSouvenirsPage extends StatefulWidget {
   @override
@@ -20,6 +24,8 @@ class AddSouvenirsPage extends StatefulWidget {
 
 class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateTextWithIcon = ButtonState.idle;
 
   DateTime pickedDate;
 
@@ -28,6 +34,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
     super.initState();
     pickedDate = DateTime.now();
   }
+  
 
   //! Code Pour La Selection De Photo Via La Gallery Du Telephone
   List<Asset> images = List<Asset>();
@@ -115,82 +122,129 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return souvenirsState.rebuilder(
-      () => Container(
-        padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: FormBuilder(
-            initialValue: {'title': '', 'location' :''},
-            key: _fbKey,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: LinearProgressIndicator(
+    return souvenirsState.rebuilder(() => Container(
+          padding: EdgeInsets.all(10),
+          child: SingleChildScrollView(
+            child: FormBuilder(
+              initialValue: {'title': '', 'location': ''},
+              key: _fbKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                      child: LinearProgressIndicator(
                     backgroundColor: Colors.grey,
-                  )
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(
-                        onPressed: () {
-                          getImage();
-                        },
-                        child: Icon(
-                          Icons.photo_camera,
-                          size: 35,
+                  )),
+                  SizedBox(height: 10),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FloatingActionButton(
+                          onPressed: () {
+                            getImage();
+                          },
+                          child: Icon(
+                            Icons.photo_camera,
+                            size: 35,
+                          ),
+                          elevation: 3,
+                          backgroundColor: Colors.white,
                         ),
-                        elevation: 3,
-                        backgroundColor: Colors.white,
-                      ),
-                      FloatingActionButton(
-                        onPressed: 
-                          loadAssets,
-                        child: Icon(
-                          Icons.photo_library,
-                          size: 35,
-                        ),
-                        elevation: 3,
-                        backgroundColor: Colors.white,
-                      )
+                        FloatingActionButton(
+                          onPressed: loadAssets,
+                          child: Icon(
+                            Icons.photo_library,
+                            size: 35,
+                          ),
+                          elevation: 3,
+                          backgroundColor: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      buildGridView(),
+                      cameraView(),
                     ],
                   ),
-                ),
-                Stack(
-                  children: [
-                    buildGridView(),
-                    cameraView(),
-                  ],
-                ),
-                SizedBox(height: 10),
-                InputTitle(),
-                SizedBox(height: 10),
-                InputLocation(),
-                SizedBox(height: 10),
-                Tags(),
-                SizedBox(height: 10),
-                DatePicker(),
-                SizedBox(height: 10),
-                MoreInfo(),
-                RaisedButton(
-                  elevation: 3,
-                  child: Text('Valider'),
-                  onPressed: () {
-                    if (_fbKey.currentState.saveAndValidate()) {
-                      var data = _fbKey.currentState.value;
-                      // print('data = $data');
-                      souvenirsState.setState((state) => state.addSouvenir(data)); 
-                    }
-                  },
-                )
-              ],
+                  SizedBox(height: 10),
+                  InputTitle(),
+                  SizedBox(height: 10),
+                  InputLocation(),
+                  SizedBox(height: 10),
+                  Tags(),
+                  SizedBox(height: 10),
+                  DatePicker(),
+                  SizedBox(height: 10),
+                  MoreInfo(),
+                  // RaisedButton(
+                  //   elevation: 3,
+                  //   child: Text('Valider'),
+                  //   onPressed: () {
+                  //     if (_fbKey.currentState.saveAndValidate()) {
+                  //       var data = _fbKey.currentState.value;
+                  //       // print('data = $data');
+                  //       souvenirsState
+                  //           .setState((state) => state.addSouvenir(data));
+                  //     }
+                  //   },
+                  // ),
+                  SizedBox(height: 10),
+                  buildTextWithIcon(),
+                  SizedBox(height: 40)
+                ],
+              ),
             ),
           ),
-        ),
-      )
-     );
-    // return Container(height: 0, width: 0,);
+        ));
+  }
+
+  Widget buildTextWithIcon() {
+    return ProgressButton.icon(iconedButtons: {
+      ButtonState.idle: IconedButton(
+          text: "Confirm",
+          icon: Icon(Icons.check, color: Colors.white),
+          color: Colors.orange),
+      ButtonState.loading: IconedButton(text: "Loading", color: Colors.white),
+      ButtonState.fail: IconedButton(
+          text: "Failed",
+          icon: Icon(Icons.cancel, color: Colors.white),
+          color: Colors.red),
+      ButtonState.success: IconedButton(
+          text: "Success",
+          icon: Icon(
+            Icons.check_circle,
+            color: Colors.white,
+          ),
+          color: Colors.green)
+    }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
+  }
+
+  void onPressedIconWithText() {
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            stateTextWithIcon = Random.secure().nextBool()
+                ? ButtonState.success
+                : ButtonState.fail;
+          });
+        });
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(() {
+      stateTextWithIcon = stateTextWithIcon;
+    });
   }
 }
