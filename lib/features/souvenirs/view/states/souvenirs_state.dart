@@ -67,45 +67,71 @@ class SouvenirsState {
     Souvenir newSouvenir = Souvenir.fromForm(data);
 
     registerCategories(data, newSouvenir);
+    print('allCategoriesList.length = ${allCategoriesList.length}');
+    print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
   }
 
   registerCategories(Map data, Souvenir newSouvenir) {
     List<Category> existingCategories = [];
-    List<Category> result;
-
+    List<Category> newCategories = [];
+    List<Category> existingResult = [];
+    List<Category> newResult = [];
     List<dynamic> tagsList = data['tags'];
+
+    // for (var i = 0; i < tagsList.length; i++) {
+    //   allCategoriesList.forEach((category) {
+    //     if (category.name.contains(tagsList[i].name)) {
+    //       existingCategories.insert(0, tagsList[i]);
+    //       print('existing tagsList[i].name = ${tagsList[i].name}');
+    //     } else {
+    //       newCategories.insert(0, tagsList[i]);
+    //       print('new tagsList[i].name = ${tagsList[i].name}');
+    //     }
+    //   });
+    // }
+
+
+
     tagsList.forEach((tag) {
-      result = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
-      if (result.length >= 1) {
-        existingCategories.add(result[0]);
+      existingResult = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
+      if (existingResult.length >= 1) {
+        // existingCategories.add(existingResult[0]);
+        existingCategories.insert(0, existingResult[0]);
       }
     });
 
-    // print('existingCategories = $existingCategories');
-    // print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
-    // print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
+    tagsList.forEach((tag) {
+      newResult = allCategoriesList.where((category) => !(category.name.contains(tag.name))).toList();
+      if (newResult.length >= 1) {
+        newCategories.insert(0, newResult[0]);
+      }
+    });
+
+    // allCategoriesList.forEach((category) {
+    //   print('OK');
+    //   newResult = tagsList.where((tag) => !(tag.name.contains(category.name))).toList();
+    //   print('newResult.length = ${newResult.length}');
+    //   if (newResult.length >= 1) {
+    //     newCategories.add(newResult[0]);
+    //   }
+    // });
 
     if (existingCategories.isNotEmpty) {
       existingCategories.forEach((category) {
-        // print('category.name = ${category.name}');
-        // print('category.souvenirsList.length = ${category.souvenirsList.length}');
-        // print('category.souvenirsList[0].title = ${category.souvenirsList[0].title}');
         category.souvenirsList.insert(0, newSouvenir);
-        // print('category.name = ${category.name}');
-        // print('category.souvenirsList.length = ${category.souvenirsList.length}');
-        // print('category.souvenirsList[0].title = ${category.souvenirsList[0].title}');
+        print('existingCategories[0].name = ${existingCategories[0].name}');
+        print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
+        print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
       });
-    } else {
-      print('allCategoriesList.length = ${allCategoriesList.length}');
-      print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
-      tagsList.forEach((tag) {
-        allCategoriesList.insert(0, tag);
-        // print('allCategoriesList = ${allCategoriesList}');
-    });
-      print('allCategoriesList.length = ${allCategoriesList.length}');
-      print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
+    } else if (newCategories.isNotEmpty) {
+      newCategories.forEach((category) {
+        category.souvenirsList.insert(0, newSouvenir);
+        allCategoriesList.insert(0, category);
+        print('newCategories[0].name = ${newCategories[0].name}');
+        print('newCategories[0].souvenirsList.length = ${newCategories[0].souvenirsList.length}');
+        print('newCategories[0].souvenirsList[0].title = ${newCategories[0].souvenirsList[0].title}');
+      });
     }
-
 
   }
 
