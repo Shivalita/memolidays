@@ -37,7 +37,7 @@ class LoginRemoteSource {
       final dynamic memolidaysUser = await getMemolidaysUser();
       final int memolidaysUserId = memolidaysUser['data'][0]['id'];
 
-      userEntity = entity.User(user.uid, user.displayName, user.email, memolidaysUserId);
+      userEntity = entity.User(user.uid, user.displayName, user.email, user.photoURL.toString(), memolidaysUserId);
       return userEntity;
 
     }

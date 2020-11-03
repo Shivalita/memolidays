@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/login/dependencies.dart';
 
 class MyDrawer extends StatelessWidget {
+  LocalSource localSource = LocalSource();
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -33,16 +35,16 @@ class MyDrawer extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
-                                'https://source.unsplash.com/random/100x100/'),
+                              localSource.getgooglePicture()),
                             fit: BoxFit.fill),
                       ),
                     ),
                     Text(
-                      "Memolidays",
+                      localSource.getgoogleName(),
                       style: TextStyle(fontSize: 22, color: Colors.white),
                     ),
                     Text(
-                      "memolidays@contact.fr",
+                      localSource.getIsPremium() ? "Premium" : "Free",
                       style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
                     ),
                   ],
@@ -53,7 +55,7 @@ class MyDrawer extends StatelessWidget {
             CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
             CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
               loginState.setState((state) => state.signOutGoogle(context));
-            })
+            }),
           ],
         ),
       ),
