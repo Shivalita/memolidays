@@ -44,11 +44,15 @@ class CategoryComponent extends StatelessWidget {
             child: ((souvenirsState.state.selectedCategory != null) && (souvenirsState.state.selectedCategory.id == category.id)) ? 
             Chip(
               labelPadding: EdgeInsets.all(5.0),
-              label: Text(
-                category.name,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600
+              label: SizedBox(
+                width: 80,
+                child: Text(
+                  category.name,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               backgroundColor: Color(0xFFFF9800),
@@ -59,10 +63,14 @@ class CategoryComponent extends StatelessWidget {
             : 
             Chip(
               labelPadding: EdgeInsets.all(5.0),
-              label: Text(
-                category.name,
-                style: TextStyle(
-                  color: Colors.black,
+              label: SizedBox(
+                width: 80,
+                child: Text(
+                  category.name,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               backgroundColor: Color(0xFFd3d3d3),
