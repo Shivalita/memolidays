@@ -4,12 +4,17 @@ import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+
 class SouvenirsState {
 
   List<Category> allCategoriesList;
   Category selectedCategory;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
+  Position lastKnownPosition;
+  Position currentPosition;
 
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
@@ -30,14 +35,23 @@ class SouvenirsState {
   }
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
+    Position position = await getPosition();
+
     if ((selectedCategory != null) && (selectedCategory.id != 0)) {
       souvenirsList = selectedCategory.souvenirsList;
       return souvenirsList;
-    }
-
-    else {
+    } else {
       try {
         List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
+
+        allSouvenirsList.forEach((souvenir) async {
+          String souvenirPlace = await getPlaceFromCoordinates(souvenir);
+          souvenir.place = souvenirPlace;
+          
+          String distance = getDistance(souvenir, position);
+          souvenir.distance = distance;
+          print('souvenir.distance = ${souvenir.distance}');
+        });
         souvenirsList = allSouvenirsList;
       }
 
@@ -50,7 +64,43 @@ class SouvenirsState {
     }
   }
 
-   Future<Category> selectCategory(BuildContext context, Category category) async {
+  Future<Position> getPosition() async {
+    bool isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
+
+    lastKnownPosition = await Geolocator.getLastKnownPosition();
+
+    if (isLocationServiceEnabled) {
+      currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      return currentPosition;
+    } else {
+      return lastKnownPosition;
+    }
+  }
+
+  String getDistance(souvenir, position) {
+    double distanceInMeters = Geolocator.distanceBetween(souvenir.lat, souvenir.lon, position.latitude, position.longitude);
+    int distanceNumber;
+    String distance;
+
+    if (distanceInMeters >= 1000) {
+      distanceNumber = (distanceInMeters/1000).round();
+      distance = distanceNumber.toString() + " km";
+    } else {
+      distanceNumber = (distanceInMeters).round();
+      distance = distanceNumber.toString() + " m"; 
+    }
+    
+    return distance;
+  }
+
+  Future<String> getPlaceFromCoordinates(souvenir) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.lat, souvenir.lon);
+    String souvenirPlace = placemarks[0].locality;
+    // print(placemarks);
+    return souvenirPlace;
+  }
+
+  Future<Category> selectCategory(BuildContext context, Category category) async {
     if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
       selectedCategory = category;
       souvenirsList = await getSouvenirsList(context);

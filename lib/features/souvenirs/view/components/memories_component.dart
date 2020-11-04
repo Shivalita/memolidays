@@ -111,8 +111,8 @@ class MemoriesComponent extends StatelessWidget {
                                           color: Colors.lightBlue, size: 18),
                                       SizedBox(width: 3),
                                       Text(
-                                        // souvenirs[i].distance,
-                                        "62 km",
+                                        souvenirs[i].distance,
+                                        // "62 km",
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
                                             fontSize: 13),

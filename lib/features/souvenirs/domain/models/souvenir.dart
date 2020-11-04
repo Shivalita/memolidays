@@ -17,6 +17,7 @@ class Souvenir {
   String storage;
   String tempLink;
   List<Thumbnail> thumbnails;
+  String distance = "0 km";
 
   Souvenir(
     {this.id,
