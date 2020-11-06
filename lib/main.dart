@@ -4,26 +4,23 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
-import 'package:memolidays/features/login/dependencies.dart';
-import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'features/login/view/pages/login_page.dart';
 
+final LocalSource localSource = LocalSource();
+
 bool checkIfConnected() {
-  final LocalSource localSource = LocalSource();
   bool isConnected = false;
   
-  if (localSource.getGoogleUserId() != null) {
+  if (localSource.getIsConnected() == true) {
     isConnected = true;
   }
 
   return isConnected;
 }
-
 
 void main() async {
   //! Initialize Hive and open storage box for local data
@@ -37,9 +34,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-   @override
+  @override
   Widget build(BuildContext context) {
-    bool isConnected = checkIfConnected();
+  bool isConnected = checkIfConnected();
     return FutureBuilder(
       // Initialize FlutterFire
       future: Firebase.initializeApp(),

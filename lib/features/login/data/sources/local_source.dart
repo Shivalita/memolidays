@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 
 class LocalSource {
@@ -9,10 +10,16 @@ class LocalSource {
     storageBox.put('googleName', googleName);
     storageBox.put('googlePicture', googlePicture);
     storageBox.put('memolidaysId', memolidaysId);
+    storageBox.put('isConnected', true);
   }
 
   void setPremiumStatus(bool isPremium) {
     storageBox.put('isPremium', isPremium);
+  }
+
+  bool getIsConnected() {
+    bool isConnected = storageBox.get('isConnected');
+    return isConnected;
   }
 
   String getGoogleUserId() {

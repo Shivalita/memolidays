@@ -15,7 +15,6 @@ class LoginRepository {
     LocalSource localSource = LocalSource();
     localSource.storeUserData(user.googleId, user.googleName, user.googlePicture, user.memolidaysId);
     localSource.setPremiumStatus(user.isPremium);
-    print('isPremium = ${user.isPremium}');
     return user;
   }
 

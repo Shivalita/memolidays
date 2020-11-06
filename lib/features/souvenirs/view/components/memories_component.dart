@@ -9,10 +9,12 @@ import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
   List<Souvenir> souvenirs;
+  bool isLocationServiceEnabled;
 
   @override
   Widget build(BuildContext context) {
     souvenirs = souvenirsState.state.souvenirsList;
+    isLocationServiceEnabled = souvenirsState.state.isLocalizationEnabled;
 
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -105,20 +107,19 @@ class MemoriesComponent extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Row(
+                                  isLocationServiceEnabled ? Row(
                                     children: [
                                       FaIcon(FontAwesomeIcons.carSide,
                                           color: Colors.lightBlue, size: 18),
                                       SizedBox(width: 3),
                                       Text(
                                         souvenirs[i].distance,
-                                        // "62 km",
                                         style: TextStyle(
                                             fontStyle: FontStyle.italic,
                                             fontSize: 13),
                                       )
                                     ],
-                                  ),
+                                  ) : Container(),
                                 ],
                               )
                             ],

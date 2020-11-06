@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memolidays/features/login/dependencies.dart';
 import 'package:memolidays/features/map/view/pages/map_page2.dart';
 import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/list_souvenirs_page.dart';

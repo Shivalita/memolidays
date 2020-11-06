@@ -10,7 +10,7 @@ class LoginPage extends StatelessWidget {
     final String googleLogo = 'assets/images/google.svg';
     return Scaffold(
       body: loginState.whenRebuilder(
-        initState: () => loginState.setState((state) => state.checkConnectivity(context)),
+        initState: () => loginState.setState((state) => state.init(context)),
         onIdle: () => Center(
           child: CircularProgressIndicator(strokeWidth: 2)
         ),
