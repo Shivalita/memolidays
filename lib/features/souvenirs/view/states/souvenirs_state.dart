@@ -6,6 +6,7 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:memolidays/core/states/dependencies.dart';
 
 class SouvenirsState {
 
@@ -13,8 +14,8 @@ class SouvenirsState {
   Category selectedCategory;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
-  Position lastKnownPosition;
-  Position currentPosition;
+  bool isLocalizationEnabled;
+  Position position;
 
   Future<void> init(BuildContext context) async {
     allCategoriesList = await getCategoriesList(context);
@@ -35,23 +36,32 @@ class SouvenirsState {
   }
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
-    Position position = await getPosition();
-
     if ((selectedCategory != null) && (selectedCategory.id != 0)) {
       souvenirsList = selectedCategory.souvenirsList;
       return souvenirsList;
     } else {
       try {
+        await localizationState.setState((state) => state.checkPosition());
+
+        if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
+          isLocalizationEnabled = true;
+          position = localizationState.state.currentPosition;
+        } else {
+          isLocalizationEnabled = false;
+        }
+
         List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
 
         allSouvenirsList.forEach((souvenir) async {
           String souvenirPlace = await getPlaceFromCoordinates(souvenir);
           souvenir.place = souvenirPlace;
           
-          String distance = getDistance(souvenir, position);
-          souvenir.distance = distance;
-          print('souvenir.distance = ${souvenir.distance}');
+          if (isLocalizationEnabled) {
+            String distance = getDistance(souvenir, position);
+            souvenir.distance = distance;
+          }
         });
+
         souvenirsList = allSouvenirsList;
       }
 
@@ -64,19 +74,6 @@ class SouvenirsState {
     }
   }
 
-  Future<Position> getPosition() async {
-    bool isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
-
-    lastKnownPosition = await Geolocator.getLastKnownPosition();
-
-    if (isLocationServiceEnabled) {
-      currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      return currentPosition;
-    } else {
-      return lastKnownPosition;
-    }
-  }
-
   String getDistance(souvenir, position) {
     double distanceInMeters = Geolocator.distanceBetween(souvenir.lat, souvenir.lon, position.latitude, position.longitude);
     int distanceNumber;
@@ -84,12 +81,12 @@ class SouvenirsState {
 
     if (distanceInMeters >= 1000) {
       distanceNumber = (distanceInMeters/1000).round();
-      distance = distanceNumber.toString() + " km";
+      distance = distanceNumber.toString() + " Km";
     } else {
       distanceNumber = (distanceInMeters).round();
       distance = distanceNumber.toString() + " m"; 
     }
-    
+
     return distance;
   }
 
