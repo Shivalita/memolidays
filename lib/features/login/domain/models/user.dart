@@ -1,18 +1,20 @@
 class User {
 
+  int id;
   String googleId;
-  String googleName;
+  String name;
   String mail;
-  String googlePicture;
-  int memolidaysId;
+  String avatar;
+  DateTime createdAt;
   bool isPremium = false;
 
-  User(String googleId, String googleName, String mail, String googlePicture, int memolidaysId) {
+  User(int id, String googleId, String name, String mail, String avatar, DateTime createdAt) {
+    this.id = id;
     this.googleId = googleId;
-    this.googleName = googleName;
+    this.name = name;
     this.mail = mail;
-    this.googlePicture = googlePicture;
-    this.memolidaysId = memolidaysId;
+    this.avatar = avatar;
+    this.createdAt = createdAt;
   }
 
 }

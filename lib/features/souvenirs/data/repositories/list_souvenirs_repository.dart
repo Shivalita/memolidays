@@ -13,8 +13,8 @@ class ListSouvenirsRepository {
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
   int getUserId() {
-    final int memolidaysId = localSource.getMemolidaysUserId();
-    return memolidaysId;
+    final int id = localSource.getUserId();
+    return id;
   }
 
   Future<List<Category>> getCategoriesList() async {

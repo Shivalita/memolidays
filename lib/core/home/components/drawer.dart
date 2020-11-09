@@ -35,12 +35,12 @@ class MyDrawer extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
-                              localSource.getgooglePicture()),
+                              localSource.getAvatar()),
                             fit: BoxFit.fill),
                       ),
                     ),
                     Text(
-                      localSource.getgoogleName(),
+                      localSource.getName(),
                       style: TextStyle(fontSize: 22, color: Colors.white),
                     ),
                     Text(

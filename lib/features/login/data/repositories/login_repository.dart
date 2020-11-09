@@ -13,7 +13,7 @@ class LoginRepository {
   Future<User> signInWithGoogle() async {
     User user = await loginRemoteSource.signInWithGoogle();
     LocalSource localSource = LocalSource();
-    localSource.storeUserData(user.googleId, user.googleName, user.googlePicture, user.memolidaysId);
+    localSource.storeUserData(user.id, user.googleId, user.name, user.mail, user.avatar, user.createdAt);
     localSource.setPremiumStatus(user.isPremium);
     return user;
   }
