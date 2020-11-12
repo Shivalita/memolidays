@@ -45,7 +45,7 @@ class LoginState {
         if (user != null) {
           isConnected = true;
           print('User connected');
-          return Get.to(MyHomePage());
+          // return Get.to(MyHomePage());
         }
       }
 

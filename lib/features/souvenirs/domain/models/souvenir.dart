@@ -3,79 +3,83 @@ import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
 class Souvenir {
 
   int id;
-  int owner;
+  int userId;
   String title;
   String cover;
-  String date;
+  String eventDate;
   String email;
   String phone;
   String comment;
+  String address;
+  double latitude;
+  double longitude;
   String place;
-  double lat;
-  double lon;
-  String token;
-  String storage;
-  String tempLink;
-  List<Thumbnail> thumbnails;
-  String distance = "0 km";
+  DateTime createdAt;
+  // String storage;
+  // String tempLink;
+  //! List<Thumbnail> thumbnails;
+  // String distance = "0 km";
 
-  Souvenir(
-    {this.id,
-    this.owner,
+  Souvenir({
+    this.id,
+    this.userId,
     this.title,
     this.cover,
-    this.date,
+    this.eventDate,
     this.email,
     this.phone,
     this.comment,
+    this.address,
+    this.latitude,
+    this.longitude,
     this.place,
-    this.lat,
-    this.lon,
-    this.token,
-    this.storage,
-    this.tempLink,
-    this.thumbnails}
-  );
+    this.createdAt
+    // this.storage,
+    // this.tempLink,
+  });
 
   //! Souvenir constructor from map
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    owner = json['owner'];
+    userId = json['user_id'];
     title = json['title'];
     cover = json['cover'];
-    date = json['date'];
+    eventDate = json['event_date'];
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];
+    address = json['address'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     place = json['place'];
-    lat = json['lat'];
-    lon = json['lon'];
-    token = json['token'];
-    storage = json['storage'];
-    tempLink = json['temp_link'];
+    createdAt = json['created_at'];
 
-    if (json['thumbnails'] != null) {
-      thumbnails = List<Thumbnail>();
-      json['thumbnails'].forEach((element) {
-        thumbnails.add(Thumbnail.fromJson(element));
-      });
-    }
+    // storage = json['storage'];
+    // tempLink = json['temp_link'];
+
+    //! if (json['thumbnails'] != null) {
+    //!   thumbnails = List<Thumbnail>();
+    //!   json['thumbnails'].forEach((element) {
+    //!     thumbnails.add(Thumbnail.fromJson(element));
+    //!   });
+    //! }
 
   }
 
   Souvenir.fromForm(Map<String, dynamic> map) {
     // id = map['id'];
-    // owner = map['owner'];
+    userId = map['user_id'];
     title = map['title'];
     // cover = map['cover'];
-    date = map['date'];
+    eventDate = map['event_date'];
     email = map['email'];
     phone = map['phone'];
     comment = map['comment'];
-    place = map['location'];
-    // lat = map['lat'];
-    // lon = map['lon'];
-    // token = map['token'];
+    address = map['address'];
+    createdAt = map['created_at'];
+    // place = map['place'];
+    // latitude = map['latitude'];
+    // longitude = map['longitude'];
     // storage = map['storage'];
     // tempLink = map['temp_link'];
 

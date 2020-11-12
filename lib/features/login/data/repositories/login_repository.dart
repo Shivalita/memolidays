@@ -5,6 +5,7 @@ import 'package:memolidays/features/login/data/sources/login_remote_source.dart'
 class LoginRepository {
 
   final LoginRemoteSource loginRemoteSource = LoginRemoteSource();
+  final  LocalSource localSource = LocalSource();
 
   LoginRepository._();
   static LoginRepository _cache;
@@ -12,8 +13,7 @@ class LoginRepository {
 
   Future<User> signInWithGoogle() async {
     User user = await loginRemoteSource.signInWithGoogle();
-    LocalSource localSource = LocalSource();
-    localSource.storeUserData(user.id, user.googleId, user.name, user.mail, user.avatar, user.createdAt);
+    localSource.storeUserData(user.id, user.googleId, user.name, user.email, user.avatar);
     localSource.setPremiumStatus(user.isPremium);
     return user;
   }

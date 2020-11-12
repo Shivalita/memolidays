@@ -10,8 +10,8 @@ class GetAllSouvenirs {
     List<List<Souvenir>> allSouvenirsList = [];
 
     allCategoriesList.forEach((category) {
-      List<Souvenir> categorySouvenirs = category.souvenirsList;
-      allSouvenirsList.add(categorySouvenirs);
+      // List<Souvenir> categorySouvenirs = category.souvenirsList;
+      // allSouvenirsList.add(categorySouvenirs);
     });
 
     List<Souvenir> souvenirsList = allSouvenirsList.expand((element) => element).toList();

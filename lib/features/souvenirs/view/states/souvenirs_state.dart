@@ -37,7 +37,7 @@ class SouvenirsState {
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
     if ((selectedCategory != null) && (selectedCategory.id != 0)) {
-      souvenirsList = selectedCategory.souvenirsList;
+      // souvenirsList = selectedCategory.souvenirsList;
       return souvenirsList;
     } else {
       try {
@@ -58,7 +58,7 @@ class SouvenirsState {
           
           if (isLocalizationEnabled) {
             String distance = getDistance(souvenir, position);
-            souvenir.distance = distance;
+            // souvenir.distance = distance;
           }
         });
 
@@ -163,22 +163,22 @@ class SouvenirsState {
     //   }
     // });
 
-    if (existingCategories.isNotEmpty) {
-      existingCategories.forEach((category) {
-        category.souvenirsList.insert(0, newSouvenir);
-        print('existingCategories[0].name = ${existingCategories[0].name}');
-        print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
-        print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
-      });
-    } else if (newCategories.isNotEmpty) {
-      newCategories.forEach((category) {
-        category.souvenirsList.insert(0, newSouvenir);
-        allCategoriesList.insert(0, category);
-        print('newCategories[0].name = ${newCategories[0].name}');
-        print('newCategories[0].souvenirsList.length = ${newCategories[0].souvenirsList.length}');
-        print('newCategories[0].souvenirsList[0].title = ${newCategories[0].souvenirsList[0].title}');
-      });
-    }
+    // if (existingCategories.isNotEmpty) {
+    //   existingCategories.forEach((category) {
+    //     category.souvenirsList.insert(0, newSouvenir);
+    //     print('existingCategories[0].name = ${existingCategories[0].name}');
+    //     print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
+    //     print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
+    //   });
+    // } else if (newCategories.isNotEmpty) {
+    //   newCategories.forEach((category) {
+    //     category.souvenirsList.insert(0, newSouvenir);
+    //     allCategoriesList.insert(0, category);
+    //     print('newCategories[0].name = ${newCategories[0].name}');
+    //     print('newCategories[0].souvenirsList.length = ${newCategories[0].souvenirsList.length}');
+    //     print('newCategories[0].souvenirsList[0].title = ${newCategories[0].souvenirsList[0].title}');
+    //   });
+    // }
 
   }
 

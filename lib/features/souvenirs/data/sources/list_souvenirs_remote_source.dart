@@ -39,9 +39,9 @@ class ListSouvenirsRemoteSource {
     List<Souvenir> categorySouvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
     categorySouvenirsList.forEach((souvenir) {
-      List<Thumbnail> thumbnailsList = souvenir.thumbnails;
-      Thumbnail coverThumbnail = Thumbnail.fromCover(souvenir.tempLink);
-      thumbnailsList.insert(0, coverThumbnail);
+      // List<Thumbnail> thumbnailsList = souvenir.thumbnails;
+      // Thumbnail coverThumbnail = Thumbnail.fromCover(souvenir.tempLink);
+      // thumbnailsList.insert(0, coverThumbnail);
     });
 
     return categorySouvenirsList;

@@ -40,13 +40,14 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   @override
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
-    List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+    // List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
       body: PageView.builder(
           controller: pageController,
           pageSnapping: true,
-          itemCount: thumbnails.length,
+          itemCount: 2, //!
+          // itemCount: thumbnails.length,
           itemBuilder: (context, int index) {
             return Scaffold(
               backgroundColor: Colors.black,
@@ -209,13 +210,13 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               ),
               body: Container(
                 child: Center(
-                  child : CachedNetworkImage(
-                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
-                    progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    fit: BoxFit.cover,
-                  )
+                  // child : CachedNetworkImage(
+                  //   imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
+                  //   progressIndicatorBuilder: (context, url, downloadProgress) => 
+                  //     Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
+                  //   errorWidget: (context, url, error) => Icon(Icons.error),
+                  //   fit: BoxFit.cover,
+                  // )
 
                 ),
               ),

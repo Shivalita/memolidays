@@ -52,7 +52,7 @@ class MemoriesComponent extends StatelessWidget {
                               width: 125,
                               height: 125,
                               child: CachedNetworkImage(
-                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 250),
+                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].cover, 250),
                                 progressIndicatorBuilder: (context, url, downloadProgress) => 
                                   Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
@@ -67,12 +67,12 @@ class MemoriesComponent extends StatelessWidget {
                             ),
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.all(5),
-                            child: Row(
-                              children: [
-                                Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
-                                SizedBox(width: 3,),
-                                Icon(Icons.photo_library, color: Colors.white, size: 17,)
-                              ],)
+                            // child: Row(
+                            //   children: [
+                            //     Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
+                            //     SizedBox(width: 3,),
+                            //     Icon(Icons.photo_library, color: Colors.white, size: 17,)
+                            //   ],)
                           )
                         ],
                       ),
@@ -112,12 +112,12 @@ class MemoriesComponent extends StatelessWidget {
                                       FaIcon(FontAwesomeIcons.carSide,
                                           color: Colors.lightBlue, size: 18),
                                       SizedBox(width: 3),
-                                      Text(
-                                        souvenirs[i].distance,
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 13),
-                                      )
+                                      // Text(
+                                      //   souvenirs[i].distance,
+                                      //   style: TextStyle(
+                                      //       fontStyle: FontStyle.italic,
+                                      //       fontSize: 13),
+                                      // )
                                     ],
                                   ) : Container(),
                                 ],

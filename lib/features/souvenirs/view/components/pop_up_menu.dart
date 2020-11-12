@@ -189,7 +189,7 @@ class PopUpOptionMenu extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              souvenir.date,
+                              souvenir.eventDate,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontStyle: FontStyle.italic,

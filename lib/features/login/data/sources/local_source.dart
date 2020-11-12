@@ -4,13 +4,12 @@ class LocalSource {
 
   var storageBox = Hive.box('storageBox');
 
-  void storeUserData(int id, String googleId, String name, String mail, String avatar, DateTime createdAt) {
+  void storeUserData(int id, String googleId, String name, String mail, String avatar) {
     storageBox.put('id', id);
     storageBox.put('googleId', googleId);
     storageBox.put('name', name);
     storageBox.put('mail', mail);
     storageBox.put('avatar', avatar);
-    storageBox.put('createdAt', createdAt);
     storageBox.put('isConnected', true);
   }
 
@@ -46,11 +45,6 @@ class LocalSource {
   String getAvatar() {
     String avatar = storageBox.get('avatar');
     return avatar;
-  }
-
-  String getCreatedAt() {
-    String createdAt = storageBox.get('createdAt');
-    return createdAt;
   }
 
   bool getIsPremium() {
