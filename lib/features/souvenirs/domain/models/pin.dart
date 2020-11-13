@@ -11,10 +11,10 @@ class Pin {
   }
 
   //! Pin constructor from map
-  Pin.fromJson(Map<String, dynamic> data) : this(
-    id : data['id'], 
-    icon : data['icon'], 
-    color : data['color'], 
-  );
+  Pin.fromJson(Map<String, dynamic> data) {
+    id = data['id']; 
+    icon = data['icon']; 
+    color = data['color']; 
+  }
 
 }

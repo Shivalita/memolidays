@@ -52,7 +52,7 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
-            CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
+            CustomListTile(Icons.settings, Colors.orange , 'Settings', () {}),
             CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
               loginState.setState((state) => state.signOutGoogle(context));
             }),

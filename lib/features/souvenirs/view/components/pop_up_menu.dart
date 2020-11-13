@@ -108,7 +108,7 @@ class PopUpOptionMenu extends StatelessWidget {
                           ),
                           RaisedButton(
                             child: Text("Yes"),
-                            color: Colors.green,
+                            color: Colors.orange,
                             onPressed: () {
                               //Delete This Image
                             },

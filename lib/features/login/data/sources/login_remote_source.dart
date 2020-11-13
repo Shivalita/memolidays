@@ -12,14 +12,15 @@ class LoginRemoteSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn ();
 
-  entity.User userEntity;
-
   LoginRemoteSource._();
   static LoginRemoteSource _cache;
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
+  entity.User userEntity;
+  int userId;
+  Map<String, dynamic> userData;
+
   Future<entity.User> signInWithGoogle() async {
-    
     try {
 
       final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -37,23 +38,10 @@ class LoginRemoteSource {
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
 
-      //!
-      int userId;
-      dynamic isConnected = localSource.getIsConnected();
-      print('isConnected = $isConnected');
-      if (isConnected == null) {
-        Map<String, dynamic> userData = await createUser(user);
-        print('userData = $userData');
-        userId = userData['id'];
-        print('userId = $userId');
-      }
-
-      // final dynamic memolidaysUser = await getMemolidaysUser();
-      // final int memolidaysUserId = memolidaysUser['data'][0]['id'];
-
-      userEntity = entity.User(userId, user.uid, user.displayName, user.email, user.photoURL.toString());
+      userData = await createUser(user);
+      print('userData POST = $userData');  
+      entity.User userEntity = entity.User.fromJson(userData);
       print('userEntity.id = ${userEntity.id}');
-      print('userEntity.name = ${userEntity.name}');
       return userEntity;
     }
 
@@ -77,19 +65,17 @@ class LoginRemoteSource {
     });
 
     Map<String,String> headers = {
-      'Content-type' : 'application/json', 
+      'Content-type' : 'application/json; charset=UTF-8', 
       'Accept': 'application/json',
     };
 
     final response = await http.post(url, body: data, headers: headers);
-    
+    print('POST statusCode = ${response.statusCode}');
+    if (response.statusCode != 201) throw Exception;
+
     final Map<String, dynamic> responseJson = json.decode(response.body);
-    print('responseJson = $responseJson');
+    print('responseJson POST = $responseJson');
     return responseJson;
-  }
-
-  Future<dynamic> getUser() {
-
   }
 
   Future<String> signOutGoogle() async {
@@ -97,30 +83,18 @@ class LoginRemoteSource {
     return 'User disconnected';
   }
 
-  // Future<dynamic> getMemolidaysUser() async {
-  //   final String api = "http://94.23.11.60:8081/memoservices/api/v2/";
-  //   final String link = '${api}user/find';
-    
-  //   final dynamic request = await http.post(
-  //     link,
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       // "email": "00708valentin@gmail.com",
-  //       // "user": "899",
+  Future<entity.User> getUser(userId) async {
+    String url = "http://192.168.1.110:8000/api/users/$userId";
 
-  //       "email": "avon.antonin@gmail.com",
-  //       "user": "906",
+    final response = await http.get(url);
+    print('GET statusCode = ${response.statusCode}');
+    if (response.statusCode != 200) throw Exception;
 
-  //     }),
-  //   ); 
+    final Map<String, dynamic> responseJson = json.decode(response.body);
+    print('responseJson GET = $responseJson');
+    entity.User userEntity = entity.User.fromJson(responseJson);
+    print('userEntity id GET = ${userEntity.id}');   
+    return userEntity;
+  }
 
-  //   if (request.statusCode != 200) throw Exception;
-
-  //   final Map<String, dynamic> userData = jsonDecode(request.body);
-
-  //   return userData;
-  // }
-  
 }

@@ -23,4 +23,9 @@ class LoginRepository {
     return disconnectionMessage;
   }
 
+  Future<User> getUser(userId) async {
+    User user = await loginRemoteSource.getUser(userId);
+    return user;
+  }
+
 }

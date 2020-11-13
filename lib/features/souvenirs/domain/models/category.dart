@@ -15,20 +15,20 @@ class Category {
   }
 
   //! Category constructor from map
-  Category.fromJson(Map<String, dynamic> data) : this(
-    id : data['id'], 
-    userId : data['user_id'], 
-    pinId : data['pin_id'], 
-    name : data['name']
-  );
+  Category.fromJson(Map<String, dynamic> data) {
+    id = data['id']; 
+    userId = data['userId']; 
+    pinId = data['pinId']; 
+    name = data['name'];
+  }
 
   Category.fromForm(Map<String, dynamic> data) {
     id = data['id']; 
-    userId = data['user_id'];
+    userId = data['userId'];
     name = data['name'];
     // souvenirsList = data['souvenirs']
-    if (data['pin_id'] != null) {
-      pinId = data['pin_id'];
+    if (data['pinId'] != null) {
+      pinId = data['pinId'];
     }
 
   }

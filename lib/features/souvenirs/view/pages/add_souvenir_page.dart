@@ -218,7 +218,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
             Icons.check_circle,
             color: Colors.white,
           ),
-          color: Colors.green)
+          color: Colors.orange)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
   }
 

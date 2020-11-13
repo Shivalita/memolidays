@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
   List<Souvenir> souvenirs;
+  bool isAnySouvenir;
   bool isLocationServiceEnabled;
 
   @override
@@ -16,7 +18,15 @@ class MemoriesComponent extends StatelessWidget {
     souvenirs = souvenirsState.state.souvenirsList;
     isLocationServiceEnabled = souvenirsState.state.isLocalizationEnabled;
 
-    return Container(
+    if (souvenirs == null) {
+      isAnySouvenir = false;
+      print('isAnySouvenir = $isAnySouvenir');
+    } else {
+      isAnySouvenir = true;
+      print('isAnySouvenir = $isAnySouvenir');
+    }
+
+    return isAnySouvenir ? Container(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
             shrinkWrap: true,
@@ -130,6 +140,86 @@ class MemoriesComponent extends StatelessWidget {
                   ),
                 ),
               );
-            }));
+            })
+          
+          //! No souvenir yet display
+          ) : Container(
+            // width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Text(
+                //   "Welcome to Memolidays",
+                //   style: TextStyle(
+                //     color: Colors.orange,
+                //     fontSize: 22,
+                //     fontStyle: FontStyle.normal,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
+                 Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: Text(
+                    "Welcome to Memolidays",
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 130),
+                  child: Text(
+                    "Create your first souvenir",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: new Color.fromRGBO(0, 0, 0, 0.5)
+                  ),
+                  padding: EdgeInsets.all(1),
+                  // margin: EdgeInsets.all(1),
+                  margin: EdgeInsets.only(top: 50),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(AddSouvenirsPage());
+                    },
+                  child: Container(
+                    height: 125,
+                    width: 125,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.orange,
+                      // color: new Color.fromRGBO(0, 0, 0, 0.1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0, 3),
+                          blurRadius: 5.0,
+                        ),
+                      ]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.add_a_photo)
+                      ],
+                    )
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 }

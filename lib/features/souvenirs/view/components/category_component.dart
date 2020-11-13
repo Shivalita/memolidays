@@ -4,22 +4,33 @@ import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
 // ignore: must_be_immutable
 class CategoryComponent extends StatelessWidget {
+  bool isAnyCategory;
+  List<Category> categoriesList = souvenirsState.state.allCategoriesList;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    if (categoriesList == null) {
+      isAnyCategory = false;
+      print('isAnyCategory = $isAnyCategory');
+    } else {
+      isAnyCategory = true;
+      print('isAnyCategory = $isAnyCategory');
+    }
+
+    return isAnyCategory ? Container(
       child: Column(children: <Widget>[
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: rowChips(context),
+          child: rowChips(context, categoriesList),
         )
       ]),
-    );
+    ) : Container();
   }
 
-  Widget rowChips(BuildContext context) {
-    List<Category> categoriesList = souvenirsState.state.allCategoriesList;
+  Widget rowChips(BuildContext context, List<Category> categoriesList) {
+    List<Widget> widgetsList;
     Category allCategories = Category(id: 0, name: 'All');
-    List<Widget> widgetsList = [chipForRow(context, allCategories)];
+    widgetsList = [chipForRow(context, allCategories)];
 
     if (souvenirsState.state.selectedCategory == null) {
       souvenirsState.setState((state) => state.selectCategory(context, allCategories)); 

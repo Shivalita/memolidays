@@ -7,6 +7,7 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:memolidays/core/states/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_user.dart';
 
 class SouvenirsState {
 
@@ -18,76 +19,77 @@ class SouvenirsState {
   Position position;
 
   Future<void> init(BuildContext context) async {
-    allCategoriesList = await getCategoriesList(context);
-    souvenirsList = await getSouvenirsList(context);
+    await GetUser()();
+    // allCategoriesList = await getCategoriesList(context);
+    // souvenirsList = await getSouvenirsList(context);
   }
 
   Future<List<Category>> getCategoriesList(BuildContext context) async {
-    try {
-      allCategoriesList = await GetAllCategories()();
-    }
+    // try {
+    //   allCategoriesList = await GetAllCategories()();
+    // }
 
-    on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
-      errorSnackbar.displayErrorSnackbar();
-    }
+    // on Exception {
+    //   final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+    //   errorSnackbar.displayErrorSnackbar();
+    // }
     
     return allCategoriesList;
   }
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
-    if ((selectedCategory != null) && (selectedCategory.id != 0)) {
+    // if ((selectedCategory != null) && (selectedCategory.id != 0)) {
       // souvenirsList = selectedCategory.souvenirsList;
       return souvenirsList;
-    } else {
-      try {
-        await localizationState.setState((state) => state.checkPosition());
+    // } else {
+  //     try {
+  //       await localizationState.setState((state) => state.checkPosition());
 
-        if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
-          isLocalizationEnabled = true;
-          position = localizationState.state.currentPosition;
-        } else {
-          isLocalizationEnabled = false;
-        }
+  //       if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
+  //         isLocalizationEnabled = true;
+  //         position = localizationState.state.currentPosition;
+  //       } else {
+  //         isLocalizationEnabled = false;
+  //       }
 
-        List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
+  //       List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
 
-        allSouvenirsList.forEach((souvenir) async {
-          String souvenirPlace = await getPlaceFromCoordinates(souvenir);
-          souvenir.place = souvenirPlace;
+  //       allSouvenirsList.forEach((souvenir) async {
+  //         String souvenirPlace = await getPlaceFromCoordinates(souvenir);
+  //         souvenir.place = souvenirPlace;
           
-          if (isLocalizationEnabled) {
-            String distance = getDistance(souvenir, position);
-            // souvenir.distance = distance;
-          }
-        });
+  //         if (isLocalizationEnabled) {
+  //           String distance = getDistance(souvenir, position);
+  //           // souvenir.distance = distance;
+  //         }
+  //       });
 
-        souvenirsList = allSouvenirsList;
-      }
+  //       souvenirsList = allSouvenirsList;
+  //     }
 
-      on Exception {
-        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
-        errorSnackbar.displayErrorSnackbar();
-      }
+  //     on Exception {
+  //       final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+  //       errorSnackbar.displayErrorSnackbar();
+  //     }
 
-      return souvenirsList;
-    }
-  }
+  //     return souvenirsList;
+  //   }
+  // }
 
-  String getDistance(souvenir, position) {
-    double distanceInMeters = Geolocator.distanceBetween(souvenir.lat, souvenir.lon, position.latitude, position.longitude);
-    int distanceNumber;
-    String distance;
+  // String getDistance(souvenir, position) {
+  //   double distanceInMeters = Geolocator.distanceBetween(souvenir.lat, souvenir.lon, position.latitude, position.longitude);
+  //   int distanceNumber;
+  //   String distance;
 
-    if (distanceInMeters >= 1000) {
-      distanceNumber = (distanceInMeters/1000).round();
-      distance = distanceNumber.toString() + " Km";
-    } else {
-      distanceNumber = (distanceInMeters).round();
-      distance = distanceNumber.toString() + " m"; 
-    }
+  //   if (distanceInMeters >= 1000) {
+  //     distanceNumber = (distanceInMeters/1000).round();
+  //     distance = distanceNumber.toString() + " Km";
+  //   } else {
+  //     distanceNumber = (distanceInMeters).round();
+  //     distance = distanceNumber.toString() + " m"; 
+  //   }
 
-    return distance;
+    // return distance;
   }
 
   Future<String> getPlaceFromCoordinates(souvenir) async {

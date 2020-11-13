@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 

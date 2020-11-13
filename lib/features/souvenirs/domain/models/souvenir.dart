@@ -1,5 +1,3 @@
-import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
-
 class Souvenir {
 
   int id;
@@ -41,10 +39,10 @@ class Souvenir {
   //! Souvenir constructor from map
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId = json['user_id'];
+    userId = json['userId'];
     title = json['title'];
     cover = json['cover'];
-    eventDate = json['event_date'];
+    eventDate = json['eventDate'];
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];
@@ -52,7 +50,7 @@ class Souvenir {
     latitude = json['latitude'];
     longitude = json['longitude'];
     place = json['place'];
-    createdAt = json['created_at'];
+    createdAt = json['createdAt'];
 
     // storage = json['storage'];
     // tempLink = json['temp_link'];
@@ -68,15 +66,15 @@ class Souvenir {
 
   Souvenir.fromForm(Map<String, dynamic> map) {
     // id = map['id'];
-    userId = map['user_id'];
+    userId = map['userId'];
     title = map['title'];
     // cover = map['cover'];
-    eventDate = map['event_date'];
+    eventDate = map['eventDate'];
     email = map['email'];
     phone = map['phone'];
     comment = map['comment'];
     address = map['address'];
-    createdAt = map['created_at'];
+    createdAt = map['createdAt'];
     // place = map['place'];
     // latitude = map['latitude'];
     // longitude = map['longitude'];

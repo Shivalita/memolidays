@@ -17,7 +17,7 @@ class File {
   //! File constructor from map
   File.fromJson(Map<String, dynamic> data) : this(
     id : data['id'], 
-    souvenirId : data['souvenir_id'],
+    souvenirId : data['souvenirId'],
     path : data['path'],
     type : data['type'],
     token : data['token'],

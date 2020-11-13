@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 
 class DetailsPhoto extends StatefulWidget {
   final int index;
@@ -192,7 +192,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         ),
                                         RaisedButton(
                                           child: Text("Yes"),
-                                          color: Colors.green,
+                                          color: Colors.orange,
                                           onPressed: () {
                                             //Delete This Image
                                           },
