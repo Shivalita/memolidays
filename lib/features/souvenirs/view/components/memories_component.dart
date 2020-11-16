@@ -20,10 +20,10 @@ class MemoriesComponent extends StatelessWidget {
 
     if (souvenirs == null) {
       isAnySouvenir = false;
-      print('isAnySouvenir = $isAnySouvenir');
+      // print('isAnySouvenir = $isAnySouvenir');
     } else {
       isAnySouvenir = true;
-      print('isAnySouvenir = $isAnySouvenir');
+      // print('isAnySouvenir = $isAnySouvenir');
     }
 
     return isAnySouvenir ? Container(

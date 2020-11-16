@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
@@ -17,11 +18,18 @@ class SouvenirsState {
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
+  final LocalSource localSource = LocalSource();
+
 
   Future<void> init(BuildContext context) async {
-    await GetUser()();
+    print('is connected = ${localSource.getIsConnected()}');
+    if (localSource.getIsConnected() != true) {
+      await GetUser()();
+    }
     // allCategoriesList = await getCategoriesList(context);
-    souvenirsList = await getSouvenirsList(context);
+    if (souvenirsList == null) {
+      souvenirsList = await getSouvenirsList(context);
+    }
   }
 
   // Future<List<Category>> getCategoriesList(BuildContext context) async {

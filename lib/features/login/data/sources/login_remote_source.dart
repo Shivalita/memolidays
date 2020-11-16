@@ -94,7 +94,7 @@ class LoginRemoteSource {
     if (response.statusCode != 200) throw Exception;
 
     final Map<String, dynamic> data = json.decode(response.body);
-    // print('data GET = $data');
+    print('USER GET = $data');
     entity.User userEntity = entity.User.fromJson(data);
     // print('userEntity id GET = ${userEntity.id}');   
     return userEntity;

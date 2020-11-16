@@ -62,14 +62,14 @@ class SouvenirHeader extends StatelessWidget {
               padding: EdgeInsets.all(5),
               child: Row(
                 children: [
-                  // Text(
-                  //   souvenir.thumbnails.length.toString(),
-                  //   style: TextStyle(
-                  //   color: Colors.white,
-                  //   fontWeight: FontWeight.w600,
-                  //   fontSize: 20
-                  //   )
-                  // ),
+                  Text(
+                    souvenir.thumbnails.length.toString(),
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20
+                    )
+                  ),
                   SizedBox(width: 5),
                   Icon(Icons.photo_library, color: Colors.white, size: 25)
                 ],

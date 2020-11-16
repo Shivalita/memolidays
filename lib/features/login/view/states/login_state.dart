@@ -2,6 +2,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 import 'package:memolidays/features/login/domain/usecases/login.dart';
 import 'package:memolidays/features/login/domain/usecases/logout.dart';
@@ -13,7 +14,7 @@ class LoginState {
 
   bool hasConnectivity;
   bool isConnected;
-
+  final LocalSource localSource = LocalSource();
 
   init(BuildContext context) async {
     await checkConnectivity(context);
@@ -44,8 +45,9 @@ class LoginState {
 
         if (user != null) {
           isConnected = true;
+          localSource.setIsConnected();
           print('User connected');
-          // return Get.to(MyHomePage());
+          return Get.to(MyHomePage());
         }
       }
 

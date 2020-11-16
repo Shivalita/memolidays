@@ -46,7 +46,7 @@ class Souvenir {
     userId = json['userId'];
     title = json['title'];
     cover = json['cover'];
-    eventDate = json['eventDate'];
+    eventDate = json['eventDate'].substring(0, 10);
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];

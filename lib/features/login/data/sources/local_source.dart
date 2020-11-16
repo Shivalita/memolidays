@@ -10,11 +10,15 @@ class LocalSource {
     storageBox.put('name', name);
     storageBox.put('mail', mail);
     storageBox.put('avatar', avatar);
-    storageBox.put('isConnected', true);
+    // storageBox.put('isConnected', true);
   }
 
   void setPremiumStatus(bool isPremium) {
     storageBox.put('isPremium', isPremium);
+  }
+
+  void setIsConnected() {
+    storageBox.put('isConnected', true);
   }
 
   bool getIsConnected() {
