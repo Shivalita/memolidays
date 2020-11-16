@@ -33,7 +33,7 @@ class CategoryComponent extends StatelessWidget {
     widgetsList = [chipForRow(context, allCategories)];
 
     if (souvenirsState.state.selectedCategory == null) {
-      souvenirsState.setState((state) => state.selectCategory(context, allCategories)); 
+      // souvenirsState.setState((state) => state.selectCategory(context, allCategories)); 
     }
 
     categoriesList.forEach((category) {
@@ -51,7 +51,7 @@ class CategoryComponent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           GestureDetector(
-            onTap: () => souvenirsState.setState((state) => state.selectCategory(context, category)),
+            // onTap: () => souvenirsState.setState((state) => state.selectCategory(context, category)),
             child: ((souvenirsState.state.selectedCategory != null) && (souvenirsState.state.selectedCategory.id == category.id)) ? 
             Chip(
               labelPadding: EdgeInsets.all(5.0),

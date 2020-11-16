@@ -19,7 +19,7 @@ class ListSouvenirsPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  CategoryComponent(),
+                  // CategoryComponent(),
                   MemoriesComponent(),
                 ],
               ),

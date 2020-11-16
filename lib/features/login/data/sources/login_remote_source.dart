@@ -37,11 +37,13 @@ class LoginRemoteSource {
 
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
+      // print('user name = ${user.displayName}');
+      // print('user email = ${user.email}');
+      // print('user avatar = ${user.photoURL}');
 
       userData = await createUser(user);
-      print('userData POST = $userData');  
+      // print('userData POST = $userData');  
       entity.User userEntity = entity.User.fromJson(userData);
-      print('userEntity.id = ${userEntity.id}');
       return userEntity;
     }
 
@@ -70,11 +72,10 @@ class LoginRemoteSource {
     };
 
     final response = await http.post(url, body: data, headers: headers);
-    print('POST statusCode = ${response.statusCode}');
+    // print('POST statusCode = ${response.statusCode}');
     if (response.statusCode != 201) throw Exception;
 
     final Map<String, dynamic> responseJson = json.decode(response.body);
-    print('responseJson POST = $responseJson');
     return responseJson;
   }
 
@@ -84,16 +85,18 @@ class LoginRemoteSource {
   }
 
   Future<entity.User> getUser(userId) async {
-    String url = "http://192.168.1.110:8000/api/users/$userId";
+    // String url = "http://192.168.1.110:8000/api/users/$userId";
+    //!
+    String url = "http://192.168.1.110:8000/api/users/13";
 
     final response = await http.get(url);
-    print('GET statusCode = ${response.statusCode}');
+    // print('GET statusCode = ${response.statusCode}');
     if (response.statusCode != 200) throw Exception;
 
-    final Map<String, dynamic> responseJson = json.decode(response.body);
-    print('responseJson GET = $responseJson');
-    entity.User userEntity = entity.User.fromJson(responseJson);
-    print('userEntity id GET = ${userEntity.id}');   
+    final Map<String, dynamic> data = json.decode(response.body);
+    // print('data GET = $data');
+    entity.User userEntity = entity.User.fromJson(data);
+    // print('userEntity id GET = ${userEntity.id}');   
     return userEntity;
   }
 

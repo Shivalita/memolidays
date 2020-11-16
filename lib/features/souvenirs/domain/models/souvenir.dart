@@ -1,3 +1,5 @@
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+
 class Souvenir {
 
   int id;
@@ -12,11 +14,12 @@ class Souvenir {
   double latitude;
   double longitude;
   String place;
-  DateTime createdAt;
+  String createdAt;
   // String storage;
   // String tempLink;
-  //! List<Thumbnail> thumbnails;
-  // String distance = "0 km";
+  // List<String> filesListUrls;
+  List<File> thumbnails;
+  String distance = "0 km";
 
   Souvenir({
     this.id,
@@ -31,7 +34,8 @@ class Souvenir {
     this.latitude,
     this.longitude,
     this.place,
-    this.createdAt
+    this.createdAt, 
+    // this.filesListUrls,
     // this.storage,
     // this.tempLink,
   });
@@ -55,12 +59,12 @@ class Souvenir {
     // storage = json['storage'];
     // tempLink = json['temp_link'];
 
-    //! if (json['thumbnails'] != null) {
-    //!   thumbnails = List<Thumbnail>();
-    //!   json['thumbnails'].forEach((element) {
-    //!     thumbnails.add(Thumbnail.fromJson(element));
-    //!   });
-    //! }
+    // if (json['files'] != null) {
+    //   thumbnails = List<File>();
+    //   json['files'].forEach((element) {
+    //     thumbnails.add(File.fromJson(element));
+    //   });
+    // }
 
   }
 

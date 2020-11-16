@@ -3,11 +3,11 @@ import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
 class GetAllCategories {
 
-  final ListSouvenirsRepository repository = ListSouvenirsRepository();
+  // final ListSouvenirsRepository repository = ListSouvenirsRepository();
   
-  Future<List<Category>> call() async {
-    List<Category> categoriesList = await repository.getCategoriesList();
-    return categoriesList;
-  }
+  // Future<List<Category>> call() async {
+  //   List<Category> categoriesList = await repository.getCategoriesList();
+  //   return categoriesList;
+  // }
   
 }

@@ -77,12 +77,12 @@ class MemoriesComponent extends StatelessWidget {
                             ),
                             padding: EdgeInsets.all(5),
                             margin: EdgeInsets.all(5),
-                            // child: Row(
-                            //   children: [
-                            //     Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
-                            //     SizedBox(width: 3,),
-                            //     Icon(Icons.photo_library, color: Colors.white, size: 17,)
-                            //   ],)
+                            child: Row(
+                              children: [
+                                Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
+                                SizedBox(width: 3,),
+                                Icon(Icons.photo_library, color: Colors.white, size: 17,)
+                              ],)
                           )
                         ],
                       ),
@@ -122,12 +122,12 @@ class MemoriesComponent extends StatelessWidget {
                                       FaIcon(FontAwesomeIcons.carSide,
                                           color: Colors.lightBlue, size: 18),
                                       SizedBox(width: 3),
-                                      // Text(
-                                      //   souvenirs[i].distance,
-                                      //   style: TextStyle(
-                                      //       fontStyle: FontStyle.italic,
-                                      //       fontSize: 13),
-                                      // )
+                                      Text(
+                                        souvenirs[i].distance,
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 13),
+                                      )
                                     ],
                                   ) : Container(),
                                 ],

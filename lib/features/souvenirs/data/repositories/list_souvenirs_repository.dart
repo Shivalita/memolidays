@@ -17,15 +17,15 @@ class ListSouvenirsRepository {
     return id;
   }
 
-  Future<List<Category>> getCategoriesList() async {
-    final int userId = getUserId();
-    final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
-    return categoriesList;
-  }
+  // Future<List<Category>> getCategoriesList() async {
+  //   final int userId = getUserId();
+  //   final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
+  //   return categoriesList;
+  // }
 
-  Future<List<Souvenir>> getSouvenirsByCategory(int categoryId) async {
-    final int userId = getUserId();
-    final List<Souvenir> categorySouvenirsList = await listSouvenirsRemoteSource.getSouvenirsByCategory(categoryId, userId);
+  Future<List<Souvenir>> getAllSouvenirs() async {
+    // final int userId = getUserId();
+    final List<Souvenir> categorySouvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs();
     return categorySouvenirsList;
   }
 

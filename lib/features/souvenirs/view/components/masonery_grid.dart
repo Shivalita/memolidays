@@ -16,7 +16,7 @@ class MasoneryGrid extends StatefulWidget {
 
 class _MasoneryGridState extends State<MasoneryGrid> {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-  // List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+  List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              // itemCount: thumbnails.length,
-              itemCount: 2, //!
+              itemCount: thumbnails.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -91,13 +90,13 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      // child : CachedNetworkImage(
-                      //   imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
-                      //   progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      //     Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                      //   errorWidget: (context, url, error) => Icon(Icons.error),
-                      //   fit: BoxFit.cover,
-                      // ),                     
+                      child : CachedNetworkImage(
+                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
+                        progressIndicatorBuilder: (context, url, downloadProgress) => 
+                          Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),                     
                     ),
                   ),                  
                 );

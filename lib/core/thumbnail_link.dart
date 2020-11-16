@@ -3,9 +3,11 @@ class ThumbnailLink {
 
   String getThumbnailLink(String fullSizeLink, int desiredSize) {
     final String size = desiredSize.toString();
-    final String start = "id=";
-    final int startIndex = (fullSizeLink.indexOf(start) +3);
-    final String thumbnailId = fullSizeLink.substring(startIndex);
+    // final String start = "id=";
+    // final int startIndex = (fullSizeLink.indexOf(start) +3);
+    // final String thumbnailId = fullSizeLink.substring(startIndex);
+
+    final String thumbnailId = fullSizeLink.substring(fullSizeLink.length - 33);
 
     String thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=s$size&id=$thumbnailId";
 

@@ -6,15 +6,17 @@ class GetAllSouvenirs {
 
   final ListSouvenirsRepository repository = ListSouvenirsRepository();
 
-  Future<List<Souvenir>> call(List<Category> allCategoriesList) async {
-    List<List<Souvenir>> allSouvenirsList = [];
+  Future<List<Souvenir>> call() async {
+    // List<List<Souvenir>> allSouvenirsList = [];
 
-    allCategoriesList.forEach((category) {
-      // List<Souvenir> categorySouvenirs = category.souvenirsList;
-      // allSouvenirsList.add(categorySouvenirs);
-    });
+    // allCategoriesList.forEach((category) {
+    //   List<Souvenir> categorySouvenirs = category.souvenirsList;
+    //   allSouvenirsList.add(categorySouvenirs);
+    // });
 
-    List<Souvenir> souvenirsList = allSouvenirsList.expand((element) => element).toList();
+    // List<Souvenir> souvenirsList = allSouvenirsList.expand((element) => element).toList();
+
+    List<Souvenir> souvenirsList = await repository.getAllSouvenirs();
     return souvenirsList;
   }
   
