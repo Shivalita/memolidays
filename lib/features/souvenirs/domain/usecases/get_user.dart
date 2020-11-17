@@ -6,6 +6,7 @@ class GetUser {
   final LoginRepository repository = LoginRepository();
   final LocalSource localSource = LocalSource();
   
+  //!
   Future<User> call() async {
     int userId = localSource.getUserId();
     User user = await repository.getUser(userId);

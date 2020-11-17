@@ -14,16 +14,16 @@ class File {
     this.token = token;
   }
 
-  //! File constructor from map
+  // Instanciate from json API response 
   File.fromJson(Map<String, dynamic> json) {
     id = json['id']; 
-    // souvenirId = json['souvenirId'];
     souvenirId = int.parse(json['souvenir'].substring(json['souvenir'].length - 1));
     path = json['path'];
     type = json['type'];
     token = json['token'];
   }
 
+  // Instanciate from souvenir cover
   File.fromCover(int souvenirId, String coverLink) {
     id = 0;
     souvenirId = souvenirId;

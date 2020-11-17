@@ -6,17 +6,16 @@ import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 class CategoryComponent extends StatelessWidget {
   bool isAnyCategory;
   List<Category> categoriesList = souvenirsState.state.allCategoriesList;
+  Category selectedCategory = souvenirsState.state.selectedCategory;
 
   @override
   Widget build(BuildContext context) {
     if (categoriesList == null) {
       isAnyCategory = false;
-      print('isAnyCategory = $isAnyCategory');
     } else {
       isAnyCategory = true;
-      print('isAnyCategory = $isAnyCategory');
     }
-
+    // Displays categories if there are any, else displays empty container
     return isAnyCategory ? Container(
       child: Column(children: <Widget>[
         SingleChildScrollView(
@@ -27,15 +26,9 @@ class CategoryComponent extends StatelessWidget {
     ) : Container();
   }
 
+  // Create chips for all categories
   Widget rowChips(BuildContext context, List<Category> categoriesList) {
-    List<Widget> widgetsList;
-    // Category allCategories = Category(id: 0, name: 'All');
-    // widgetsList = [chipForRow(context, allCategories)];
-    widgetsList = [];
-
-    if (souvenirsState.state.selectedCategory == null) {
-      souvenirsState.setState((state) => state.selectCategory(context, categoriesList[0])); 
-    }
+    List<Widget> widgetsList = [];
 
     categoriesList.forEach((category) {
       widgetsList.add(chipForRow(context, category));
@@ -52,8 +45,9 @@ class CategoryComponent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           GestureDetector(
-            onTap: () => souvenirsState.setState((state) => state.selectCategory(context, category)),
-            child: ((souvenirsState.state.selectedCategory != null) && (souvenirsState.state.selectedCategory.id == category.id)) ? 
+            // OnTap selects related category & displays highlighted chip for selected category
+            onTap: () => souvenirsState.setState((state) => state.selectCategory(category)),
+            child: ((selectedCategory != null) && (selectedCategory.id == category.id)) ? 
             Chip(
               labelPadding: EdgeInsets.all(5.0),
               label: SizedBox(

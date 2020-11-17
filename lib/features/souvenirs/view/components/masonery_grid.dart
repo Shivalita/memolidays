@@ -5,7 +5,6 @@ import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/models/file.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'details_photo.dart';
 
 // ignore: must_be_immutable
@@ -90,6 +89,7 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
+                      // Display sized thumbnail from cache if stored, else store it
                       child : CachedNetworkImage(
                         imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
                         progressIndicatorBuilder: (context, url, downloadProgress) => 

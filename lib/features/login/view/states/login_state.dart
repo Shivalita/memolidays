@@ -20,6 +20,8 @@ class LoginState {
     await checkConnectivity(context);
   }
 
+
+  // Check device connectivity
   Future<void> checkConnectivity(BuildContext context) async {
     bool hasConnection = await DataConnectionChecker().hasConnection;
 
@@ -36,6 +38,8 @@ class LoginState {
     }
   }
 
+
+  // If has connectivity, login and redirect to homepage
   Future<void> signInWithGoogle(BuildContext context) async {
     await checkConnectivity(context);
 
@@ -46,7 +50,6 @@ class LoginState {
         if (user != null) {
           isConnected = true;
           localSource.setIsConnected();
-          print('User connected');
           return Get.to(MyHomePage());
         }
       }
@@ -59,9 +62,8 @@ class LoginState {
 
   }
 
+  // Logout and redirect to loginpage
   Future<void> signOutGoogle(BuildContext context) async {
-    if (!isConnected == true) print('User is not logged in.');
-
     try {
       String disconnectionMessage = await Logout()();
       print(disconnectionMessage);

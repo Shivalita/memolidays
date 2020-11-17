@@ -34,12 +34,9 @@ class Souvenir {
     this.longitude,
     this.place,
     this.createdAt, 
-    // this.filesListUrls,
-    // this.storage,
-    // this.tempLink,
   });
 
-  //! Souvenir constructor from map
+  // Instanciate from json API response 
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
@@ -57,8 +54,8 @@ class Souvenir {
     categoriesList = json['categories'];
   }
 
+  // Instanciate from addSouvenir form
   Souvenir.fromForm(Map<String, dynamic> map) {
-    // id = map['id'];
     userId = map['userId'];
     title = map['title'];
     // cover = map['cover'];

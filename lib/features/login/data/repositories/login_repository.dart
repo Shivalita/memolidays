@@ -11,6 +11,7 @@ class LoginRepository {
   static LoginRepository _cache;
   factory LoginRepository() => _cache ??= LoginRepository._();
 
+  // Sign in & store user data in local storage
   Future<User> signInWithGoogle() async {
     User user = await loginRemoteSource.signInWithGoogle();
     localSource.storeUserData(user.id, user.googleId, user.name, user.email, user.avatar);
@@ -23,6 +24,7 @@ class LoginRepository {
     return disconnectionMessage;
   }
 
+  //!
   Future<User> getUser(userId) async {
     User user = await loginRemoteSource.getUser(userId);
     return user;

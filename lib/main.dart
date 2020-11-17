@@ -12,6 +12,7 @@ import 'features/login/view/pages/login_page.dart';
 
 final LocalSource localSource = LocalSource();
 
+//!
 bool checkIfConnected() {
   bool isConnected = false;
   
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: Colors.white,
               canvasColor: Colors.transparent,
             ),        
+            // If connected yet redirect to homepage, else to loginpage
             home: (isConnected == true) ? MyHomePage() : LoginPage(), // Interface de demarrage. 
             // home: SouvenirPage(), // [Antonin] Pour raccourcir le chargement de l'appli en dev
             debugShowCheckedModeBanner: false,

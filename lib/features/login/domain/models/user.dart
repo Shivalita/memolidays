@@ -16,7 +16,6 @@ class User {
     this.isPremium = isPremium;
   }
 
-   //! User constructor from map
   User.fromJson(Map<String, dynamic> data) {
     id = data['id']; 
     googleId = data['googleId']; 
@@ -26,5 +25,4 @@ class User {
     isPremium = data['isPremium'];
   }
   
-
 }

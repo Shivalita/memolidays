@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -20,12 +20,11 @@ class MemoriesComponent extends StatelessWidget {
 
     if (souvenirs == null) {
       isAnySouvenir = false;
-      // print('isAnySouvenir = $isAnySouvenir');
     } else {
       isAnySouvenir = true;
-      // print('isAnySouvenir = $isAnySouvenir');
     }
 
+    // Displays souvenirs if there are any, else displays welcome text & invites to add souvenir
     return isAnySouvenir ? Container(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
@@ -34,6 +33,7 @@ class MemoriesComponent extends StatelessWidget {
             itemCount: souvenirs.length,
             itemBuilder: (ctx, i) {
               return GestureDetector(
+                // OnTap store selected souvenir in state & redirect to souvenir page
                 onTap: () {
                   souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]); 
                   Get.toNamed('/souvenir');
@@ -61,6 +61,7 @@ class MemoriesComponent extends StatelessWidget {
                             child : Container(
                               width: 125,
                               height: 125,
+                              // Display sized thumbnail from cache if stored, else store it
                               child: CachedNetworkImage(
                                 imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].cover, 250),
                                 progressIndicatorBuilder: (context, url, downloadProgress) => 
@@ -79,6 +80,7 @@ class MemoriesComponent extends StatelessWidget {
                             margin: EdgeInsets.all(5),
                             child: Row(
                               children: [
+                                // Displays souvenir's photos number
                                 Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
                                 SizedBox(width: 3,),
                                 Icon(Icons.photo_library, color: Colors.white, size: 17,)
@@ -117,6 +119,7 @@ class MemoriesComponent extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  // If localization possible, display souvenir's distance
                                   isLocationServiceEnabled ? Row(
                                     children: [
                                       FaIcon(FontAwesomeIcons.carSide,
@@ -142,22 +145,12 @@ class MemoriesComponent extends StatelessWidget {
               );
             })
           
-          //! No souvenir yet display
+          // Content to display when there are no memories yet
           ) : Container(
-            // width: MediaQuery.of(context).size.width,
-            // height: MediaQuery.of(context).size.height,
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Text(
-                //   "Welcome to Memolidays",
-                //   style: TextStyle(
-                //     color: Colors.orange,
-                //     fontSize: 22,
-                //     fontStyle: FontStyle.normal,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
                  Container(
                   margin: EdgeInsets.only(top: 50),
                   child: Text(
@@ -188,7 +181,6 @@ class MemoriesComponent extends StatelessWidget {
                     color: new Color.fromRGBO(0, 0, 0, 0.5)
                   ),
                   padding: EdgeInsets.all(1),
-                  // margin: EdgeInsets.all(1),
                   margin: EdgeInsets.only(top: 50),
                   child: GestureDetector(
                     onTap: () {
@@ -200,7 +192,6 @@ class MemoriesComponent extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.orange,
-                      // color: new Color.fromRGBO(0, 0, 0, 0.1),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey,

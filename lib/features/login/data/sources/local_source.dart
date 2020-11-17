@@ -1,16 +1,16 @@
 import 'package:hive/hive.dart';
 
 class LocalSource {
-
+  // Get instanciated local storage box
   var storageBox = Hive.box('storageBox');
 
+  // Local storage setters
   void storeUserData(int id, String googleId, String name, String mail, String avatar) {
     storageBox.put('id', id);
     storageBox.put('googleId', googleId);
     storageBox.put('name', name);
     storageBox.put('mail', mail);
     storageBox.put('avatar', avatar);
-    // storageBox.put('isConnected', true);
   }
 
   void setPremiumStatus(bool isPremium) {
@@ -21,6 +21,7 @@ class LocalSource {
     storageBox.put('isConnected', true);
   }
 
+  // Local storage getters
   bool getIsConnected() {
     bool isConnected = storageBox.get('isConnected');
     return isConnected;

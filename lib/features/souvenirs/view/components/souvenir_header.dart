@@ -19,7 +19,7 @@ class SouvenirHeader extends StatelessWidget {
         children: <Widget>[
         Container(
           child: ClipRRect(
-            // borderRadius: BorderRadius.circular(12),
+            // Display sized thumbnail from cache if stored, else store it
             child : CachedNetworkImage(
               imageUrl: ThumbnailLink().getThumbnailLink(souvenir.cover, 600),
               progressIndicatorBuilder: (context, url, downloadProgress) => 

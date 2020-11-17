@@ -10,7 +10,7 @@ class Pin {
     this.color = color;
   }
 
-  //! Pin constructor from map
+  // Instanciate from json API response 
   Pin.fromJson(Map<String, dynamic> data) {
     id = data['id']; 
     icon = data['icon']; 

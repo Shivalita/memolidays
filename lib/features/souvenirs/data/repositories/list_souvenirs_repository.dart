@@ -8,16 +8,19 @@ class ListSouvenirsRepository {
   final ListSouvenirsRemoteSource listSouvenirsRemoteSource = ListSouvenirsRemoteSource();
   final LocalSource localSource = LocalSource();
   
+  // Singleton initialization
   ListSouvenirsRepository._();
   static ListSouvenirsRepository _cache;
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
+  // Get userId from local storage
   int getUserId() {
     final int userId = localSource.getUserId();
     return userId;
   }
 
   Future<List<Category>> getAllCategories() async {
+    //!
     // final int userId = getUserId();
     final int userId = 13;
     final List<Category> categoriesList = await listSouvenirsRemoteSource.getAllCategories(userId);
@@ -25,17 +28,11 @@ class ListSouvenirsRepository {
   }
 
   Future<List<Souvenir>> getAllSouvenirs() async {
+    //!
     // final int userId = getUserId();
     final int userId = 13;
     final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs(userId);
     return souvenirsList;
   }
-
-  // Future<List<Souvenir>> getCategorySouvenirs(int categoryId) async {
-  //   final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getCategorySouvenirs(categoryId);
-  //   return souvenirsList;
-  // }
-
- 
 
 }

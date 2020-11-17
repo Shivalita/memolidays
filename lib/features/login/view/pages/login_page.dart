@@ -5,6 +5,7 @@ import 'package:memolidays/features/login/dependencies.dart';
 
 class LoginPage extends StatelessWidget {
   final loginRepository = LoginRepository();
+  
   @override
   Widget build(BuildContext context) {
     final String googleLogo = 'assets/images/google.svg';

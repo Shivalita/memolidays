@@ -1,13 +1,21 @@
-// import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_repository.dart';
-// import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_repository.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
-// class GetCategorySouvenirs {
+class GetCategorySouvenirs {
 
-//   final ListSouvenirsRepository repository = ListSouvenirsRepository();
+  final ListSouvenirsRepository repository = ListSouvenirsRepository();
+  List<Souvenir> currentsouvenirsList = [];
 
-//   Future<List<Souvenir>> call(int categoryId) async {
-//     List<Souvenir> souvenirsList = await repository.getCategorySouvenirs(categoryId);
-//     return souvenirsList;
-//   }
+  // Get all souvenirs that contain category's id in categoriesIds list
+  List<Souvenir> call(int categoryId, List<Souvenir> allSouvenirsList) {
+    allSouvenirsList.forEach((souvenir) {
+      bool isCategorySouvenir = souvenir.categoriesId.contains(categoryId);
+      if (isCategorySouvenir) {
+        currentsouvenirsList.add(souvenir);
+      }
+    });
+
+    return currentsouvenirsList;
+  }
   
-// }
+}
