@@ -22,6 +22,12 @@ class Category {
     name = data['name'];
   }
 
+    Category.all(Map<String, dynamic> data) {
+    id = data['id']; 
+    userId = data['userId']; 
+    name = data['name'];
+  }
+
   Category.fromForm(Map<String, dynamic> data) {
     id = data['id']; 
     userId = data['userId'];

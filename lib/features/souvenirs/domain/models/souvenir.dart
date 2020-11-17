@@ -4,6 +4,8 @@ class Souvenir {
 
   int id;
   int userId;
+  List<dynamic> categoriesList;
+  List<int> categoriesId;
   String title;
   String cover;
   String eventDate;
@@ -15,9 +17,6 @@ class Souvenir {
   double longitude;
   String place;
   String createdAt;
-  // String storage;
-  // String tempLink;
-  // List<String> filesListUrls;
   List<File> thumbnails;
   String distance = "0 km";
 
@@ -55,17 +54,7 @@ class Souvenir {
     longitude = json['longitude'];
     place = json['place'];
     createdAt = json['createdAt'];
-
-    // storage = json['storage'];
-    // tempLink = json['temp_link'];
-
-    // if (json['files'] != null) {
-    //   thumbnails = List<File>();
-    //   json['files'].forEach((element) {
-    //     thumbnails.add(File.fromJson(element));
-    //   });
-    // }
-
+    categoriesList = json['categories'];
   }
 
   Souvenir.fromForm(Map<String, dynamic> map) {

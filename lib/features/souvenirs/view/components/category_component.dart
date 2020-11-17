@@ -29,11 +29,12 @@ class CategoryComponent extends StatelessWidget {
 
   Widget rowChips(BuildContext context, List<Category> categoriesList) {
     List<Widget> widgetsList;
-    Category allCategories = Category(id: 0, name: 'All');
-    widgetsList = [chipForRow(context, allCategories)];
+    // Category allCategories = Category(id: 0, name: 'All');
+    // widgetsList = [chipForRow(context, allCategories)];
+    widgetsList = [];
 
     if (souvenirsState.state.selectedCategory == null) {
-      souvenirsState.setState((state) => state.selectCategory(context, allCategories)); 
+      souvenirsState.setState((state) => state.selectCategory(context, categoriesList[0])); 
     }
 
     categoriesList.forEach((category) {

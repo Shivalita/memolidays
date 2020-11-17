@@ -14,10 +14,12 @@ class SouvenirsState {
 
   List<Category> allCategoriesList;
   Category selectedCategory;
+  List<Souvenir> allSouvenirsList;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
+  int userId;
   final LocalSource localSource = LocalSource();
 
 
@@ -25,10 +27,17 @@ class SouvenirsState {
     print('is connected = ${localSource.getIsConnected()}');
     if (localSource.getIsConnected() != true) {
       await GetUser()();
+      userId = localSource.getUserId();
     }
-    allCategoriesList = await getAllCategories(context);
-    if (souvenirsList == null) {
-      souvenirsList = await getSouvenirsList(context);
+
+    if (allCategoriesList == null) {
+      allCategoriesList = await getAllCategories(context);
+    }
+
+    if (allSouvenirsList == null) {
+      allSouvenirsList = await getSouvenirsList(context);
+      souvenirsList = allSouvenirsList;
+      print('ALLSOUVENIRSLIST 0 = $allSouvenirsList');
     }
   }
 
@@ -46,42 +55,49 @@ class SouvenirsState {
   }
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
-    if ((selectedCategory != null) && (selectedCategory.id != 0)) {
+    // if ((selectedCategory != null) && (selectedCategory.id != 0)) {
       // souvenirsList = selectedCategory.souvenirsList;
       // return souvenirsList;
-    } else {
-      try {
-        await localizationState.setState((state) => state.checkPosition());
+    // } else {
+    List<Souvenir> allSouvenirs;
+    
+    try {
+      await localizationState.setState((state) => state.checkPosition());
 
-        if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
-          isLocalizationEnabled = true;
-          position = localizationState.state.currentPosition;
-        } else {
-          isLocalizationEnabled = false;
+      if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
+        isLocalizationEnabled = true;
+        position = localizationState.state.currentPosition;
+      } else {
+        isLocalizationEnabled = false;
+      }
+
+      allSouvenirs = await GetAllSouvenirs()();
+      print('allSouvenirs 4 = $allSouvenirs');
+
+      allSouvenirs.forEach((souvenir) async {
+      //   String souvenirPlace = await getPlaceFromCoordinates(souvenir);
+      //   souvenir.place = souvenirPlace;
+        
+        if (isLocalizationEnabled) {
+          String distance = getDistance(souvenir, position);
+          souvenir.distance = distance;
         }
+      });
 
-        List<Souvenir> allSouvenirsList = await GetAllSouvenirs()();
-
-        allSouvenirsList.forEach((souvenir) async {
-        //   String souvenirPlace = await getPlaceFromCoordinates(souvenir);
-        //   souvenir.place = souvenirPlace;
-          
-          if (isLocalizationEnabled) {
-            String distance = getDistance(souvenir, position);
-            souvenir.distance = distance;
-          }
-        });
-
-        souvenirsList = allSouvenirsList;
-      }
-
-      on Exception {
-        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
-        errorSnackbar.displayErrorSnackbar();
-      }
-
+      // if (souvenirsList == null) {
+      //   souvenirsList = allSouvenirs;
+      // }
+      // souvenirsList = [];
     }
-    return souvenirsList;
+
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
+
+    // }
+    // print('ALLSOUVENIRS 1 = $allSouvenirs');
+    return allSouvenirs;
   }
 
   String getDistance(souvenir, position) {
@@ -108,10 +124,29 @@ class SouvenirsState {
   }
 
   Future<Category> selectCategory(BuildContext context, Category category) async {
+    print('ALLSOUVENIRSLIST 2 = $allSouvenirsList');
+    List<Souvenir> currentsouvenirsList = [];
+
     if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
       selectedCategory = category;
-      souvenirsList = await getSouvenirsList(context);
+
+      allSouvenirsList.forEach((souvenir) {
+        print('souvenir.categoriesId = ${souvenir.categoriesId}');
+        print('selectedCategory.id = ${selectedCategory.id}');
+        bool isCategorySouvenir = souvenir.categoriesId.contains(selectedCategory.id);
+        print('isCategorySouvenir = $isCategorySouvenir');
+        if (isCategorySouvenir) {
+          print('category souvenir = ${souvenir.id}');
+          currentsouvenirsList.add(souvenir);
+        }
+      });
     }
+
+    print('souvenirsList 1 = $souvenirsList');
+    souvenirsList = currentsouvenirsList;
+    print('souvenirsList 2 = $souvenirsList');
+    print('ALLSOUVENIRSLIST 3 = $allSouvenirsList');
+
     return selectedCategory;
   }
 

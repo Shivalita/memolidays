@@ -31,4 +31,11 @@ class ListSouvenirsRepository {
     return souvenirsList;
   }
 
+  // Future<List<Souvenir>> getCategorySouvenirs(int categoryId) async {
+  //   final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getCategorySouvenirs(categoryId);
+  //   return souvenirsList;
+  // }
+
+ 
+
 }
