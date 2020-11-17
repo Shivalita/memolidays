@@ -16,6 +16,7 @@ class ListSouvenirsRemoteSource {
   Future<List<Category>> getAllCategories(int userId) async {
     final String url = "http://192.168.1.110:8000/api/categories?user=$userId";
     final http.Response response = await http.get(url);
+
     if (response.statusCode != 200) throw Exception;
     List data = json.decode(response.body)['hydra:member'];
 
@@ -28,10 +29,11 @@ class ListSouvenirsRemoteSource {
   }
 
 
-  // Get all user's souvenirs and call getSouvenirFiles method
+  // Get all user's souvenirs and call get files method for each one
   Future<List<Souvenir>> getAllSouvenirs(int userId) async {
     final String url = "http://192.168.1.110:8000/api/souvenirs?user=$userId";
     final http.Response response = await http.get(url);
+
     if (response.statusCode != 200) throw Exception;
     List data = json.decode(response.body)['hydra:member'];
 
@@ -52,9 +54,10 @@ class ListSouvenirsRemoteSource {
 
     final String url = "http://192.168.1.110:8000/api/files?souvenir=$souvenirId";
     final response = await http.get(url);
-    if (response.statusCode != 200) throw Exception;
 
+    if (response.statusCode != 200) throw Exception;
     List data = json.decode(response.body)['hydra:member'];
+    
     List<File> filesList = data.map((file) => File.fromJson(file)).toList();
 
     souvenir.thumbnails = filesList;

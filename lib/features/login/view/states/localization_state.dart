@@ -6,7 +6,7 @@ class LocalizationState {
   bool isLocationServiceEnabled;
   Position currentPosition;
 
-  // Check the app permissions for localization 
+  // Check app permission for localization 
   Future<void> checkPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
 

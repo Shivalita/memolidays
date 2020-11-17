@@ -20,6 +20,8 @@ class LoginRemoteSource {
   int userId;
   Map<String, dynamic> userData;
 
+
+  // Login with Google account & call user creation method
   Future<entity.User> signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -50,6 +52,7 @@ class LoginRemoteSource {
   }
 
 
+  // Create user from Google account data, set isPremium to false by default
   Future<Map<String, dynamic>> createUser(user) async {
     String url = "http://192.168.1.110:8000/api/users";
 
@@ -74,11 +77,14 @@ class LoginRemoteSource {
     return responseJson;
   }
 
+
+  // Disconnect from Google account connection
   Future<String> signOutGoogle() async {
     await googleSignIn.signOut();
     return 'User disconnected';
   }
 
+  // Get registered user from API & instanciate User
   Future<entity.User> getUser(userId) async {
     // String url = "http://192.168.1.110:8000/api/users/$userId";
     //!

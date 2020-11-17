@@ -16,6 +16,8 @@ class User {
     this.isPremium = isPremium;
   }
 
+
+  // Instanciate from json API response 
   User.fromJson(Map<String, dynamic> data) {
     id = data['id']; 
     googleId = data['googleId']; 

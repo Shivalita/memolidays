@@ -39,7 +39,7 @@ class LoginState {
   }
 
 
-  // If has connectivity, login and redirect to homepage
+  // If has connectivity, login and redirect to home page
   Future<void> signInWithGoogle(BuildContext context) async {
     await checkConnectivity(context);
 
@@ -62,7 +62,7 @@ class LoginState {
 
   }
 
-  // Logout and redirect to loginpage
+  // Logout and redirect to login page
   Future<void> signOutGoogle(BuildContext context) async {
     try {
       String disconnectionMessage = await Logout()();
