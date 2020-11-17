@@ -15,14 +15,14 @@ class File {
   }
 
   //! File constructor from map
-  File.fromJson(Map<String, dynamic> data) : this(
-    id : data['id'], 
-    // souvenirId : data['souvenirId'],
-    souvenirId : int.parse(data['souvenir'].substring(data['souvenir'].length - 1)),
-    path : data['path'],
-    type : data['type'],
-    token : data['token'],
-  );
+  File.fromJson(Map<String, dynamic> json) {
+    id = json['id']; 
+    // souvenirId = json['souvenirId'];
+    souvenirId = int.parse(json['souvenir'].substring(json['souvenir'].length - 1));
+    path = json['path'];
+    type = json['type'];
+    token = json['token'];
+  }
 
   File.fromCover(int souvenirId, String coverLink) {
     id = 0;

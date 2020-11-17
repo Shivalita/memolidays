@@ -48,8 +48,25 @@ class ListSouvenirsRemoteSource {
   //   return categorySouvenirsList;
   // }
 
-  Future<List<Souvenir>> getAllSouvenirs() async {
-    final String url = "http://192.168.1.110:8000/api/souvenirs";
+  Future<List<Category>> getAllCategories(int userId) async {
+    final String url = "http://192.168.1.110:8000/api/categories?user=$userId";
+
+    final http.Response response = await http.get(url);
+    if (response.statusCode != 200) throw Exception;
+    List data = json.decode(response.body)['hydra:member'];
+
+    List<Category> categoriesList = data.map((category) => Category.fromJson(category)).toList();
+
+    print('GET ALL CATEGORIES DATA = $data');
+    print('CATEGORIES LIST= $categoriesList');
+
+    return categoriesList;
+  }
+
+  //!
+
+  Future<List<Souvenir>> getAllSouvenirs(int userId) async {
+    final String url = "http://192.168.1.110:8000/api/souvenirs?user=13";
 
     final http.Response response = await http.get(url);
     if (response.statusCode != 200) throw Exception;
@@ -57,37 +74,43 @@ class ListSouvenirsRemoteSource {
 
     List<Souvenir> souvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
-    // print('data = $data');
+    // print('GET ALL SOUVENIRS DATA = $data');
+    // print('SOUVENIRS LIST= $souvenirsList');
 
-    for (int i = 0; i < data.length; i++) {
-      var souvenirData = data[i];
-      List<dynamic> filesLinks = souvenirData['files'];
-      List<File> filesList = await getSouvenirFiles(filesLinks);
+    for (int i = 0; i < souvenirsList.length; i++) {
+      // var souvenirData = data[i];
+      // List<dynamic> filesLinks = souvenirData['files'];
+      Souvenir souvenir = souvenirsList[i];
+      List<File> filesList = await getSouvenirFiles(souvenir);
 
-      List<Souvenir> matchingSouvenir = souvenirsList.where((souvenir) => souvenir.id == filesList[0].souvenirId).toList();  
-      Souvenir currentSouvenir = matchingSouvenir[0];  
-      currentSouvenir.thumbnails = filesList;
+      // List<Souvenir> matchingSouvenir = souvenirsList.where((souvenir) => souvenir.id == filesList[0].souvenirId).toList();  
+      // Souvenir currentSouvenir = matchingSouvenir[0];  
+      souvenir.thumbnails = filesList;
 
-      File coverFile = File.fromCover(currentSouvenir.id, currentSouvenir.cover);
-      currentSouvenir.thumbnails.insert(0, coverFile);
+      File coverFile = File.fromCover(souvenir.id, souvenir.cover);
+      souvenir.thumbnails.insert(0, coverFile);
     }
 
     return souvenirsList;
   }
 
-  Future<List<File>> getSouvenirFiles(List<dynamic> filesLinks) async {
-    List<File> filesList = [];
+  Future<List<File>> getSouvenirFiles(Souvenir souvenir) async {
+    int souvenirId = souvenir.id;
+    // List<File> filesList = [];
 
-    for (int i = 0; i < filesLinks.length; i++) {
-      final String url = "http://192.168.1.110:8000${filesLinks[i]}";
-      final response = await http.get(url);
-      print('get file statusCode = ${response.statusCode}');
-      if (response.statusCode != 200) throw Exception;
+    final String url = "http://192.168.1.110:8000/api/files?souvenir=$souvenirId";
+    final response = await http.get(url);
+    // print('get file statusCode = ${response.statusCode}');
+    if (response.statusCode != 200) throw Exception;
 
-      final Map<String, dynamic> data = json.decode(response.body);
-      File file = File.fromJson(data);
-      filesList.add(file);
-    }
+    List data = json.decode(response.body)['hydra:member'];
+    // print('GET ALL FILES DATA = $data');
+
+    // List<Souvenir> souvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
+
+    List<File> filesList = data.map((file) => File.fromJson(file)).toList();
+    // File file = File.fromJson(data);
+    // filesList.add(file);
 
     return filesList;
   }

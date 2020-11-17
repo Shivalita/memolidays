@@ -26,24 +26,24 @@ class SouvenirsState {
     if (localSource.getIsConnected() != true) {
       await GetUser()();
     }
-    // allCategoriesList = await getCategoriesList(context);
+    allCategoriesList = await getAllCategories(context);
     if (souvenirsList == null) {
       souvenirsList = await getSouvenirsList(context);
     }
   }
 
-  // Future<List<Category>> getCategoriesList(BuildContext context) async {
-  //   try {
-  //     allCategoriesList = await GetAllCategories()();
-  //   }
+  Future<List<Category>> getAllCategories(BuildContext context) async {
+    try {
+      allCategoriesList = await GetAllCategories()();
+    }
 
-  //   on Exception {
-  //     final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
-  //     errorSnackbar.displayErrorSnackbar();
-  //   }
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
     
-  //   return allCategoriesList;
-  // }
+    return allCategoriesList;
+  }
 
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
     if ((selectedCategory != null) && (selectedCategory.id != 0)) {
@@ -107,13 +107,13 @@ class SouvenirsState {
     return souvenirPlace;
   }
 
-  // Future<Category> selectCategory(BuildContext context, Category category) async {
-  //   if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
-  //     selectedCategory = category;
-  //     souvenirsList = await getSouvenirsList(context);
-  //   }
-  //   return selectedCategory;
-  // }
+  Future<Category> selectCategory(BuildContext context, Category category) async {
+    if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
+      selectedCategory = category;
+      souvenirsList = await getSouvenirsList(context);
+    }
+    return selectedCategory;
+  }
 
   void addSouvenir(data) {
     String date = data['date'].toString();

@@ -13,20 +13,22 @@ class ListSouvenirsRepository {
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
   int getUserId() {
-    final int id = localSource.getUserId();
-    return id;
+    final int userId = localSource.getUserId();
+    return userId;
   }
 
-  // Future<List<Category>> getCategoriesList() async {
-  //   final int userId = getUserId();
-  //   final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
-  //   return categoriesList;
-  // }
+  Future<List<Category>> getAllCategories() async {
+    // final int userId = getUserId();
+    final int userId = 13;
+    final List<Category> categoriesList = await listSouvenirsRemoteSource.getAllCategories(userId);
+    return categoriesList;
+  }
 
   Future<List<Souvenir>> getAllSouvenirs() async {
     // final int userId = getUserId();
-    final List<Souvenir> categorySouvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs();
-    return categorySouvenirsList;
+    final int userId = 13;
+    final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs(userId);
+    return souvenirsList;
   }
 
 }
