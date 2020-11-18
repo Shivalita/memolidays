@@ -28,7 +28,8 @@ dependencies:
   firebase_core: ^0.5.0 #Handle Firebase connexion
   firebase_auth: ^0.18.1 #Handle Firebase connexions and their parameters
   http: ^0.12.1 #Load API
-  get: ^3.12.1 #Handle routes
+  # get: ^3.12.1 #Handle routes
+  get: ^3.17.1 #Handle routes
   flushbar: ^1.10.4 #Snackbar for errors displays
   flutter_form_builder: ^3.13.6
   material_tag_editor: ^0.0.4

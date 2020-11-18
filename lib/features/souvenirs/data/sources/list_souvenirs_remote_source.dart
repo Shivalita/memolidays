@@ -68,4 +68,18 @@ class ListSouvenirsRemoteSource {
     return filesList;
   }
 
+
+  Future<void> removeFile(int fileId) async {
+    final String url = "http://192.168.1.110:8000/api/files/$fileId";
+    final response = await http.delete(url);
+    if (response.statusCode != 204) throw Exception;
+  }
+
+
+  Future<void> removeSouvenir(int souvenirId) async {
+    final String url = "http://192.168.1.110:8000/api/souvenirs/$souvenirId";
+    final response = await http.delete(url);
+    if (response.statusCode != 204) throw Exception;
+  }
+
 }

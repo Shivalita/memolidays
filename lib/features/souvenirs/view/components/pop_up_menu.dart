@@ -16,6 +16,16 @@ class PopUpOptionMenu extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
+          value: 1,
+          child: ListTile(
+            leading: Icon(
+              Icons.info_outline,
+              color: Colors.black,
+            ),
+            title: Text("Infos"),
+          ),
+        ),
+        PopupMenuItem(
           value: 0,
           child: ListTile(
             leading: Icon(
@@ -27,14 +37,23 @@ class PopUpOptionMenu extends StatelessWidget {
         ),
         PopupMenuItem(
           value: 1,
-          child: ListTile(
-            leading: Icon(
-              Icons.info_outline,
-              color: Colors.black,
+          child: GestureDetector(
+          // OnTap delete selected souvenir in state & redirect to home page
+            onTap: () {
+              souvenirsState.setState((state) => state.removeSouvenir(context, souvenir.id)); 
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+              ),
+              title: Text(
+                "Delete", 
+                style: TextStyle(color: Colors.red),
+              ),
             ),
-            title: Text("Infos"),
           ),
-        ),
+        )
       ],
       onSelected: (result) {
         if (result == 0) {

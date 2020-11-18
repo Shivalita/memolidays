@@ -7,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class DetailsPhoto extends StatefulWidget {
   final int index;
@@ -40,6 +41,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   @override
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
+    Souvenir souvenir = souvenirsState.state.selectedSouvenir;
     List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
@@ -189,9 +191,9 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         ),
                                         RaisedButton(
                                           child: Text("Yes"),
-                                          color: Colors.orange,
+                                          color: Colors.green,
                                           onPressed: () {
-                                            //Delete This Image
+                                            souvenirsState.setState((state) => state.removeFile(context, souvenir, thumbnails[index].id));
                                           },
                                         )
                                       ],
