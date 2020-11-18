@@ -1,11 +1,7 @@
-//! Affichage de la page d'ajout de souvenir
-
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
@@ -185,7 +181,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                   //   onPressed: () {
                   //     if (_fbKey.currentState.saveAndValidate()) {
                   //       var data = _fbKey.currentState.value;
-                  //       // print('data = $data');
+                  //       print('data = $data');
                   //       souvenirsState
                   //           .setState((state) => state.addSouvenir(data));
                   //     }

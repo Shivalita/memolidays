@@ -43,8 +43,6 @@ class Tags extends StatelessWidget {
               return category.name.toLowerCase().contains(query.toLowerCase());
             }).toList(growable: false);
 
-            print(suggestions);
-
             if (suggestions.isEmpty) return <Category>[Category(name: query)];
 
             suggestions.sort((a, b) => a.name

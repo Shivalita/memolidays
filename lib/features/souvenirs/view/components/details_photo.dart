@@ -70,7 +70,6 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                             child: Container(
                               margin: EdgeInsets.all(10),
                               padding: EdgeInsets.all(10),
-                              // height: 200,
                               decoration: BoxDecoration(
                                   color: Colors.grey[100],
                                   borderRadius:
@@ -157,7 +156,6 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                               child: Container(
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(10),
-                                // height: 200,
                                 decoration: BoxDecoration(
                                     color: Colors.grey[100],
                                     borderRadius:

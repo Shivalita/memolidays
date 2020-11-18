@@ -10,7 +10,7 @@ class CategoryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (categoriesList == null) {
+    if (categoriesList == null || categoriesList.length == 1) {
       isAnyCategory = false;
     } else {
       isAnyCategory = true;

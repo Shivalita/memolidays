@@ -17,8 +17,19 @@ class User {
   }
 
 
-  // Instanciate from json API response 
+  // Instanciate from json API response
   User.fromJson(Map<String, dynamic> data) {
+    id = data['id']; 
+    googleId = data['googleId']; 
+    name = data['name']; 
+    email = data['email'];
+    avatar = data['avatar'];
+    isPremium = data['isPremium'];
+  }
+
+
+  // Instanciate from local storage data
+  User.fromLocal(Map<String, dynamic> data) {
     id = data['id']; 
     googleId = data['googleId']; 
     name = data['name']; 

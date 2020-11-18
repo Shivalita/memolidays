@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           tabIconColor: Colors.white,
           tabSelectedColor: Colors.white,
           onTabItemSelected: (int value){
-            print(value);
             setState(() {
               _tabController.index = value;
             });

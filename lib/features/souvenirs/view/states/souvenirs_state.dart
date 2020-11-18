@@ -10,7 +10,6 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_distance.dart'
 import 'package:geolocator/geolocator.dart';
 import 'package:memolidays/features/login/view/states/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categories.dart';
-import 'package:memolidays/features/souvenirs/domain/usecases/get_user.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
 
 class SouvenirsState {
@@ -22,20 +21,10 @@ class SouvenirsState {
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
-  int userId;
   final LocalSource localSource = LocalSource();
 
-  // Launched each time the view is rebuilded
+  // If first user's display, get all categories & souvenirs
   Future<void> init(BuildContext context) async {
-    bool isConnected = localSource.getIsConnected();
-
-    //!
-    if (isConnected && userId == null) {
-      await GetUser()();
-      userId = localSource.getUserId();
-    }
-
-    // On first display, get all categories & souvenirs
     if (allCategoriesList == null) {
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
@@ -45,6 +34,7 @@ class SouvenirsState {
     // Select "All" category by default
     selectedCategory = selectCategory(allCategoriesList[0]);
   }
+
 
   // Get all categories, if error thrown display an error message
   Future<List<Category>> getAllCategories(BuildContext context) async {
@@ -59,6 +49,7 @@ class SouvenirsState {
     
     return allCategoriesList;
   }
+
 
   // Get all souvenirs, if error thrown display an error message
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
@@ -96,6 +87,7 @@ class SouvenirsState {
     return allSouvenirs;
   }
 
+
   // Select category & get related souvenirs
   Category selectCategory(Category category) {
     selectedCategory = SelectCategory()(category);
@@ -103,7 +95,7 @@ class SouvenirsState {
     return selectedCategory;
   }
 
-  //! CREATE
+  //! CREATE PART - ON PROGRESS
 
   // Future<String> getPlaceFromCoordinates(souvenir) async {
   //   List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.latitude, souvenir.longitude);

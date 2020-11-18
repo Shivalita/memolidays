@@ -16,13 +16,21 @@ class LoginRemoteSource {
   static LoginRemoteSource _cache;
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
 
+  User user;
   entity.User userEntity;
   int userId;
   Map<String, dynamic> userData;
 
 
-  // Login with Google account & call user creation method
-  Future<entity.User> signInWithGoogle() async {
+  // Login with Google account & call user getter method
+  Future<entity.User> login() async {
+    user = await signInWithGoogle();
+    userEntity = await getUser(user.email);
+    return userEntity;
+  }
+
+  // Set Google authentication
+  Future<User> signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -34,26 +42,44 @@ class LoginRemoteSource {
       );
 
       final authResult = await _auth.signInWithCredential(credential);
-      final User user = authResult.user;
+      user = authResult.user;
 
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
-
-      userData = await createUser(user);  
-      entity.User userEntity = entity.User.fromJson(userData);
-      return userEntity;
     }
 
     catch (error) {
-      print('ERROR : ');
-      print(error);
+      print('ERROR : $error');
       throw Exception();
     }
+
+    return user;
   }
 
 
-  // Create user from Google account data, set isPremium to false by default
-  Future<Map<String, dynamic>> createUser(user) async {
+  // If user exists in database get user from API, else call user creation method
+  Future<entity.User> getUser(email) async {
+    String url = "http://192.168.1.110:8000/api/users?email=$email";
+    entity.User userEntity;
+
+    final response = await http.get(url);
+    if (response.statusCode != 200) throw Exception;
+
+    final Map<String, dynamic> data = json.decode(response.body);
+
+    if (data['hydra:member'].isNotEmpty) {
+      userEntity = entity.User.fromJson(data['hydra:member'][0]);
+    } else {
+      userData = await createUser();
+      userEntity = entity.User.fromJson(userData);
+    }
+
+    return userEntity;
+  }
+
+
+  // Create user from Google account user data, set isPremium to false by default
+  Future<Map<String, dynamic>> createUser() async {
     String url = "http://192.168.1.110:8000/api/users";
 
     var data = json.encode({
@@ -70,7 +96,6 @@ class LoginRemoteSource {
     };
 
     final response = await http.post(url, body: data, headers: headers);
-
     if (response.statusCode != 201) throw Exception;
 
     final Map<String, dynamic> responseJson = json.decode(response.body);
@@ -78,24 +103,9 @@ class LoginRemoteSource {
   }
 
 
-  // Disconnect from Google account connection
-  Future<String> signOutGoogle() async {
+  // Disconnect from Google account
+  Future<void> signOutGoogle() async {
     await googleSignIn.signOut();
-    return 'User disconnected';
-  }
-
-  // Get registered user from API & instanciate User
-  Future<entity.User> getUser(userId) async {
-    // String url = "http://192.168.1.110:8000/api/users/$userId";
-    //!
-    String url = "http://192.168.1.110:8000/api/users/13";
-
-    final response = await http.get(url);
-    if (response.statusCode != 200) throw Exception;
-
-    final Map<String, dynamic> data = json.decode(response.body);
-    entity.User userEntity = entity.User.fromJson(data);
-    return userEntity;
   }
 
 }

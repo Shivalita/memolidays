@@ -1,5 +1,3 @@
-//! Affichage de la page de profil
-
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {

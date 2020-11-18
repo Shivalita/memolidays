@@ -20,17 +20,13 @@ class ListSouvenirsRepository {
   }
 
   Future<List<Category>> getAllCategories() async {
-    //!
-    // final int userId = getUserId();
-    final int userId = 13;
+    final int userId = getUserId();
     final List<Category> categoriesList = await listSouvenirsRemoteSource.getAllCategories(userId);
     return categoriesList;
   }
 
   Future<List<Souvenir>> getAllSouvenirs() async {
-    //!
-    // final int userId = getUserId();
-    final int userId = 13;
+    final int userId = getUserId();
     final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs(userId);
     return souvenirsList;
   }

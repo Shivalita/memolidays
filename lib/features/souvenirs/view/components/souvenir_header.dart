@@ -12,7 +12,6 @@ class SouvenirHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(bottom: 10),
       child: Stack(
         alignment: Alignment.bottomLeft, 

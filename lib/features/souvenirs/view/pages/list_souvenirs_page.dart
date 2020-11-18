@@ -7,7 +7,7 @@ class ListSouvenirsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Rebuild view when state is modified
+      // Rebuild view when state is modified and call init method
       child: souvenirsState.whenRebuilder(
         initState: () => souvenirsState.setState((state) async => await state.init(context)),
         onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),

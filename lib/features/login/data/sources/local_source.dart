@@ -5,26 +5,47 @@ class LocalSource {
   var storageBox = Hive.box('storageBox');
 
   // Local storage setters
-  void storeUserData(int id, String googleId, String name, String mail, String avatar) {
+  void storeUserData(int id, String googleId, String name, String email, String avatar, bool isPremium) {
     storageBox.put('id', id);
     storageBox.put('googleId', googleId);
     storageBox.put('name', name);
-    storageBox.put('mail', mail);
+    storageBox.put('email', email);
     storageBox.put('avatar', avatar);
+    storageBox.put('isPremium', isPremium);
   }
 
   void setPremiumStatus(bool isPremium) {
     storageBox.put('isPremium', isPremium);
   }
 
-  void setIsConnected() {
-    storageBox.put('isConnected', true);
+  void setIsConnected(bool isConnected) {
+    storageBox.put('isConnected', isConnected);
   }
 
   // Local storage getters
   bool getIsConnected() {
     bool isConnected = storageBox.get('isConnected');
     return isConnected;
+  }
+
+  Map<String, dynamic> getUserData() {
+    int id = storageBox.get('id');
+    String googleId = storageBox.get('googleId');
+    String name = storageBox.get('name');
+    String email = storageBox.get('email');
+    String avatar = storageBox.get('avatar');
+    bool isPremium = storageBox.get('isPremium');
+
+    Map<String, dynamic> userData = {
+      'id': id,
+      'googleId': googleId,
+      'name': name,
+      'email': email,
+      'avatar': avatar,
+      'isPremium': isPremium,
+    };
+
+    return userData;
   }
 
   int getUserId() {
@@ -42,9 +63,9 @@ class LocalSource {
     return name;
   }
 
-  String getMail() {
-    String mail = storageBox.get('mail');
-    return mail;
+  String geteMail() {
+    String email = storageBox.get('email');
+    return email;
   }
 
   String getAvatar() {

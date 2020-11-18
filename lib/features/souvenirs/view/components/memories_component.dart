@@ -18,7 +18,7 @@ class MemoriesComponent extends StatelessWidget {
     souvenirs = souvenirsState.state.souvenirsList;
     isLocationServiceEnabled = souvenirsState.state.isLocalizationEnabled;
 
-    if (souvenirs == null) {
+    if (souvenirs.isEmpty) {
       isAnySouvenir = false;
     } else {
       isAnySouvenir = true;

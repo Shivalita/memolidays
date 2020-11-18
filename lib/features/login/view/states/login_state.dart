@@ -16,8 +16,10 @@ class LoginState {
   bool isConnected;
   final LocalSource localSource = LocalSource();
 
+  // On login page built, check connectivity & call sign in method
   init(BuildContext context) async {
     await checkConnectivity(context);
+    await signInWithGoogle(context);
   }
 
 
@@ -26,9 +28,7 @@ class LoginState {
     bool hasConnection = await DataConnectionChecker().hasConnection;
 
     if (!hasConnection == true) {
-      print('Connectivity error. Exception :');
-      print(DataConnectionChecker().lastTryResults);
-
+      print('Connectivity error. Exception : ${DataConnectionChecker().lastTryResults}');
       hasConnectivity = false;
       final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Please check your device connectivity.');
       errorSnackbar.displayErrorSnackbar();
@@ -41,15 +41,12 @@ class LoginState {
 
   // If has connectivity, login and redirect to home page
   Future<void> signInWithGoogle(BuildContext context) async {
-    await checkConnectivity(context);
-
     if (hasConnectivity) {
       try {
         User user = await Login()();    
 
         if (user != null) {
           isConnected = true;
-          localSource.setIsConnected();
           return Get.to(MyHomePage());
         }
       }
@@ -65,8 +62,7 @@ class LoginState {
   // Logout and redirect to login page
   Future<void> signOutGoogle(BuildContext context) async {
     try {
-      String disconnectionMessage = await Logout()();
-      print(disconnectionMessage);
+      await Logout()();
       isConnected = false;
     }
 
