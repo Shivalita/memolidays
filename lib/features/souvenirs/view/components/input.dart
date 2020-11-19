@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class InputLocation extends StatelessWidget {
+class Input extends StatelessWidget {
+
+  String section;
+  Icon icon;
+
+  Input(String section, Icon icon) {
+      this.section = section;
+      this.icon = icon;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: FormBuilderTextField(
-        attribute: 'location',
+        attribute: section.toLowerCase(),
         readOnly: false,
         decoration: InputDecoration(
-          hintText: 'Location',
+          hintText: section,
           filled: true,
           fillColor: Colors.grey[100],
-          prefixIcon: Icon(Icons.public, size: 20),
+          prefixIcon: icon,
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(30)),
             borderSide: BorderSide(color: Colors.black54),

@@ -16,12 +16,14 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categ
 import 'package:memolidays/features/souvenirs/domain/usecases/remove_file.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/remove_souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
+import 'package:memolidays/features/souvenirs/view/pages/update_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 
 class SouvenirsState {
 
   List<Category> allCategoriesList;
   Category selectedCategory;
+  List<int> temporaryCategoriesId;
   List<Souvenir> allSouvenirsList;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
@@ -76,6 +78,7 @@ class SouvenirsState {
 
       allSouvenirs.forEach((souvenir) async {
         GetSouvenirCategories()(souvenir, allSouvenirs);
+
         
         // If localization possible, get souvenir's distance
         if (isLocalizationEnabled) {
@@ -133,6 +136,23 @@ class SouvenirsState {
       final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Souvenir couldn\'t be deleted, please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
+  }
+
+
+  void updateSouvenirCategory(Souvenir souvenir, Category category) {
+    List<int> souvenirCategoriesId = souvenir.categoriesId;
+    temporaryCategoriesId = souvenirCategoriesId;
+
+    if (souvenirCategoriesId.contains(category.id)) {
+      temporaryCategoriesId.removeWhere((categoryId) => categoryId == category.id);
+    } else {
+      temporaryCategoriesId.add(category.id);
+    }
+  }
+
+
+  Future<void> updateSouvenir(Map<String, dynamic> data) async {
+    print('data = $data');
   }
 
 

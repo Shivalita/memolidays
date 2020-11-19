@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:memolidays/features/souvenirs/view/pages/update_souvenir_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -27,12 +29,18 @@ class PopUpOptionMenu extends StatelessWidget {
         ),
         PopupMenuItem(
           value: 0,
-          child: ListTile(
-            leading: Icon(
-              Icons.edit,
-              color: Colors.black,
+          child: GestureDetector(
+          // OnTap redirect to update page
+            onTap: () {
+              return Get.to(UpdateSouvenirPage());
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ),
+              title: Text("Edit"),
             ),
-            title: Text("Edit"),
           ),
         ),
         PopupMenuItem(

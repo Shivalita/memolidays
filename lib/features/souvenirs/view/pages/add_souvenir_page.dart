@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
-import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
-import 'package:memolidays/features/souvenirs/view/components/input_title.dart';
+import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
 import 'package:memolidays/features/souvenirs/view/components/tags.dart';
 import 'package:image_picker/image_picker.dart';
@@ -166,9 +165,9 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  InputTitle(),
+                  Input('Title', Icon(Icons.title_rounded, size: 20)),
                   SizedBox(height: 10),
-                  InputLocation(),
+                  Input('Location', Icon(Icons.public, size: 20)),
                   SizedBox(height: 10),
                   Tags(),
                   SizedBox(height: 10),
