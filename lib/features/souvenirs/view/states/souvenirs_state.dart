@@ -4,6 +4,7 @@ import 'package:memolidays/core/components/error_snackbar.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
@@ -104,12 +105,11 @@ class SouvenirsState {
   Future<void> removeFile(BuildContext context, Souvenir souvenir, int fileId) async {
     try {
       await RemoveFile()(fileId);
-      // List<File> souvenirFiles = souvenir.thumbnails;
-      // souvenirFiles.removeWhere((file) => file.id == fileId);
+      
+      List<File> souvenirFiles = souvenir.thumbnails;
+      souvenirFiles.removeWhere((file) => file.id == fileId);
 
-      // Get.offUntil( () => HomePage() );
-      return Get.off(SouvenirPage());
-      // return Get.offAndToNamed('/souvenir');
+      Get.off(SouvenirPage());
     }
 
     on Exception {

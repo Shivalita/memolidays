@@ -192,6 +192,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         RaisedButton(
                                           child: Text("Yes"),
                                           color: Colors.green,
+                                          // On pressed delete selected file in state & redirect to home page
                                           onPressed: () {
                                             souvenirsState.setState((state) => state.removeFile(context, souvenir, thumbnails[index].id));
                                           },
