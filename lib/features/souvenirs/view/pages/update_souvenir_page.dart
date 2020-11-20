@@ -107,6 +107,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
             ),
           // ],
         ),
+        resizeToAvoidBottomPadding: false,
         body: Container(
           // Rebuild view when state is modified
           child: souvenirsState.whenRebuilder(
@@ -183,17 +184,18 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
-        // Future.delayed(Duration(milliseconds : 500), () {
+        Future.delayed(Duration(milliseconds : 1000), () {
           setState(() {
             if (_fbKey.currentState.saveAndValidate()) {
               Map<String, dynamic> data = _fbKey.currentState.value;
               souvenirsState.setState((state) async => await state.updateSouvenir(data));
               stateTextWithIcon = ButtonState.success;
+              Get.toNamed('/souvenir'); 
             } else {
               stateTextWithIcon = ButtonState.fail;
             }
           });
-        // });
+        });
         break;
       case ButtonState.loading:
         break;

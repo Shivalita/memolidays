@@ -38,7 +38,9 @@ class UpdateTags extends StatelessWidget {
         souvenirCategories.add(category);
       }
 
-      widgetsList.add(chipForRow(context, category));
+      if (category.id != 0) {
+        widgetsList.add(chipForRow(context, category));
+      }
     });
 
     return Row(

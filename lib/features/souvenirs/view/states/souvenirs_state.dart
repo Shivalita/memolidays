@@ -175,7 +175,7 @@ class SouvenirsState {
     GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
     selectedSouvenir = updatedSouvenir;
 
-    Get.toNamed('/souvenir');
+    // Get.toNamed('/souvenir');
   }
 
 
