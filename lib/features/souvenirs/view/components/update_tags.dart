@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -17,56 +16,20 @@ class UpdateTags extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: rowChips(context, categoriesList),
-            // child: SizedBox(
-            //   height: 100,
-            //   width: 400,
-            //   child: FormBuilderChoiceChip(
-            //     attribute: 'tags',
-            //     initialValue: souvenir.categoriesId,
-            //     options: rowChips(context, categoriesList),
-            //     direction: Axis.horizontal
-            //   ),
-            // ),
           )
       ])),
       );
-    // );
-
-    // return Container(
-    //   child: FormBuilderFilterChip(
-    //     attribute: 'tags',
-    //     options: [
-    //       FormBuilderFieldOption(
-    //         child: Text("Cats"),
-    //         value: "cats"
-    //       ),
-    //       FormBuilderFieldOption(
-    //         child: Text("Dogs"),
-    //         value: "dogs"
-    //       ),
-    //       FormBuilderFieldOption(
-    //         child: Text("Rodents"),
-    //         value: "rodents"
-    //       ),
-    //       FormBuilderFieldOption(
-    //         child: Text("Birds"),
-    //         value: "birds"
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 
 
   // Create chips for all categories
   Widget rowChips(BuildContext context, List<Category> categoriesList) {
     List<Widget> widgetsList = [];
-    // List<FormBuilderFieldOption> optionsList = [];
 
     souvenirsState.setState((state) => state.temporaryCategoriesId = souvenir.categoriesId);
     List<int> souvenirCategoriesId = souvenirsState.state.temporaryCategoriesId;
 
-    categoriesList.removeWhere((category) => category.name == 'All');
+    // categoriesList.removeWhere((category) => category.name == 'All');
 
     categoriesList.forEach((category) {
       bool isSouvenirCategory = souvenirCategoriesId.contains(category.id);
@@ -76,21 +39,11 @@ class UpdateTags extends StatelessWidget {
       }
 
       widgetsList.add(chipForRow(context, category));
-      // Widget widget = chipForRow(context, category);
-      // FormBuilderFieldOption option = FormBuilderFieldOption(
-      //   value: category.id,
-      //   child: widget
-      // );
-
-      // optionsList.add(option);
-
     });
 
     return Row(
       children: widgetsList,
     );
-
-    // return optionsList;
   }
 
   Widget chipForRow(BuildContext context, Category category) {

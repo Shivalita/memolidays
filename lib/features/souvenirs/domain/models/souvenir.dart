@@ -36,6 +36,7 @@ class Souvenir {
     this.createdAt, 
   });
 
+
   // Instanciate from json API response 
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,30 +55,36 @@ class Souvenir {
     categoriesList = json['categories'];
   }
 
-  // Instanciate from addSouvenir form
-  Souvenir.fromForm(Map<String, dynamic> map) {
-    userId = map['userId'];
-    title = map['title'];
-    // cover = map['cover'];
-    eventDate = map['eventDate'];
-    email = map['email'];
-    phone = map['phone'];
-    comment = map['comment'];
-    address = map['address'];
-    createdAt = map['createdAt'];
-    // place = map['place'];
+
+  // Convert to json
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['place'] = this.place;
+    data['categories'] = this.categoriesList;
+    data['eventDate'] = this.eventDate;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['comment'] = this.comment;
+    return data;
+  }
+
+
+  // Instanciate from form data
+  Souvenir.fromForm(Map<String, dynamic> data) {
+    userId = data['userId'];
+    title = data['title'];
+    place = data['place'];
+    eventDate = data['eventDate'].toString();
+    email = data['email'];
+    phone = data['phone'];
+    comment = data['comment'];
+    categoriesList = data['categories'];
+    // cover = data['cover'];
+    // address = data['address'];
     // latitude = map['latitude'];
     // longitude = map['longitude'];
-    // storage = map['storage'];
-    // tempLink = map['temp_link'];
-
-    // if (map['thumbnails'] != null) {
-    //   thumbnails = List<Thumbnail>();
-    //   map['thumbnails'].forEach((element) {
-    //     thumbnails.add(Thumbnail.fromJson(element));
-    //   });
-    // }
-
+    // createdAt = data['createdAt'];
   }
 
 }

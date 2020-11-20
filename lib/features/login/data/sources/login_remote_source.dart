@@ -82,7 +82,7 @@ class LoginRemoteSource {
   Future<Map<String, dynamic>> createUser() async {
     String url = "http://192.168.1.110:8000/api/users";
 
-    var data = json.encode({
+    String data = json.encode({
       "googleId" : user.uid, 
       "name" : user.displayName, 
       "email" : user.email, 

@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 class LocalSource {
   // Get instanciated local storage box
-  var storageBox = Hive.box('storageBox');
+  Box<dynamic> storageBox = Hive.box('storageBox');
 
   // Local storage setters
   void storeUserData(int id, String googleId, String name, String email, String avatar, bool isPremium) {

@@ -37,7 +37,7 @@ class Tags extends StatelessWidget {
         ),
         findSuggestions: (String query) {
           if (query.length != 0) {
-            var lowercaseQuery = query.toLowerCase();
+            String lowercaseQuery = query.toLowerCase();
 
             List<Category> suggestions = allCategoriesList.where((category) {
               return category.name.toLowerCase().contains(query.toLowerCase());

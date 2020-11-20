@@ -13,6 +13,7 @@ class ListSouvenirsRepository {
   static ListSouvenirsRepository _cache;
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
+  // -------------------- GET --------------------
 
   // Get userId from local storage
   int getUserId() {
@@ -35,6 +36,8 @@ class ListSouvenirsRepository {
   }
 
 
+  // -------------------- DELETE --------------------
+
   Future<void> removeFile(int fileId) async {
     await listSouvenirsRemoteSource.removeFile(fileId);
   }
@@ -42,6 +45,16 @@ class ListSouvenirsRepository {
 
   Future<void> removeSouvenir(int souvenirId) async {
     await listSouvenirsRemoteSource.removeSouvenir(souvenirId);
+  }
+
+
+  // -------------------- UPDATE --------------------
+
+  // Future<void> updateSouvenir(int souvenirId, Map<String, dynamic> data) async {
+  //   await listSouvenirsRemoteSource.updateSouvenir(souvenirId, data);
+  Future<Souvenir> updateSouvenir(int souvenirId, Souvenir newSouvenirData) async {
+    Souvenir updatedSouvenir = await listSouvenirsRemoteSource.updateSouvenir(souvenirId, newSouvenirData);
+    return updatedSouvenir;
   }
 
 }

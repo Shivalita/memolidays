@@ -9,6 +9,7 @@ import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/update_tags.dart';
+import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 
@@ -34,20 +35,20 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
   
   @override
   Widget build(BuildContext context) {
+    // Clean routing tree on page closing (to avoid problems when go back from new route)
     return WillPopScope(
       onWillPop: () async {
         Get.to(MyHomePage());
         return false;
       },
       child: Scaffold(
-        // backgroundColor: Colors.black,
         appBar: AppBar(
-          // backgroundColor: Colors.black,
           title: Text('Update ${souvenir.title}'),
           centerTitle: true,
           leading: IconButton(
               icon: Icon(Icons.arrow_back),
               color: Colors.black,
+              // Display a confirmation modal when going back without saving changes
               onPressed: () {
                 showModalBottomSheet(
                     context: context,
@@ -90,10 +91,9 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                                   RaisedButton(
                                     child: Text("Yes"),
                                     color: Colors.orange,
-                                    // On pressed delete selected file in state & redirect to home page
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      Get.back();
+                                      Get.to(SouvenirPage());
                                     },
                                   )
                                 ],
@@ -108,73 +108,51 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
           // ],
         ),
         body: Container(
-          // Rebuild view when state is modified and call init method
+          // Rebuild view when state is modified
           child: souvenirsState.whenRebuilder(
-            // initState: () => souvenirsState.setState((state) async => await state.init(context)),
             onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
             onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
             onError: (error) {
               throw error;
             },
             onData: () {
-          return FormBuilder(
-            initialValue: {
-              'title': souvenir.title, 
-              'location': souvenir.place,
-              'tags': souvenir.categoriesId,
-              'date' : souvenir.eventDate,
-              'email': souvenir.email,
-              'phone' : souvenir.phone,
-              'comment' : souvenir.comment
-            },
-            key: _fbKey,
-            child: Container(
-              margin: EdgeInsets.only(right: 25, left: 25),
-              child: Column(
-                children: <Widget>[
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 20),
-                  //   child: Stack(
-                  //     alignment: Alignment.bottomLeft, 
-                  //     children: <Widget>[
-                  //       Container(
-                  //         child: ClipRRect(
-                  //           // Display sized thumbnail from cache if stored, else store it
-                  //           child : CachedNetworkImage(
-                  //             imageUrl: ThumbnailLink().getThumbnailLink(souvenir.cover, 400),
-                  //             progressIndicatorBuilder: (context, url, downloadProgress) => 
-                  //               Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                  //             errorWidget: (context, url, error) => Icon(Icons.error),
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ]
-                  //   ),
-                  // ),
-                  SizedBox(height: 20),
-                  UpdateTags(),
-                  SizedBox(height: 40),
-                  Input('Title', Icon(Icons.title_rounded, size: 20)),
-                  SizedBox(height: 20),
-                  Input('Location', Icon(Icons.public, size: 20)),
-                  SizedBox(height: 20),
-                  DatePicker(),
-                  SizedBox(height: 20),
-                  Input('Comment', Icon(Icons.comment, size: 20)),
-                  SizedBox(height: 20),
-                  Input('Phone', Icon(Icons.phone, size: 20)),
-                  SizedBox(height: 20),
-                  Input('Email', Icon(Icons.mail, size: 20)),
-                  SizedBox(height: 80),
-                  buildTextWithIcon(),
-                  SizedBox(height: 40)
-                ],
-              )
-            ),
-          );
-        })
-      ))
+              return FormBuilder(
+                initialValue: {
+                  'title': souvenir.title, 
+                  'place': souvenir.place,
+                  'categories': souvenir.categoriesId,
+                  'eventDate' : souvenir.eventDate,
+                  'email': souvenir.email,
+                  'phone' : souvenir.phone,
+                  'comment' : souvenir.comment
+                },
+                key: _fbKey,
+                child: Container(
+                  margin: EdgeInsets.only(right: 25, left: 25),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 20),
+                      UpdateTags(),
+                      SizedBox(height: 40),
+                      Input('Title', Icon(Icons.title_rounded, size: 20)),
+                      SizedBox(height: 20),
+                      Input('Place', Icon(Icons.public, size: 20)),
+                      SizedBox(height: 20),
+                      DatePicker(),
+                      SizedBox(height: 20),
+                      Input('Comment', Icon(Icons.comment, size: 20)),
+                      SizedBox(height: 20),
+                      Input('Phone', Icon(Icons.phone, size: 20)),
+                      SizedBox(height: 20),
+                      Input('Email', Icon(Icons.mail, size: 20)),
+                      SizedBox(height: 80),
+                      buildTextWithIcon(),
+                      SizedBox(height: 40)
+                    ],
+                  )
+              ));
+            })
+        ))
     );
   }
 
@@ -205,7 +183,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
-        // Future.delayed(Duration(seconds: 1), () {
+        // Future.delayed(Duration(milliseconds : 500), () {
           setState(() {
             if (_fbKey.currentState.saveAndValidate()) {
               Map<String, dynamic> data = _fbKey.currentState.value;

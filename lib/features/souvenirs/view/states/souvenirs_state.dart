@@ -16,7 +16,7 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categ
 import 'package:memolidays/features/souvenirs/domain/usecases/remove_file.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/remove_souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
-import 'package:memolidays/features/souvenirs/view/pages/update_souvenir_page.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 
 class SouvenirsState {
@@ -141,7 +141,7 @@ class SouvenirsState {
 
   void updateSouvenirCategory(Souvenir souvenir, Category category) {
     List<int> souvenirCategoriesId = souvenir.categoriesId;
-    temporaryCategoriesId = souvenirCategoriesId;
+    // temporaryCategoriesId = souvenirCategoriesId;
 
     if (souvenirCategoriesId.contains(category.id)) {
       temporaryCategoriesId.removeWhere((categoryId) => categoryId == category.id);
@@ -152,7 +152,30 @@ class SouvenirsState {
 
 
   Future<void> updateSouvenir(Map<String, dynamic> data) async {
-    print('data = $data');
+    List<String> categoriesIRI = [];
+    List<int> categoriesId = data['categories'];
+
+    categoriesId.removeWhere((categoryId) => categoryId == 0);
+
+    categoriesId.forEach((categoryId) { 
+      categoriesIRI.add('/api/categories/$categoryId');
+    });
+
+    data['categories'] = categoriesIRI;
+    int souvenirId = selectedSouvenir.id;
+
+    Souvenir newSouvenirData = Souvenir.fromForm(data);
+
+    Souvenir updatedSouvenir = await UpdateSouvenir()(souvenirId, newSouvenirData);
+
+    updatedSouvenir.thumbnails = selectedSouvenir.thumbnails;
+
+    allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
+
+    GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
+    selectedSouvenir = updatedSouvenir;
+
+    Get.toNamed('/souvenir');
   }
 
 

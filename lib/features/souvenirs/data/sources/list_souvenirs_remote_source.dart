@@ -12,6 +12,8 @@ class ListSouvenirsRemoteSource {
   factory ListSouvenirsRemoteSource() => _cache ??= ListSouvenirsRemoteSource._();
 
 
+  // -------------------- GET --------------------
+
   // Get all user's categories & add an "All" category (for display all souvenirs)
   Future<List<Category>> getAllCategories(int userId) async {
     final String url = "http://192.168.1.110:8000/api/categories?user=$userId";
@@ -69,6 +71,8 @@ class ListSouvenirsRemoteSource {
   }
 
 
+  // -------------------- DELETE --------------------
+
   Future<void> removeFile(int fileId) async {
     final String url = "http://192.168.1.110:8000/api/files/$fileId";
     final response = await http.delete(url);
@@ -81,5 +85,28 @@ class ListSouvenirsRemoteSource {
     final response = await http.delete(url);
     if (response.statusCode != 204) throw Exception;
   }
+
+
+  // -------------------- UPDATE --------------------
+
+  Future<Souvenir> updateSouvenir(int souvenirId, Souvenir newSouvenirData) async {
+    String url = "http://192.168.1.110:8000/api/souvenirs/$souvenirId";
+
+    String data = json.encode(newSouvenirData.toJson());
+
+    Map<String,String> headers = {
+      'Content-type' : 'application/merge-patch+json;charset=UTF-8', 
+    };
+
+    final response = await http.patch(url, body: data, headers: headers);
+
+    if (response.statusCode != 200) throw Exception;
+
+    final Map<String, dynamic> responseJson = json.decode(response.body);
+
+    Souvenir updatedSouvenir = Souvenir.fromJson(responseJson);
+    return updatedSouvenir;
+  }
+
 
 }
