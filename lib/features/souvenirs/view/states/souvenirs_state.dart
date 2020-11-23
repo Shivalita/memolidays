@@ -193,17 +193,12 @@ class SouvenirsState {
   //   return souvenirPlace;
   // }
 
-  void addSouvenir(data) {
-    String date = data['date'].toString();
-    String formattedDate = date.substring(0, 10);
-    data['date'] = formattedDate;
+  void addSouvenir(Map<String, dynamic> data) {
+    print('DATA = $data');
 
-    print('data = $data');
     Souvenir newSouvenir = Souvenir.fromForm(data);
 
     registerCategories(data, newSouvenir);
-    print('allCategoriesList.length = ${allCategoriesList.length}');
-    print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
   }
 
   registerCategories(Map data, Souvenir newSouvenir) {
@@ -211,17 +206,16 @@ class SouvenirsState {
     List<Category> newCategories = [];
     List<Category> existingResult = [];
     List<Category> newResult = [];
-    List<dynamic> tagsList = data['tags'];
+    List<dynamic> categoriesList = data['categories'];
 
-    tagsList.forEach((tag) {
+    categoriesList.forEach((tag) {
       existingResult = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
       if (existingResult.length >= 1) {
-        // existingCategories.add(existingResult[0]);
         existingCategories.insert(0, existingResult[0]);
       }
     });
 
-    tagsList.forEach((tag) {
+    categoriesList.forEach((tag) {
       newResult = allCategoriesList.where((category) => !(category.name.contains(tag.name))).toList();
       if (newResult.length >= 1) {
         newCategories.insert(0, newResult[0]);

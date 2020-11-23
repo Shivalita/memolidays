@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
+import 'package:memolidays/features/souvenirs/view/components/update_date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/update_tags.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -138,7 +138,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                       SizedBox(height: 20),
                       Input('Place', Icon(Icons.public, size: 20)),
                       SizedBox(height: 20),
-                      DatePicker(),
+                      UpdateDatePicker(),
                       SizedBox(height: 20),
                       Input('Comment', Icon(Icons.comment, size: 20)),
                       SizedBox(height: 20),

@@ -121,15 +121,9 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           padding: EdgeInsets.all(10),
           child: SingleChildScrollView(
             child: FormBuilder(
-              initialValue: {'title': '', 'location': ''},
               key: _fbKey,
               child: Column(
                 children: <Widget>[
-                  Container(
-                      child: LinearProgressIndicator(
-                    backgroundColor: Colors.grey,
-                  )),
-                  SizedBox(height: 10),
                   Container(
                     padding: EdgeInsets.all(10),
                     child: Row(
@@ -213,20 +207,30 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
             Icons.check_circle,
             color: Colors.white,
           ),
-          color: Colors.orange)
+          color: Colors.green)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
+
+    
   }
 
   void onPressedIconWithText() {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
-        Future.delayed(Duration(seconds: 1), () {
+              Future.delayed(Duration(milliseconds : 500), () {
+
           setState(() {
-            stateTextWithIcon = Random.secure().nextBool()
-                ? ButtonState.success
-                : ButtonState.fail;
-          });
+            // If form is validated, call update souvenir method
+            if (_fbKey.currentState.saveAndValidate()) {
+                Map<String, dynamic> data = _fbKey.currentState.value;
+                stateTextWithIcon = ButtonState.success;
+                Future.delayed(Duration(milliseconds : 1000), () {
+                  souvenirsState.setState((state) async => await state.addSouvenir(data));
+                });
+            } else {
+              stateTextWithIcon = ButtonState.fail;
+            }
+              });
         });
         break;
       case ButtonState.loading:

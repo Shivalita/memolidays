@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
-class DatePicker extends StatelessWidget {
+class UpdateDatePicker extends StatelessWidget {
   final Souvenir souvenir = souvenirsState.state.selectedSouvenir;
   
   @override
@@ -15,7 +15,7 @@ class DatePicker extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: FormBuilderDateTimePicker(
         attribute: 'eventDate',
-        initialValue: currentDate,
+        initialValue: DateTime.parse(souvenir.eventDate),
         firstDate: DateTime(currentDate.year - 20),
         lastDate: currentDate,
         inputType: InputType.date,
