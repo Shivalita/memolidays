@@ -1,15 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
-import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/update_tags.dart';
-import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 
@@ -60,7 +57,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(20))),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -90,10 +87,10 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                                   ),
                                   RaisedButton(
                                     child: Text("Yes"),
-                                    color: Colors.orange,
+                                    color: Colors.green,
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      Get.to(SouvenirPage());
+                                      Get.toNamed('/souvenir');
                                     },
                                   )
                                 ],
@@ -107,9 +104,10 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
             ),
           // ],
         ),
+        // Prevents the keyboard from causing an overflow when unfolding
         resizeToAvoidBottomPadding: false,
         body: Container(
-          // Rebuild view when state is modified
+          // Rebuild view when the state is modified
           child: souvenirsState.whenRebuilder(
             onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
             onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
@@ -117,6 +115,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
               throw error;
             },
             onData: () {
+              // Create a form pre-filled with current souvenir data
               return FormBuilder(
                 initialValue: {
                   'title': souvenir.title, 
@@ -184,17 +183,20 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
-        Future.delayed(Duration(milliseconds : 1000), () {
+              Future.delayed(Duration(milliseconds : 500), () {
+
           setState(() {
+            // If form is validated, call update souvenir method
             if (_fbKey.currentState.saveAndValidate()) {
-              Map<String, dynamic> data = _fbKey.currentState.value;
-              souvenirsState.setState((state) async => await state.updateSouvenir(data));
-              stateTextWithIcon = ButtonState.success;
-              Get.toNamed('/souvenir'); 
+                Map<String, dynamic> data = _fbKey.currentState.value;
+                stateTextWithIcon = ButtonState.success;
+                Future.delayed(Duration(milliseconds : 1000), () {
+                  souvenirsState.setState((state) async => await state.updateSouvenir(data));
+                });
             } else {
               stateTextWithIcon = ButtonState.fail;
             }
-          });
+              });
         });
         break;
       case ButtonState.loading:

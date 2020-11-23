@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
-import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
@@ -13,8 +11,8 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_distance.dart'
 import 'package:geolocator/geolocator.dart';
 import 'package:memolidays/features/login/view/states/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categories.dart';
-import 'package:memolidays/features/souvenirs/domain/usecases/remove_file.dart';
-import 'package:memolidays/features/souvenirs/domain/usecases/remove_souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/delete_file.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/delete_souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
@@ -31,7 +29,7 @@ class SouvenirsState {
   Position position;
   final LocalSource localSource = LocalSource();
 
-  // If first user's display, get all categories & souvenirs
+  // On first user's display, get all categories & souvenirs
   Future<void> init(BuildContext context) async {
     if (allCategoriesList == null) {
       allCategoriesList = await getAllCategories(context);
@@ -43,6 +41,7 @@ class SouvenirsState {
     selectedCategory = selectCategory(allCategoriesList[0]);
   }
 
+  // -------------------- GET --------------------
 
   // Get all categories, if error thrown display an error message
   Future<List<Category>> getAllCategories(BuildContext context) async {
@@ -97,21 +96,13 @@ class SouvenirsState {
   }
 
 
-  // Select category & get related souvenirs
-  Category selectCategory(Category category) {
-    selectedCategory = SelectCategory()(category);
-    souvenirsList = GetCategorySouvenirs()(category.id, allSouvenirsList);
-    return selectedCategory;
-  }
+  // -------------------- DELETE --------------------
 
-
-  Future<void> removeFile(BuildContext context, Souvenir souvenir, int fileId) async {
+  // Delete file in database and souvenir's files list, redirect to souvenir page
+  Future<void> deleteFile(BuildContext context, Souvenir souvenir, int fileId) async {
     try {
-      await RemoveFile()(fileId);
-      
-      List<File> souvenirFiles = souvenir.thumbnails;
-      souvenirFiles.removeWhere((file) => file.id == fileId);
-
+      await DeleteFile()(fileId);
+      souvenir.thumbnails.removeWhere((file) => file.id == fileId);
       Get.off(SouvenirPage());
     }
 
@@ -121,15 +112,15 @@ class SouvenirsState {
     }
   }
 
-
-  Future<void> removeSouvenir(BuildContext context, int souvenirId) async {
+  // Delete souvenir in database and souvenirs list, redirect to home page
+  Future<void> deleteSouvenir(BuildContext context, int souvenirId) async {
     try {
-      await RemoveSouvenir()(souvenirId);
+      await DeleteSouvenir()(souvenirId);
 
       allSouvenirsList.removeWhere((souvenir) => souvenir.id == souvenirId);
       souvenirsList.removeWhere((souvenir) => souvenir.id == souvenirId);
 
-      return Get.to(MyHomePage());
+      return Get.toNamed('/home');
     }
 
     on Exception {
@@ -139,9 +130,19 @@ class SouvenirsState {
   }
 
 
+  // -------------------- UPDATE --------------------
+  
+  // Select category & get related souvenirs
+  Category selectCategory(Category category) {
+    selectedCategory = SelectCategory()(category);
+    souvenirsList = GetCategorySouvenirs()(category.id, allSouvenirsList);
+    return selectedCategory;
+  }
+
+
+  // If category isn't selected yet select it, else unselect it
   void updateSouvenirCategory(Souvenir souvenir, Category category) {
     List<int> souvenirCategoriesId = souvenir.categoriesId;
-    // temporaryCategoriesId = souvenirCategoriesId;
 
     if (souvenirCategoriesId.contains(category.id)) {
       temporaryCategoriesId.removeWhere((categoryId) => categoryId == category.id);
@@ -150,11 +151,12 @@ class SouvenirsState {
     }
   }
 
-
+  // Update souvenir in database and state
   Future<void> updateSouvenir(Map<String, dynamic> data) async {
     List<String> categoriesIRI = [];
     List<int> categoriesId = data['categories'];
 
+    // For each category (except 'All') replace id by an IRI in data to send
     categoriesId.removeWhere((categoryId) => categoryId == 0);
 
     categoriesId.forEach((categoryId) { 
@@ -162,20 +164,23 @@ class SouvenirsState {
     });
 
     data['categories'] = categoriesIRI;
+
+    // Instanciate a new souvenir with form data and send it for database update
     int souvenirId = selectedSouvenir.id;
+    Souvenir newSouvenir = Souvenir.fromForm(data);
 
-    Souvenir newSouvenirData = Souvenir.fromForm(data);
+    Souvenir updatedSouvenir = await UpdateSouvenir()(souvenirId, newSouvenir);
 
-    Souvenir updatedSouvenir = await UpdateSouvenir()(souvenirId, newSouvenirData);
-
+    // Retrieve files list from old souvenir, and replace it with new souvenir in state souvenirs list
     updatedSouvenir.thumbnails = selectedSouvenir.thumbnails;
 
     allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
 
+    // Get new souvenir categories list, set selected souvenir to new souvenir and redirect to souvenir page
     GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
     selectedSouvenir = updatedSouvenir;
 
-    // Get.toNamed('/souvenir');
+    Get.toNamed('/souvenir'); 
   }
 
 

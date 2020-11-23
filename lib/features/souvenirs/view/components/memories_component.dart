@@ -33,7 +33,7 @@ class MemoriesComponent extends StatelessWidget {
             itemCount: souvenirs.length,
             itemBuilder: (ctx, i) {
               return GestureDetector(
-                // OnTap store selected souvenir in state & redirect to souvenir page
+                // On tap store selected souvenir in state & redirect to souvenir page
                 onTap: () {
                   souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]); 
                   Get.toNamed('/souvenir');

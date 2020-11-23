@@ -45,7 +45,7 @@ class CategoryComponent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           GestureDetector(
-            // OnTap selects related category & displays highlighted chip for selected category
+            // On tap selects related category & displays highlighted chip for selected category
             onTap: () => souvenirsState.setState((state) => state.selectCategory(category)),
             child: ((selectedCategory != null) && (selectedCategory.id == category.id)) ? 
             Chip(

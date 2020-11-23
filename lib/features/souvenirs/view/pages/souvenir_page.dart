@@ -10,11 +10,12 @@ import 'package:memolidays/features/souvenirs/view/components/masonery_grid.dart
 // ignore: must_be_immutable
 class SouvenirPage extends StatelessWidget {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.to(MyHomePage());
+        Get.toNamed('/home');
         return false;
       },
       child: Scaffold(

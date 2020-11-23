@@ -5,7 +5,7 @@ import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class UpdateTags extends StatelessWidget {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-  List<Category> categoriesList = souvenirsState.state.allCategoriesList;
+  List<Category> allCategoriesList = souvenirsState.state.allCategoriesList;
   List<Category> souvenirCategories = [];
 
   @override
@@ -15,23 +15,21 @@ class UpdateTags extends StatelessWidget {
         child: Row(children: <Widget>[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: rowChips(context, categoriesList),
+            child: rowChips(context, allCategoriesList),
           )
       ])),
       );
   }
 
 
-  // Create chips for all categories
-  Widget rowChips(BuildContext context, List<Category> categoriesList) {
+  // Create chips for all souvenir's categories except 'All'
+  Widget rowChips(BuildContext context, List<Category> allCategoriesList) {
     List<Widget> widgetsList = [];
 
     souvenirsState.setState((state) => state.temporaryCategoriesId = souvenir.categoriesId);
     List<int> souvenirCategoriesId = souvenirsState.state.temporaryCategoriesId;
 
-    // categoriesList.removeWhere((category) => category.name == 'All');
-
-    categoriesList.forEach((category) {
+    allCategoriesList.forEach((category) {
       bool isSouvenirCategory = souvenirCategoriesId.contains(category.id);
 
       if (isSouvenirCategory) {
@@ -56,7 +54,7 @@ class UpdateTags extends StatelessWidget {
           children: <Widget>[
             (souvenirCategories.contains(category)) ? 
             GestureDetector(
-              // OnTap selects related category & displays highlighted chip for selected category
+              // On tap select related category and display highlighted chip for selected category
               onTap: () => souvenirsState.setState((state) => state.updateSouvenirCategory(souvenir, category)),
               child: Chip(
                 labelPadding: EdgeInsets.all(5.0),
@@ -78,7 +76,6 @@ class UpdateTags extends StatelessWidget {
               )
             ) 
             : GestureDetector(
-              // OnTap selects related category & displays highlighted chip for selected category
               onTap: () => souvenirsState.setState((state) => state.updateSouvenirCategory(souvenir, category)),
               child: Chip(
                 labelPadding: EdgeInsets.all(5.0),

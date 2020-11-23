@@ -30,7 +30,7 @@ class PopUpOptionMenu extends StatelessWidget {
         PopupMenuItem(
           value: 0,
           child: GestureDetector(
-          // OnTap redirect to update page
+          // On tap redirect to update page
             onTap: () {
               return Get.to(UpdateSouvenirPage());
             },
@@ -46,9 +46,61 @@ class PopUpOptionMenu extends StatelessWidget {
         PopupMenuItem(
           value: 1,
           child: GestureDetector(
-          // OnTap delete selected souvenir in state & redirect to home page
+            // On tap display a confirmation modal
             onTap: () {
-              souvenirsState.setState((state) => state.removeSouvenir(context, souvenir.id)); 
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Center(
+                              child: Text(
+                                "Are you sure you want to delete this souvenir ?",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              RaisedButton(
+                                child: Text("No"),
+                                color: Colors.red,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text("Yes"),
+                                color: Colors.green,
+                                // On pressed delete selected souvenir & redirect to home page
+                                onPressed: () {
+                                  souvenirsState.setState((state) => state.deleteSouvenir(context, souvenir.id)); 
+                                },
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
             },
             child: ListTile(
               leading: Icon(

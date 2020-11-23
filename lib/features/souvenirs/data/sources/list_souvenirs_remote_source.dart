@@ -73,14 +73,14 @@ class ListSouvenirsRemoteSource {
 
   // -------------------- DELETE --------------------
 
-  Future<void> removeFile(int fileId) async {
+  Future<void> deleteFile(int fileId) async {
     final String url = "http://192.168.1.110:8000/api/files/$fileId";
     final response = await http.delete(url);
     if (response.statusCode != 204) throw Exception;
   }
 
 
-  Future<void> removeSouvenir(int souvenirId) async {
+  Future<void> deleteSouvenir(int souvenirId) async {
     final String url = "http://192.168.1.110:8000/api/souvenirs/$souvenirId";
     final response = await http.delete(url);
     if (response.statusCode != 204) throw Exception;
@@ -89,6 +89,7 @@ class ListSouvenirsRemoteSource {
 
   // -------------------- UPDATE --------------------
 
+  // Update souvenir and return new souvenir from updated data
   Future<Souvenir> updateSouvenir(int souvenirId, Souvenir newSouvenirData) async {
     String url = "http://192.168.1.110:8000/api/souvenirs/$souvenirId";
 

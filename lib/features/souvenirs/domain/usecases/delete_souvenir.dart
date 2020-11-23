@@ -2,10 +2,10 @@ import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_r
 
 final ListSouvenirsRepository repository = ListSouvenirsRepository();
 
-class RemoveFile {
+class DeleteSouvenir {
 
-  Future<void> call(int fileId) async {
-    await repository.removeFile(fileId);
+  Future<void> call(int souvenirId) async {
+    await repository.deleteSouvenir(souvenirId);
   }
-  
+
 }

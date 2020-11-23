@@ -150,6 +150,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                   IconButton(
                     icon: Icon(Icons.delete_forever),
                     color: Colors.white,
+                     // On pressed display a confirmation modal
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -191,10 +192,10 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         ),
                                         RaisedButton(
                                           child: Text("Yes"),
-                                          color: Colors.orange,
-                                          // On pressed delete selected file in state & redirect to home page
+                                          color: Colors.green,
+                                          // On pressed delete selected file & redirect to souvenir page
                                           onPressed: () {
-                                            souvenirsState.setState((state) => state.removeFile(context, souvenir, thumbnails[index].id));
+                                            souvenirsState.setState((state) => state.deleteFile(context, souvenir, thumbnails[index].id));
                                           },
                                         )
                                       ],
