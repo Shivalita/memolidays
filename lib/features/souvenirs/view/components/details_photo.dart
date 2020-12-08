@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/models/thumbnail.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class DetailsPhoto extends StatefulWidget {
   final int index;
@@ -40,7 +41,8 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   @override
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
-    List<Thumbnail> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+    Souvenir souvenir = souvenirsState.state.selectedSouvenir;
+    List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
       body: PageView.builder(
@@ -70,7 +72,6 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                             child: Container(
                               margin: EdgeInsets.all(10),
                               padding: EdgeInsets.all(10),
-                              // height: 200,
                               decoration: BoxDecoration(
                                   color: Colors.grey[100],
                                   borderRadius:
@@ -149,6 +150,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                   IconButton(
                     icon: Icon(Icons.delete_forever),
                     color: Colors.white,
+                     // On pressed display a confirmation modal
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -157,7 +159,6 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                               child: Container(
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(10),
-                                // height: 200,
                                 decoration: BoxDecoration(
                                     color: Colors.grey[100],
                                     borderRadius:
@@ -192,8 +193,9 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         RaisedButton(
                                           child: Text("Yes"),
                                           color: Colors.green,
+                                          // On pressed delete selected file & redirect to souvenir page
                                           onPressed: () {
-                                            //Delete This Image
+                                            souvenirsState.setState((state) => state.deleteFile(context, souvenir, thumbnails[index].id));
                                           },
                                         )
                                       ],
@@ -210,7 +212,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               body: Container(
                 child: Center(
                   child : CachedNetworkImage(
-                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].tempLink, 600),
+                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
                     progressIndicatorBuilder: (context, url, downloadProgress) => 
                       Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                     errorWidget: (context, url, error) => Icon(Icons.error),

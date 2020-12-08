@@ -1,28 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
+import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_category_souvenirs.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_distance.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:memolidays/core/states/dependencies.dart';
+import 'package:memolidays/features/login/view/states/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categories.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/delete_file.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/delete_souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.dart';
+import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 
 class SouvenirsState {
 
   List<Category> allCategoriesList;
   Category selectedCategory;
+  List<int> temporaryCategoriesId;
+  List<Souvenir> allSouvenirsList;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
+  final LocalSource localSource = LocalSource();
 
+  // On first user's display, get all categories & souvenirs
   Future<void> init(BuildContext context) async {
-    allCategoriesList = await getCategoriesList(context);
-    souvenirsList = await getSouvenirsList(context);
+    if (allCategoriesList == null) {
+      allCategoriesList = await getAllCategories(context);
+      allSouvenirsList = await getSouvenirsList(context);
+      souvenirsList = allSouvenirsList;
+    }
+
+    // Select "All" category by default
+    selectedCategory = selectCategory(allCategoriesList[0]);
   }
 
-  Future<List<Category>> getCategoriesList(BuildContext context) async {
+  // -------------------- GET --------------------
+
+  // Get all categories, if error thrown display an error message
+  Future<List<Category>> getAllCategories(BuildContext context) async {
     try {
       allCategoriesList = await GetAllCategories()();
     }
@@ -35,87 +57,152 @@ class SouvenirsState {
     return allCategoriesList;
   }
 
+
+  // Get all souvenirs, if error thrown display an error message
   Future<List<Souvenir>> getSouvenirsList(BuildContext context) async {
-    if ((selectedCategory != null) && (selectedCategory.id != 0)) {
-      souvenirsList = selectedCategory.souvenirsList;
-      return souvenirsList;
-    } else {
-      try {
-        await localizationState.setState((state) => state.checkPosition());
+    List<Souvenir> allSouvenirs;
 
-        if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
-          isLocalizationEnabled = true;
-          position = localizationState.state.currentPosition;
-        } else {
-          isLocalizationEnabled = false;
+    try {
+      // Check if localization is possible
+      await localizationState.setState((state) => state.checkPosition());
+
+      if ((localizationState.state.isPermissionAllowed) && (localizationState.state.isLocationServiceEnabled)) {
+        isLocalizationEnabled = true;
+        position = localizationState.state.currentPosition;
+      } else {
+        isLocalizationEnabled = false;
+      }
+
+      allSouvenirs = await GetAllSouvenirs()();
+
+      allSouvenirs.forEach((souvenir) async {
+        GetSouvenirCategories()(souvenir, allSouvenirs);
+
+        
+        // If localization possible, get souvenir's distance
+        if (isLocalizationEnabled) {
+          String distance = GetDistance()(souvenir, position);
+          souvenir.distance = distance;
         }
+      });
+    }
 
-        List<Souvenir> allSouvenirsList = await GetAllSouvenirs()(allCategoriesList);
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
 
-        allSouvenirsList.forEach((souvenir) async {
-          String souvenirPlace = await getPlaceFromCoordinates(souvenir);
-          souvenir.place = souvenirPlace;
-          
-          if (isLocalizationEnabled) {
-            String distance = getDistance(souvenir, position);
-            souvenir.distance = distance;
-          }
-        });
+    return allSouvenirs;
+  }
 
-        souvenirsList = allSouvenirsList;
-      }
 
-      on Exception {
-        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
-        errorSnackbar.displayErrorSnackbar();
-      }
+  // -------------------- DELETE --------------------
 
-      return souvenirsList;
+  // Delete file in database and souvenir's files list, redirect to souvenir page
+  Future<void> deleteFile(BuildContext context, Souvenir souvenir, int fileId) async {
+    try {
+      await DeleteFile()(fileId);
+      souvenir.thumbnails.removeWhere((file) => file.id == fileId);
+      Get.off(SouvenirPage());
+    }
+
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : File couldn\'t be deleted, please try again.');
+      errorSnackbar.displayErrorSnackbar();
     }
   }
 
-  String getDistance(souvenir, position) {
-    double distanceInMeters = Geolocator.distanceBetween(souvenir.lat, souvenir.lon, position.latitude, position.longitude);
-    int distanceNumber;
-    String distance;
+  // Delete souvenir in database and souvenirs list, redirect to home page
+  Future<void> deleteSouvenir(BuildContext context, int souvenirId) async {
+    try {
+      await DeleteSouvenir()(souvenirId);
 
-    if (distanceInMeters >= 1000) {
-      distanceNumber = (distanceInMeters/1000).round();
-      distance = distanceNumber.toString() + " Km";
-    } else {
-      distanceNumber = (distanceInMeters).round();
-      distance = distanceNumber.toString() + " m"; 
+      allSouvenirsList.removeWhere((souvenir) => souvenir.id == souvenirId);
+      souvenirsList.removeWhere((souvenir) => souvenir.id == souvenirId);
+
+      return Get.toNamed('/home');
     }
 
-    return distance;
-  }
-
-  Future<String> getPlaceFromCoordinates(souvenir) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.lat, souvenir.lon);
-    String souvenirPlace = placemarks[0].locality;
-    // print(placemarks);
-    return souvenirPlace;
-  }
-
-  Future<Category> selectCategory(BuildContext context, Category category) async {
-    if ((selectedCategory == null) || (selectedCategory.id != category.id)) {
-      selectedCategory = category;
-      souvenirsList = await getSouvenirsList(context);
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Souvenir couldn\'t be deleted, please try again.');
+      errorSnackbar.displayErrorSnackbar();
     }
+  }
+
+
+  // -------------------- UPDATE --------------------
+  
+  // Select category & get related souvenirs
+  Category selectCategory(Category category) {
+    selectedCategory = SelectCategory()(category);
+    souvenirsList = GetCategorySouvenirs()(category.id, allSouvenirsList);
     return selectedCategory;
   }
 
-  void addSouvenir(data) {
-    String date = data['date'].toString();
-    String formattedDate = date.substring(0, 10);
-    data['date'] = formattedDate;
 
-    print('data = $data');
+  // If category isn't selected yet select it, else unselect it
+  void updateSouvenirCategory(Souvenir souvenir, Category category) {
+    List<int> souvenirCategoriesId = souvenir.categoriesId;
+
+    if (souvenirCategoriesId.contains(category.id)) {
+      temporaryCategoriesId.removeWhere((categoryId) => categoryId == category.id);
+    } else {
+      temporaryCategoriesId.add(category.id);
+    }
+  }
+
+  // Update souvenir in database and state
+  Future<void> updateSouvenir(Map<String, dynamic> data) async {
+    List<String> categoriesIRI = [];
+    List<int> categoriesId = data['categories'];
+
+    // For each category (except 'All') replace id by an IRI in data to send
+    categoriesId.removeWhere((categoryId) => categoryId == 0);
+
+    categoriesId.forEach((categoryId) { 
+      categoriesIRI.add('/api/categories/$categoryId');
+    });
+
+    data['categories'] = categoriesIRI;
+
+    // Instanciate a new souvenir with form data and send it for database update
+    int souvenirId = selectedSouvenir.id;
+    Souvenir newSouvenir = Souvenir.fromForm(data);
+
+    Souvenir updatedSouvenir = await UpdateSouvenir()(souvenirId, newSouvenir);
+
+    // Retrieve files list from old souvenir
+    updatedSouvenir.thumbnails = selectedSouvenir.thumbnails;
+
+    // Get new souvenir categories list
+    GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
+
+    // Replace old souvenir with new souvenir in souvenirs list
+    allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
+      
+    // Set selected souvenir to new souvenir
+    selectedSouvenir = updatedSouvenir;
+
+    // Redirect to souvenir page
+    Get.toNamed('/souvenir'); 
+  }
+
+
+  //! CREATE PART - ON PROGRESS
+
+  // Future<String> getPlaceFromCoordinates(souvenir) async {
+  //   List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.latitude, souvenir.longitude);
+  //   String souvenirPlace = placemarks[0].locality;
+  //   print(placemarks);
+  //   return souvenirPlace;
+  // }
+
+  void addSouvenir(Map<String, dynamic> data) {
+    print('DATA = $data');
+
     Souvenir newSouvenir = Souvenir.fromForm(data);
 
     registerCategories(data, newSouvenir);
-    print('allCategoriesList.length = ${allCategoriesList.length}');
-    print('allCategoriesList[0].name = ${allCategoriesList[0].name}');
   }
 
   registerCategories(Map data, Souvenir newSouvenir) {
@@ -123,62 +210,21 @@ class SouvenirsState {
     List<Category> newCategories = [];
     List<Category> existingResult = [];
     List<Category> newResult = [];
-    List<dynamic> tagsList = data['tags'];
+    List<dynamic> categoriesList = data['categories'];
 
-    // for (var i = 0; i < tagsList.length; i++) {
-    //   allCategoriesList.forEach((category) {
-    //     if (category.name.contains(tagsList[i].name)) {
-    //       existingCategories.insert(0, tagsList[i]);
-    //       print('existing tagsList[i].name = ${tagsList[i].name}');
-    //     } else {
-    //       newCategories.insert(0, tagsList[i]);
-    //       print('new tagsList[i].name = ${tagsList[i].name}');
-    //     }
-    //   });
-    // }
-
-
-
-    tagsList.forEach((tag) {
+    categoriesList.forEach((tag) {
       existingResult = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
       if (existingResult.length >= 1) {
-        // existingCategories.add(existingResult[0]);
         existingCategories.insert(0, existingResult[0]);
       }
     });
 
-    tagsList.forEach((tag) {
+    categoriesList.forEach((tag) {
       newResult = allCategoriesList.where((category) => !(category.name.contains(tag.name))).toList();
       if (newResult.length >= 1) {
         newCategories.insert(0, newResult[0]);
       }
     });
-
-    // allCategoriesList.forEach((category) {
-    //   print('OK');
-    //   newResult = tagsList.where((tag) => !(tag.name.contains(category.name))).toList();
-    //   print('newResult.length = ${newResult.length}');
-    //   if (newResult.length >= 1) {
-    //     newCategories.add(newResult[0]);
-    //   }
-    // });
-
-    if (existingCategories.isNotEmpty) {
-      existingCategories.forEach((category) {
-        category.souvenirsList.insert(0, newSouvenir);
-        print('existingCategories[0].name = ${existingCategories[0].name}');
-        print('existingCategories[0].souvenirsList.length = ${existingCategories[0].souvenirsList.length}');
-        print('existingCategories[0].souvenirsList[0].title = ${existingCategories[0].souvenirsList[0].title}');
-      });
-    } else if (newCategories.isNotEmpty) {
-      newCategories.forEach((category) {
-        category.souvenirsList.insert(0, newSouvenir);
-        allCategoriesList.insert(0, category);
-        print('newCategories[0].name = ${newCategories[0].name}');
-        print('newCategories[0].souvenirsList.length = ${newCategories[0].souvenirsList.length}');
-        print('newCategories[0].souvenirsList[0].title = ${newCategories[0].souvenirsList[0].title}');
-      });
-    }
 
   }
 

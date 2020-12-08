@@ -25,41 +25,40 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.3 #Cupertino Icons font
   google_sign_in: ^4.5.1 #Package for connection with Google account
-  firebase_core: ^0.5.0 #Handle Firebase connexion
-  firebase_auth: ^0.18.1 #Handle Firebase connexions and their parameters
-  http: ^0.12.1 #Load API
-  get: ^3.12.1 #Handle routes
+  firebase_core: ^0.5.0 #Enable Firebase connexion
+  firebase_auth: ^0.18.1 #Handle Google connexion
+  http: ^0.12.1 #For http requests
+  get: ^3.17.1 #Handle routes
   flushbar: ^1.10.4 #Snackbar for errors displays
-  flutter_form_builder: ^3.13.6
-  material_tag_editor: ^0.0.4
-  # flutter_material_pickers: ^1.8.0
+  flutter_form_builder: ^3.13.6 #For form creation 
+  material_tag_editor: ^0.0.4 #Material design for tags
   data_connection_checker: ^0.3.4 #Check connectivity
   states_rebuilder: 3.0.0 #States manager
   hive: ^1.4.4+1 #Store local data
-  hive_flutter: ^0.3.1 #Store local data
-  motion_tab_bar: #Permet la customisation de la BottomTabBar
-    git: 
+  hive_flutter: ^0.3.1 #Store local data for Flutter
+  motion_tab_bar: #Customize BottomTabBar
+    git: #Repo for custom motion tab bar
       url : https://github.com/Antonin06/Motion-Tab-Bar.git
-  flutter_staggered_grid_view: ^0.3.2 #Permet la masonry grid
-  photo_view: ^0.10.2 
-  font_awesome_flutter: ^8.10.0
-  hexcolor: ^1.0.6 #Permet de convertir les Colors.### en hexadecimal
-  flutter_svg: ^0.19.1 #Permet l'utilisation de SVG
-  url_launcher: ^5.7.5
-  image_picker: ^0.6.7+12
-  multi_image_picker: ^4.7.14
+  flutter_staggered_grid_view: ^0.3.2 #For photos staggered grid
+  photo_view: ^0.10.2 #Enable zoom rotation and drag for images
+  font_awesome_flutter: ^8.10.0 #Font Awesome icon pack
+  hexcolor: ^1.0.6 #For hexadecimal colors
+  flutter_svg: ^0.19.1 #Enable SVG files
+  url_launcher: ^5.7.5 #Android and iOS url launching
+  image_picker: ^0.6.7+12 #Pick images in device & take photos with camera
+  multi_image_picker: ^4.7.14 #Pick multiple images
   cached_network_image: ^2.3.3 #Load and cache network images
-  intl: ^0.16.1 #Localisation & date formatting
-  flutter_map: ^0.10.1+1
+  intl: ^0.16.1 #Localization & date formatting
+  flutter_map: ^0.10.1+1 #Interactive map
   geolocator: ^6.1.1 #Location and distances
   geocoding: ^1.0.5 #Translate coordinates to places
-  latlng: ^0.0.2
-  mapbox_gl: ^0.9.0
-  lat_lon_grid_plugin: ^0.1.3
-  user_location:
+  latlng: ^0.0.2 #Geodesy and geographical calculations
+  mapbox_gl: ^0.9.0 #Customize maps
+  lat_lon_grid_plugin: ^0.1.3 #Latitude/longitude grid 
+  user_location: #Handle and plot current user location
     git:
       url: https://github.com/igaurab/user_location_plugin.git
-  progress_state_button: ^1.0.1
+  progress_state_button: ^1.0.1 #Customizable progress button
 
 dev_dependencies:
   flutter_test:

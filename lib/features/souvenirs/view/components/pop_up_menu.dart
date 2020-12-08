@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:memolidays/features/souvenirs/view/pages/update_souvenir_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -16,16 +18,6 @@ class PopUpOptionMenu extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          value: 0,
-          child: ListTile(
-            leading: Icon(
-              Icons.edit,
-              color: Colors.black,
-            ),
-            title: Text("Edit"),
-          ),
-        ),
-        PopupMenuItem(
           value: 1,
           child: ListTile(
             leading: Icon(
@@ -35,6 +27,93 @@ class PopUpOptionMenu extends StatelessWidget {
             title: Text("Infos"),
           ),
         ),
+        PopupMenuItem(
+          value: 0,
+          child: GestureDetector(
+          // On tap redirect to update page
+            onTap: () {
+              return Get.to(UpdateSouvenirPage());
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ),
+              title: Text("Edit"),
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          value: 1,
+          child: GestureDetector(
+            // On tap display a confirmation modal
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Center(
+                              child: Text(
+                                "Are you sure you want to delete this souvenir ?",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              RaisedButton(
+                                child: Text("No"),
+                                color: Colors.red,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text("Yes"),
+                                color: Colors.green,
+                                // On pressed delete selected souvenir & redirect to home page
+                                onPressed: () {
+                                  souvenirsState.setState((state) => state.deleteSouvenir(context, souvenir.id)); 
+                                },
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+              ),
+              title: Text(
+                "Delete", 
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ),
+        )
       ],
       onSelected: (result) {
         if (result == 0) {
@@ -45,7 +124,6 @@ class PopUpOptionMenu extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(10),
                   padding: EdgeInsets.all(10),
-                  // height: 200,
                   decoration: BoxDecoration(
                       color: Colors.grey[100],
                       borderRadius: BorderRadius.all(Radius.circular(20))
@@ -108,7 +186,7 @@ class PopUpOptionMenu extends StatelessWidget {
                           ),
                           RaisedButton(
                             child: Text("Yes"),
-                            color: Colors.green,
+                            color: Colors.orange,
                             onPressed: () {
                               //Delete This Image
                             },
@@ -130,7 +208,6 @@ class PopUpOptionMenu extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(10),
                   padding: EdgeInsets.all(10),
-                  // height: 200,
                   decoration: BoxDecoration(
                       color: Colors.grey[100],
                       borderRadius:
@@ -189,7 +266,7 @@ class PopUpOptionMenu extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              souvenir.date,
+                              souvenir.eventDate,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontStyle: FontStyle.italic,

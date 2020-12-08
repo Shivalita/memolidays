@@ -1,14 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
   List<Souvenir> souvenirs;
+  bool isAnySouvenir;
   bool isLocationServiceEnabled;
 
   @override
@@ -16,7 +18,14 @@ class MemoriesComponent extends StatelessWidget {
     souvenirs = souvenirsState.state.souvenirsList;
     isLocationServiceEnabled = souvenirsState.state.isLocalizationEnabled;
 
-    return Container(
+    if (souvenirs.isEmpty) {
+      isAnySouvenir = false;
+    } else {
+      isAnySouvenir = true;
+    }
+
+    // Displays souvenirs if there are any, else displays welcome text & invites to add souvenir
+    return isAnySouvenir ? Container(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
             shrinkWrap: true,
@@ -24,6 +33,7 @@ class MemoriesComponent extends StatelessWidget {
             itemCount: souvenirs.length,
             itemBuilder: (ctx, i) {
               return GestureDetector(
+                // On tap store selected souvenir in state & redirect to souvenir page
                 onTap: () {
                   souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]); 
                   Get.toNamed('/souvenir');
@@ -51,8 +61,9 @@ class MemoriesComponent extends StatelessWidget {
                             child : Container(
                               width: 125,
                               height: 125,
+                              // Display sized thumbnail from cache if stored, else store it
                               child: CachedNetworkImage(
-                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].tempLink, 250),
+                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].cover, 250),
                                 progressIndicatorBuilder: (context, url, downloadProgress) => 
                                   Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
@@ -69,6 +80,7 @@ class MemoriesComponent extends StatelessWidget {
                             margin: EdgeInsets.all(5),
                             child: Row(
                               children: [
+                                // Displays souvenir's photos number
                                 Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
                                 SizedBox(width: 3,),
                                 Icon(Icons.photo_library, color: Colors.white, size: 17,)
@@ -107,6 +119,7 @@ class MemoriesComponent extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  // If localization possible, display souvenir's distance
                                   isLocationServiceEnabled ? Row(
                                     children: [
                                       FaIcon(FontAwesomeIcons.carSide,
@@ -130,6 +143,74 @@ class MemoriesComponent extends StatelessWidget {
                   ),
                 ),
               );
-            }));
+            })
+          
+          // Content to display when there are no memories yet
+          ) : Container(
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                 Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: Text(
+                    "Welcome to Memolidays",
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 130),
+                  child: Text(
+                    "Create your first souvenir",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: new Color.fromRGBO(0, 0, 0, 0.5)
+                  ),
+                  padding: EdgeInsets.all(1),
+                  margin: EdgeInsets.only(top: 50),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(AddSouvenirsPage());
+                    },
+                  child: Container(
+                    height: 125,
+                    width: 125,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.orange,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0, 3),
+                          blurRadius: 5.0,
+                        ),
+                      ]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.add_a_photo)
+                      ],
+                    )
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 }

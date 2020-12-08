@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class InputTitle extends StatelessWidget {
+class Input extends StatelessWidget {
+  String attribute;
+  Icon icon;
+
+  Input(String attribute, Icon icon) {
+    this.attribute = attribute;
+    this.icon = icon;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: FormBuilderTextField(
-        attribute: 'title',
+        attribute: attribute.toLowerCase(),
         readOnly: false,
         decoration: InputDecoration(
-          hintText: 'Title',
+          hintText: attribute,
           filled: true,
           fillColor: Colors.grey[100],
-          prefixIcon: Icon(Icons.title_rounded, size: 20),
+          prefixIcon: icon,
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(30)),
             borderSide: BorderSide(color: Colors.black54),
@@ -29,9 +37,7 @@ class InputTitle extends StatelessWidget {
             right: 20,
             top: 14,
             bottom: 14,
-          ),
-        ),
-      ),
-    );
+        )),
+    ));
   }
 }

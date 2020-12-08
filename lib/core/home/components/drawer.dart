@@ -35,12 +35,12 @@ class MyDrawer extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
-                              localSource.getgooglePicture()),
+                              localSource.getAvatar()),
                             fit: BoxFit.fill),
                       ),
                     ),
                     Text(
-                      localSource.getgoogleName(),
+                      localSource.getName(),
                       style: TextStyle(fontSize: 22, color: Colors.white),
                     ),
                     Text(
@@ -52,7 +52,7 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
-            CustomListTile(Icons.settings, Colors.green , 'Settings', () {}),
+            CustomListTile(Icons.settings, Colors.orange , 'Settings', () {}),
             CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
               loginState.setState((state) => state.signOutGoogle(context));
             }),

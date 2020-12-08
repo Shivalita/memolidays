@@ -1,15 +1,10 @@
-//! Affichage de la page d'ajout de souvenir
-
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
-import 'package:memolidays/features/souvenirs/view/components/input_location.dart';
-import 'package:memolidays/features/souvenirs/view/components/input_title.dart';
+import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
 import 'package:memolidays/features/souvenirs/view/components/tags.dart';
 import 'package:image_picker/image_picker.dart';
@@ -126,15 +121,9 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           padding: EdgeInsets.all(10),
           child: SingleChildScrollView(
             child: FormBuilder(
-              initialValue: {'title': '', 'location': ''},
               key: _fbKey,
               child: Column(
                 children: <Widget>[
-                  Container(
-                      child: LinearProgressIndicator(
-                    backgroundColor: Colors.grey,
-                  )),
-                  SizedBox(height: 10),
                   Container(
                     padding: EdgeInsets.all(10),
                     child: Row(
@@ -170,9 +159,9 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  InputTitle(),
+                  Input('Title', Icon(Icons.title_rounded, size: 20)),
                   SizedBox(height: 10),
-                  InputLocation(),
+                  Input('Location', Icon(Icons.public, size: 20)),
                   SizedBox(height: 10),
                   Tags(),
                   SizedBox(height: 10),
@@ -185,7 +174,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                   //   onPressed: () {
                   //     if (_fbKey.currentState.saveAndValidate()) {
                   //       var data = _fbKey.currentState.value;
-                  //       // print('data = $data');
+                  //       print('data = $data');
                   //       souvenirsState
                   //           .setState((state) => state.addSouvenir(data));
                   //     }
@@ -220,18 +209,28 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           ),
           color: Colors.green)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
+
+    
   }
 
   void onPressedIconWithText() {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
         stateTextWithIcon = ButtonState.loading;
-        Future.delayed(Duration(seconds: 1), () {
+              Future.delayed(Duration(milliseconds : 500), () {
+
           setState(() {
-            stateTextWithIcon = Random.secure().nextBool()
-                ? ButtonState.success
-                : ButtonState.fail;
-          });
+            // If form is validated, call update souvenir method
+            if (_fbKey.currentState.saveAndValidate()) {
+                Map<String, dynamic> data = _fbKey.currentState.value;
+                stateTextWithIcon = ButtonState.success;
+                Future.delayed(Duration(milliseconds : 1000), () {
+                  souvenirsState.setState((state) async => await state.addSouvenir(data));
+                });
+            } else {
+              stateTextWithIcon = ButtonState.fail;
+            }
+              });
         });
         break;
       case ButtonState.loading:

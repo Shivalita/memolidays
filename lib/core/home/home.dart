@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:memolidays/features/login/dependencies.dart';
 import 'package:memolidays/features/map/view/pages/map_page2.dart';
 import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/list_souvenirs_page.dart';
 import 'package:motion_tab_bar/MotionTabBarView.dart';
 import 'package:motion_tab_bar/MotionTabController.dart';
 import 'package:motion_tab_bar/motiontabbar.dart';
-import '../../features/map/view/pages/map_page.dart';
 import 'components/drawer.dart';
 
 
@@ -54,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           tabIconColor: Colors.white,
           tabSelectedColor: Colors.white,
           onTabItemSelected: (int value){
-            print(value);
             setState(() {
               _tabController.index = value;
             });

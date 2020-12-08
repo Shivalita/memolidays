@@ -6,7 +6,7 @@ class GetAllCategories {
   final ListSouvenirsRepository repository = ListSouvenirsRepository();
   
   Future<List<Category>> call() async {
-    List<Category> categoriesList = await repository.getCategoriesList();
+    List<Category> categoriesList = await repository.getAllCategories();
     return categoriesList;
   }
   

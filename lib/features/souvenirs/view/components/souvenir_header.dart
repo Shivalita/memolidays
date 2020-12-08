@@ -12,16 +12,15 @@ class SouvenirHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(bottom: 10),
       child: Stack(
         alignment: Alignment.bottomLeft, 
         children: <Widget>[
         Container(
           child: ClipRRect(
-            // borderRadius: BorderRadius.circular(12),
+            // Display sized thumbnail from cache if stored, else store it
             child : CachedNetworkImage(
-              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.tempLink, 600),
+              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.cover, 600),
               progressIndicatorBuilder: (context, url, downloadProgress) => 
                 Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
               errorWidget: (context, url, error) => Icon(Icons.error),

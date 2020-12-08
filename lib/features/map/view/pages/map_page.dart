@@ -44,7 +44,6 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       _center = LatLng(currentLocation.latitude, currentLocation.longitude);
     });
-    // print('center $_center');
   }
 
   @override

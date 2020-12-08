@@ -4,26 +4,31 @@ import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 
 // ignore: must_be_immutable
 class CategoryComponent extends StatelessWidget {
+  bool isAnyCategory;
+  List<Category> categoriesList = souvenirsState.state.allCategoriesList;
+  Category selectedCategory = souvenirsState.state.selectedCategory;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    if (categoriesList == null || categoriesList.length == 1) {
+      isAnyCategory = false;
+    } else {
+      isAnyCategory = true;
+    }
+    // Displays categories if there are any, else displays empty container
+    return isAnyCategory ? Container(
       child: Column(children: <Widget>[
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: rowChips(context),
+          child: rowChips(context, categoriesList),
         )
       ]),
-    );
+    ) : Container();
   }
 
-  Widget rowChips(BuildContext context) {
-    List<Category> categoriesList = souvenirsState.state.allCategoriesList;
-    Category allCategories = Category(id: 0, name: 'All');
-    List<Widget> widgetsList = [chipForRow(context, allCategories)];
-
-    if (souvenirsState.state.selectedCategory == null) {
-      souvenirsState.setState((state) => state.selectCategory(context, allCategories)); 
-    }
+  // Create chips for all categories
+  Widget rowChips(BuildContext context, List<Category> categoriesList) {
+    List<Widget> widgetsList = [];
 
     categoriesList.forEach((category) {
       widgetsList.add(chipForRow(context, category));
@@ -40,8 +45,9 @@ class CategoryComponent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           GestureDetector(
-            onTap: () => souvenirsState.setState((state) => state.selectCategory(context, category)),
-            child: ((souvenirsState.state.selectedCategory != null) && (souvenirsState.state.selectedCategory.id == category.id)) ? 
+            // On tap selects related category & displays highlighted chip for selected category
+            onTap: () => souvenirsState.setState((state) => state.selectCategory(category)),
+            child: ((selectedCategory != null) && (selectedCategory.id == category.id)) ? 
             Chip(
               labelPadding: EdgeInsets.all(5.0),
               label: SizedBox(

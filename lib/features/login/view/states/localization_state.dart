@@ -6,24 +6,21 @@ class LocalizationState {
   bool isLocationServiceEnabled;
   Position currentPosition;
 
+  // Check app permission for localization 
   Future<void> checkPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
-    print('permission = $permission');
 
     if ((permission.toString() == "LocationPermission.whileInUse") || (permission.toString() == "LocationPermission.always")) {
-      print('PERMISSION OK');
       isPermissionAllowed = true;
     } else {
-      print('PERMISSION NOT OK');
       isPermissionAllowed = false;
     }
   }
 
+  // Check permission & if localization is enabled (else triggers a popup request), and get device position
   Future<void> checkPosition() async {
     await checkPermission();
     isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
-    print('isLocationServiceEnabled = $isLocationServiceEnabled');
     currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print('currentPosition = $currentPosition');
   }
 }

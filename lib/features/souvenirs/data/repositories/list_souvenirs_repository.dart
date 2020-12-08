@@ -8,25 +8,51 @@ class ListSouvenirsRepository {
   final ListSouvenirsRemoteSource listSouvenirsRemoteSource = ListSouvenirsRemoteSource();
   final LocalSource localSource = LocalSource();
   
+  // Singleton initialization
   ListSouvenirsRepository._();
   static ListSouvenirsRepository _cache;
   factory ListSouvenirsRepository() => _cache ??= ListSouvenirsRepository._();
 
+  // -------------------- GET --------------------
+
+  // Get userId from local storage
   int getUserId() {
-    final int memolidaysId = localSource.getMemolidaysUserId();
-    return memolidaysId;
+    final int userId = localSource.getUserId();
+    return userId;
   }
 
-  Future<List<Category>> getCategoriesList() async {
+
+  Future<List<Category>> getAllCategories() async {
     final int userId = getUserId();
-    final List<Category> categoriesList = await listSouvenirsRemoteSource.getCategoriesList(userId);
+    final List<Category> categoriesList = await listSouvenirsRemoteSource.getAllCategories(userId);
     return categoriesList;
   }
 
-  Future<List<Souvenir>> getSouvenirsByCategory(int categoryId) async {
+
+  Future<List<Souvenir>> getAllSouvenirs() async {
     final int userId = getUserId();
-    final List<Souvenir> categorySouvenirsList = await listSouvenirsRemoteSource.getSouvenirsByCategory(categoryId, userId);
-    return categorySouvenirsList;
+    final List<Souvenir> souvenirsList = await listSouvenirsRemoteSource.getAllSouvenirs(userId);
+    return souvenirsList;
+  }
+
+
+  // -------------------- DELETE --------------------
+
+  Future<void> deleteFile(int fileId) async {
+    await listSouvenirsRemoteSource.deleteFile(fileId);
+  }
+
+
+  Future<void> deleteSouvenir(int souvenirId) async {
+    await listSouvenirsRemoteSource.deleteSouvenir(souvenirId);
+  }
+
+
+  // -------------------- UPDATE --------------------
+
+  Future<Souvenir> updateSouvenir(int souvenirId, Souvenir newSouvenirData) async {
+    Souvenir updatedSouvenir = await listSouvenirsRemoteSource.updateSouvenir(souvenirId, newSouvenirData);
+    return updatedSouvenir;
   }
 
 }
