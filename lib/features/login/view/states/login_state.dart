@@ -16,10 +16,9 @@ class LoginState {
   bool isConnected;
   final LocalSource localSource = LocalSource();
 
-  // On login page built, check connectivity & call sign in method
+  // On login page built, check connectivity 
   init(BuildContext context) async {
     await checkConnectivity(context);
-    await signInWithGoogle(context);
   }
 
 

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class Input extends StatelessWidget {
-
-  String section;
+  String attribute;
   Icon icon;
 
-  Input(String section, Icon icon) {
-      this.section = section;
-      this.icon = icon;
+  Input(String attribute, Icon icon) {
+    this.attribute = attribute;
+    this.icon = icon;
   }
 
   @override
@@ -17,10 +16,10 @@ class Input extends StatelessWidget {
       elevation: 3,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: FormBuilderTextField(
-        attribute: section.toLowerCase(),
+        attribute: attribute.toLowerCase(),
         readOnly: false,
         decoration: InputDecoration(
-          hintText: section,
+          hintText: attribute,
           filled: true,
           fillColor: Colors.grey[100],
           prefixIcon: icon,
@@ -38,9 +37,7 @@ class Input extends StatelessWidget {
             right: 20,
             top: 14,
             bottom: 14,
-          ),
-        ),
-      ),
-    );
+        )),
+    ));
   }
 }

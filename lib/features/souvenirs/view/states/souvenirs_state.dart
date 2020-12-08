@@ -171,15 +171,19 @@ class SouvenirsState {
 
     Souvenir updatedSouvenir = await UpdateSouvenir()(souvenirId, newSouvenir);
 
-    // Retrieve files list from old souvenir, and replace it with new souvenir in state souvenirs list
+    // Retrieve files list from old souvenir
     updatedSouvenir.thumbnails = selectedSouvenir.thumbnails;
 
-    allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
-
-    // Get new souvenir categories list, set selected souvenir to new souvenir and redirect to souvenir page
+    // Get new souvenir categories list
     GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
+
+    // Replace old souvenir with new souvenir in souvenirs list
+    allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
+      
+    // Set selected souvenir to new souvenir
     selectedSouvenir = updatedSouvenir;
 
+    // Redirect to souvenir page
     Get.toNamed('/souvenir'); 
   }
 

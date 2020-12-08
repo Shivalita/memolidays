@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-import 'package:memolidays/core/home/home.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/update_date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/update_tags.dart';
-import 'package:progress_state_button/iconed_button.dart';
-import 'package:progress_state_button/progress_button.dart';
 
 class UpdateSouvenirPage extends StatefulWidget {
   @override
@@ -21,24 +20,16 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
   ButtonState stateTextWithIcon = ButtonState.idle;
 
   DateTime pickedDate;
+  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
 
-  @override
   void initState() {
     super.initState();
     pickedDate = DateTime.now();
   }
-
-  Souvenir souvenir = souvenirsState.state.selectedSouvenir;
   
   @override
   Widget build(BuildContext context) {
-    // Clean routing tree on page closing (to avoid problems when go back from new route)
-    return WillPopScope(
-      onWillPop: () async {
-        Get.to(MyHomePage());
-        return false;
-      },
-      child: Scaffold(
+      return Scaffold(
         appBar: AppBar(
           title: Text('Update ${souvenir.title}'),
           centerTitle: true,
@@ -68,10 +59,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              )))), //TextStyle //Text //Center //Container
                               SizedBox(
                                 height: 10,
                               ),
@@ -91,26 +79,19 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                                     onPressed: () {
                                       Navigator.pop(context);
                                       Get.toNamed('/souvenir');
-                                    },
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    });
-              },
-            ),
-          // ],
-        ),
+                              })])
+                      ])));
+                });
+        })),
         // Prevents the keyboard from causing an overflow when unfolding
         resizeToAvoidBottomPadding: false,
         body: Container(
           // Rebuild view when the state is modified
           child: souvenirsState.whenRebuilder(
-            onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
-            onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
+            onIdle: () => Center(child: SizedBox(
+              child: CircularProgressIndicator(strokeWidth: 2))),
+            onWaiting: () => Center(child: SizedBox(
+              child: CircularProgressIndicator(strokeWidth: 2))),
             onError: (error) {
               throw error;
             },
@@ -130,6 +111,7 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                 child: Container(
                   margin: EdgeInsets.only(right: 25, left: 25),
                   child: Column(
+                    // Form fields
                     children: <Widget>[
                       SizedBox(height: 20),
                       UpdateTags(),
@@ -148,14 +130,13 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                       SizedBox(height: 80),
                       buildTextWithIcon(),
                       SizedBox(height: 40)
-                    ],
-                  )
+                  ])
               ));
-            })
-        ))
+        }))
     );
   }
 
+  // Validation button
   Widget buildTextWithIcon() {
     return ProgressButton.icon(iconedButtons: {
       ButtonState.idle: IconedButton(
@@ -175,10 +156,9 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
           ),
           color: Colors.green)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
-
-    
   }
 
+  // Validation button process
   void onPressedIconWithText() {
     switch (stateTextWithIcon) {
       case ButtonState.idle:
@@ -191,7 +171,8 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                 Map<String, dynamic> data = _fbKey.currentState.value;
                 stateTextWithIcon = ButtonState.success;
                 Future.delayed(Duration(milliseconds : 1000), () {
-                  souvenirsState.setState((state) async => await state.updateSouvenir(data));
+                  souvenirsState.setState((state) async => 
+                    await state.updateSouvenir(data));
                 });
             } else {
               stateTextWithIcon = ButtonState.fail;
