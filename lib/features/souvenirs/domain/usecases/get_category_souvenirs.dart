@@ -1,9 +1,9 @@
-import 'package:memolidays/features/souvenirs/data/repositories/list_souvenirs_repository.dart';
+import 'package:memolidays/features/souvenirs/data/repositories/souvenirs_repository.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class GetCategorySouvenirs {
 
-  final ListSouvenirsRepository repository = ListSouvenirsRepository();
+  final SouvenirsRepository repository = SouvenirsRepository();
   List<Souvenir> currentsouvenirsList = [];
 
   // Get all souvenirs that contain category's id in categoriesIds list

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/home/home.dart';
-import 'package:memolidays/features/login/data/sources/local_source.dart';
+import 'package:memolidays/features/souvenirs/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/components/details_photo.dart';
-import 'features/login/view/pages/login_page.dart';
+import 'features/souvenirs/view/pages/login_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

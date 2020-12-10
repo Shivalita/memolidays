@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:memolidays/features/login/data/repositories/login_repository.dart';
-import 'package:memolidays/features/login/dependencies.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
 
 class LoginPage extends StatelessWidget {
-  final loginRepository = LoginRepository();
-  
   @override
   Widget build(BuildContext context) {
     final String googleLogo = 'assets/images/google.svg';
     return Scaffold(
-      body: loginState.whenRebuilder(
-        initState: () => loginState.setState((state) => state.init(context)),
+      body: souvenirsState.whenRebuilder(
+        initState: () => souvenirsState.setState((state) => state.init(context)),
         onIdle: () => Center(
           child: CircularProgressIndicator(strokeWidth: 2)
         ),
@@ -80,7 +77,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       FloatingActionButton(
                         onPressed: (){
-                          loginState.setState((state) => state.signInWithGoogle(context));
+                          souvenirsState.setState((state) => state.signInWithGoogle(context));
                         },
                         child: SvgPicture.asset(
                           googleLogo, 

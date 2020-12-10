@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memolidays/features/login/data/sources/local_source.dart';
-import 'package:memolidays/features/login/dependencies.dart';
+import 'package:memolidays/features/souvenirs/data/sources/local_source.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
 
 class MyDrawer extends StatelessWidget {
   LocalSource localSource = LocalSource();
@@ -54,7 +54,7 @@ class MyDrawer extends StatelessWidget {
             CustomListTile(Icons.person, Colors.orange , 'Profile', () {}),
             CustomListTile(Icons.settings, Colors.orange , 'Settings', () {}),
             CustomListTile(Icons.exit_to_app, Colors.red , 'Disconnect', () {
-              loginState.setState((state) => state.signOutGoogle(context));
+              souvenirsState.setState((state) => state.signOutGoogle(context));
             }),
           ],
         ),

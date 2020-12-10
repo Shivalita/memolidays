@@ -1,20 +1,26 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
-import 'package:memolidays/features/login/data/sources/local_source.dart';
+import 'package:memolidays/core/home/home.dart';
+import 'package:memolidays/features/souvenirs/data/sources/local_source.dart';
+import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/models/user.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_category_souvenirs.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_distance.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:memolidays/features/login/view/states/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/delete_file.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/delete_souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/login.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/logout.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.dart';
+import 'package:memolidays/features/souvenirs/view/pages/login_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 
 class SouvenirsState {
@@ -25,12 +31,21 @@ class SouvenirsState {
   List<Souvenir> allSouvenirsList;
   List<Souvenir> souvenirsList;
   Souvenir selectedSouvenir;
+
+  bool hasConnectivity;
+  bool isConnected;
   bool isLocalizationEnabled;
   Position position;
+
   final LocalSource localSource = LocalSource();
 
-  // On first user's display, get all categories & souvenirs
+
+  // -------------------- INIT --------------------
+
+  // Check connectivity, on first display get all categories & souvenirs
   Future<void> init(BuildContext context) async {
+    await checkConnectivity(context);
+
     if (allCategoriesList == null) {
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
@@ -40,6 +55,61 @@ class SouvenirsState {
     // Select "All" category by default
     selectedCategory = selectCategory(allCategoriesList[0]);
   }
+
+
+  // -------------------- LOGIN --------------------
+
+  // Check device connectivity
+  Future<void> checkConnectivity(BuildContext context) async {
+    bool hasConnection = await DataConnectionChecker().hasConnection;
+
+    if (!hasConnection == true) {
+      print('Connectivity error. Exception : ${DataConnectionChecker().lastTryResults}');
+      hasConnectivity = false;
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Please check your device connectivity.');
+      errorSnackbar.displayErrorSnackbar();
+
+    } else {
+      hasConnectivity = true;
+    }
+  }
+
+
+  // If has connectivity, login and redirect to home page
+  Future<void> signInWithGoogle(BuildContext context) async {
+    if (hasConnectivity) {
+      try {
+        User user = await Login()();    
+
+        if (user != null) {
+          isConnected = true;
+          return Get.to(MyHomePage());
+        }
+      }
+
+      on Exception {
+        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Google authentication failed.');
+        errorSnackbar.displayErrorSnackbar();
+      }
+    }
+
+  }
+
+  // Logout and redirect to login page
+  Future<void> signOutGoogle(BuildContext context) async {
+    try {
+      await Logout()();
+      isConnected = false;
+    }
+
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
+    
+    return Get.to(LoginPage());
+  }
+
 
   // -------------------- GET --------------------
 
@@ -188,7 +258,7 @@ class SouvenirsState {
   }
 
 
-  //! CREATE PART - ON PROGRESS
+  // -------------------- CREATE -------------------- //! ON PROGRESS
 
   // Future<String> getPlaceFromCoordinates(souvenir) async {
   //   List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.latitude, souvenir.longitude);
