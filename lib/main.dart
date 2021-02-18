@@ -9,6 +9,7 @@ import 'package:memolidays/features/souvenirs/view/components/details_photo.dart
 import 'features/login/view/pages/login_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 final LocalSource localSource = LocalSource();
 
@@ -26,6 +27,9 @@ void main() async {
   // Initialize Hive and open storage box for local data
   await Hive.initFlutter();
   await Hive.openBox('storageBox');
+
+  // await DotEnv().load('.env');
+  await DotEnv.load(fileName: ".env");
 
   runApp(MyApp());
    SystemChrome.setPreferredOrientations([

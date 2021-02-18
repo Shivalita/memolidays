@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 import 'package:http/http.dart' as http;
 import 'package:memolidays/features/login/data/sources/local_source.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 class LoginRemoteSource {
 
@@ -15,6 +17,9 @@ class LoginRemoteSource {
   LoginRemoteSource._();
   static LoginRemoteSource _cache;
   factory LoginRemoteSource() => _cache ??= LoginRemoteSource._();
+
+  // Get localhost from .env file
+  final LOCALHOST = env['LOCALHOST'];
 
   User user;
   entity.User userEntity;
@@ -59,7 +64,7 @@ class LoginRemoteSource {
 
   // If user exists in database get user from API, else call user creation method
   Future<entity.User> getUser(email) async {
-    String url = "http://10.0.0.6:8000/api/users?email=$email";
+    String url = "http://" + LOCALHOST + "/api/users?email=$email";
     entity.User userEntity;
 
     final response = await http.get(url);
@@ -80,7 +85,7 @@ class LoginRemoteSource {
 
   // Create user from Google account user data, set isPremium to false by default
   Future<Map<String, dynamic>> createUser() async {
-    String url = "http://10.0.0.6:8000/api/users";
+    String url = "http://" + LOCALHOST + "/api/users";
 
     String data = json.encode({
       "googleId" : user.uid, 
