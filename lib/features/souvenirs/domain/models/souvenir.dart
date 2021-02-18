@@ -43,7 +43,7 @@ class Souvenir {
     userId = json['userId'];
     title = json['title'];
     cover = json['cover'];
-    eventDate = json['eventDate'].substring(0, 10);
+    eventDate = json['event_date'].substring(0, 10);
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];
@@ -62,7 +62,7 @@ class Souvenir {
     data['title'] = this.title;
     data['place'] = this.place;
     data['categories'] = this.categoriesList;
-    data['eventDate'] = this.eventDate;
+    data['event_date'] = this.eventDate;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['comment'] = this.comment;

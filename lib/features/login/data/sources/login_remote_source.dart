@@ -59,7 +59,7 @@ class LoginRemoteSource {
 
   // If user exists in database get user from API, else call user creation method
   Future<entity.User> getUser(email) async {
-    String url = "http://192.168.1.110:8000/api/users?email=$email";
+    String url = "http://10.0.0.6:8000/api/users?email=$email";
     entity.User userEntity;
 
     final response = await http.get(url);
@@ -80,7 +80,7 @@ class LoginRemoteSource {
 
   // Create user from Google account user data, set isPremium to false by default
   Future<Map<String, dynamic>> createUser() async {
-    String url = "http://192.168.1.110:8000/api/users";
+    String url = "http://10.0.0.6:8000/api/users";
 
     String data = json.encode({
       "googleId" : user.uid, 
