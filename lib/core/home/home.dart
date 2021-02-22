@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = MotionTabController(initialIndex: 0, vsync: this);
+    _tabController = MotionTabController(initialIndex: 0, length:3, vsync: this);
   }
 
   @override
