@@ -747,11 +747,9 @@ packages:
   motion_tab_bar:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "48df8205198abf812f02c5c829da8dc88f046aa3"
-      url: "https://github.com/Antonin06/Motion-Tab-Bar.git"
-    source: git
+      name: motion_tab_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.1.5"
   multi_image_picker:
     dependency: "direct main"
