@@ -19,8 +19,6 @@ class ListSouvenirsRemoteSource {
 
   // Get all user's categories & add an "All" category (for display all souvenirs)
   Future<List<Category>> getAllCategories(int userId) async {
-
-    // final String url = "http://" + LOCALHOST + "/api/categories?user=$userId";
     final String url = "http://" + LOCALHOST + "/api/categories?user=$userId";
 
     final http.Response response = await http.get(url);
@@ -48,34 +46,21 @@ class ListSouvenirsRemoteSource {
     List<Souvenir> souvenirsList = data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
     for (int i = 0; i < souvenirsList.length; i++) {
-      Souvenir souvenir = souvenirsList[i];
-      await getSouvenirFiles(souvenir);
+      List<Map<String, dynamic>> filesData = data[i]['files'].cast<Map<String, dynamic>>();
+
+      List<File> filesList = filesData.map(
+        (fileData) => File.fromJson(fileData)
+      ).toList();
+
+      souvenirsList[i].thumbnails = filesList;
+
+      File coverFile = File.fromCover(souvenirsList[i].id, souvenirsList[i].cover);
+
+      souvenirsList[i].thumbnails.insert(0, coverFile);
     }
 
     return souvenirsList;
   }
-
-
-  // Get all souvenir's files and add cover to files list
-  Future<List<File>> getSouvenirFiles(Souvenir souvenir) async {
-    int souvenirId = souvenir.id;
-
-    final String url = "http://" + LOCALHOST + "/api/files?souvenir=$souvenirId";
-    final response = await http.get(url);
-
-    if (response.statusCode != 200) throw Exception;
-    List data = json.decode(response.body)['hydra:member'];
-    
-    List<File> filesList = data.map((file) => File.fromJson(file)).toList();
-
-    souvenir.thumbnails = filesList;
-
-    File coverFile = File.fromCover(souvenir.id, souvenir.cover);
-    souvenir.thumbnails.insert(0, coverFile);
-
-    return filesList;
-  }
-
 
   // -------------------- DELETE --------------------
 

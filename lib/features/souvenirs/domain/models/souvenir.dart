@@ -4,7 +4,6 @@ class Souvenir {
 
   int id;
   int userId;
-  List<dynamic> categoriesList;
   List<int> categoriesId;
   String title;
   String cover;
@@ -39,11 +38,12 @@ class Souvenir {
 
   // Instanciate from json API response 
   Souvenir.fromJson(Map<String, dynamic> json) {
+    List<String> categories = json['categories'].cast<String>();
     id = json['id'];
-    userId = json['userId'];
     title = json['title'];
     cover = json['cover'];
-    eventDate = json['event_date'].substring(0, 10);
+    userId = int.parse(json['user'].split('/').last);
+    eventDate = json['event_date'].split('T')[0];
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];
@@ -52,7 +52,8 @@ class Souvenir {
     longitude = json['longitude'];
     place = json['place'];
     createdAt = json['createdAt'];
-    categoriesList = json['categories'];
+    categoriesId = categories.map((category) => int.parse(category.split('/').last)).toList();
+    categoriesId.add(0);
   }
 
 
@@ -61,7 +62,7 @@ class Souvenir {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
     data['place'] = this.place;
-    data['categories'] = this.categoriesList;
+    data['categories'] = this.categoriesId;
     data['event_date'] = this.eventDate;
     data['email'] = this.email;
     data['phone'] = this.phone;
@@ -79,7 +80,7 @@ class Souvenir {
     email = data['email'];
     phone = data['phone'];
     comment = data['comment'];
-    categoriesList = data['categories'];
+    categoriesId = data['categories'];
     // cover = data['cover'];
     // address = data['address'];
     // latitude = map['latitude'];

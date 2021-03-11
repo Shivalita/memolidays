@@ -15,7 +15,7 @@ class Category {
   // Instanciate from json API response 
   Category.fromJson(Map<String, dynamic> data) {
     id = data['id']; 
-    userId = data['userId']; 
+    userId = int.parse(data['user'].split('/').last); 
     pinId = data['pinId']; 
     name = data['name'];
   }

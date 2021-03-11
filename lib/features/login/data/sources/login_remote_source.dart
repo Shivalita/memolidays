@@ -72,32 +72,6 @@ class LoginRemoteSource {
 
     final Map<String, dynamic> data = json.decode(response.body);
 
-    //! ---------------------------------------------------------------------------
-    print("data['hydra:member'][0] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]);
-
-    print("data['hydra:member'][0]['name'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['name']);
-
-    print("data['hydra:member'][0]['categories'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['categories']);
-
-    print("data['hydra:member'][0]['categories'][0]['name'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['categories'][0]['name']);
-
-    print("data['hydra:member'][0]['categories'][0]['pin']['color'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['categories'][0]['pin']['color']);
-
-    print("data['hydra:member'][0]['souvenirs'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['souvenirs']);
-
-    print("data['hydra:member'][0]['souvenirs'][0]['title'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['souvenirs'][0]['title']);
-
-    print("data['hydra:member'][0]['souvenirs'][0]['files'][0]['path'] ------------------------------------------------------------------");
-    print(data['hydra:member'][0]['souvenirs'][0]['files'][0]['path']);
-    //! ---------------------------------------------------------------------------
-
     if (data['hydra:member'].isNotEmpty) {
       userEntity = entity.User.fromJson(data['hydra:member'][0]);
     } else {

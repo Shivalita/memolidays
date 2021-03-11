@@ -17,7 +17,7 @@ class File {
   // Instanciate from json API response 
   File.fromJson(Map<String, dynamic> json) {
     id = json['id']; 
-    souvenirId = int.parse(json['souvenir'].substring(json['souvenir'].length - 1));
+    souvenirId = int.parse(json['souvenir'].split('/').last);
     path = json['path'];
     type = json['type'];
     token = json['token'];
