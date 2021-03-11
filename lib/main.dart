@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +15,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 final LocalSource localSource = LocalSource();
 
+//! Set this flag to FALSE for production
+bool isDevelopmentMode = true;
+
 bool checkIfConnected() {
   bool isConnected = false;
   
-  if (localSource.getIsConnected() == true) {
-    isConnected = true;
+  if (!isDevelopmentMode) {
+    if (localSource.getIsConnected() == true) {
+      isConnected = true;
+    }
   }
 
   return isConnected;

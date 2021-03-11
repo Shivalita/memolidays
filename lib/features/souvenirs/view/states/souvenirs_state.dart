@@ -10,7 +10,6 @@ import 'package:memolidays/features/souvenirs/domain/usecases/get_category_souve
 import 'package:memolidays/features/souvenirs/domain/usecases/get_distance.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:memolidays/features/login/view/states/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/usecases/get_souvenir_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/delete_file.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/delete_souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
@@ -76,9 +75,6 @@ class SouvenirsState {
       allSouvenirs = await GetAllSouvenirs()();
 
       allSouvenirs.forEach((souvenir) async {
-        GetSouvenirCategories()(souvenir, allSouvenirs);
-
-        
         // If localization possible, get souvenir's distance
         if (isLocalizationEnabled) {
           String distance = GetDistance()(souvenir, position);
@@ -173,9 +169,6 @@ class SouvenirsState {
 
     // Retrieve files list from old souvenir
     updatedSouvenir.thumbnails = selectedSouvenir.thumbnails;
-
-    // Get new souvenir categories list
-    GetSouvenirCategories()(updatedSouvenir, allSouvenirsList);
 
     // Replace old souvenir with new souvenir in souvenirs list
     allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
