@@ -1,4 +1,4 @@
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 
 class Souvenir {
 
@@ -16,7 +16,7 @@ class Souvenir {
   double longitude;
   String place;
   String createdAt;
-  List<MemoryFile> thumbnails;
+  List<FileData> thumbnails;
   String distance = "0 km";
 
   Souvenir({
@@ -32,11 +32,11 @@ class Souvenir {
     this.latitude,
     this.longitude,
     this.place,
-    this.createdAt, 
+    this.createdAt,
   });
 
 
-  // Instanciate from json API response 
+  // Instanciate from json API response
   Souvenir.fromJson(Map<String, dynamic> json) {
     List<String> categories = json['categories'].cast<String>();
     id = json['id'];

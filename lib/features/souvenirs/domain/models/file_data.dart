@@ -1,11 +1,14 @@
-class MemoryFile {
+import 'dart:io';
+
+class FileData {
   int id;
   int souvenirId;
   String path;
   String type;
   String token;
+  File file;
 
-  MemoryFile({int id, int souvenirId, String path, String type, String token}) {
+  FileData({int id, int souvenirId, String path, String type, String token}) {
     this.id = id;
     this.souvenirId = souvenirId;
     this.path = path;
@@ -13,8 +16,11 @@ class MemoryFile {
     this.token = token;
   }
 
+  // ! A FAIRE
+  get thumbnailUrl => path + 'blabla';
+
   // Instanciate from json API response
-  MemoryFile.fromJson(Map<String, dynamic> json) {
+  FileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     souvenirId = int.parse(json['souvenir'].split('/').last);
     path = json['path'];
@@ -23,7 +29,7 @@ class MemoryFile {
   }
 
   // Instanciate from souvenir cover
-  MemoryFile.fromCover(int souvenirId, String coverLink) {
+  FileData.fromCover(int souvenirId, String coverLink) {
     id = 0;
     souvenirId = souvenirId;
     path = coverLink;

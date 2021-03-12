@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'details_photo.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +15,7 @@ class MasoneryGrid extends StatefulWidget {
 
 class _MasoneryGridState extends State<MasoneryGrid> {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-  List<MemoryFile> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+  List<FileData> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
   @override
   Widget build(BuildContext context) {
@@ -92,13 +92,13 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                       // Display sized thumbnail from cache if stored, else store it
                       child : CachedNetworkImage(
                         imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
-                        progressIndicatorBuilder: (context, url, downloadProgress) => 
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
                           Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
-                      ),                     
+                      ),
                     ),
-                  ),                  
+                  ),
                 );
               },
               staggeredTileBuilder: (index) {

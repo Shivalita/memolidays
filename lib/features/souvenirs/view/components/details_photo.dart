@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 
 class DetailsPhoto extends StatefulWidget {
@@ -42,7 +42,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
     Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-    List<MemoryFile> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+    List<FileData> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
       body: PageView.builder(
@@ -213,7 +213,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                 child: Center(
                   child : CachedNetworkImage(
                     imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
-                    progressIndicatorBuilder: (context, url, downloadProgress) => 
+                    progressIndicatorBuilder: (context, url, downloadProgress) =>
                       Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                     fit: BoxFit.cover,
