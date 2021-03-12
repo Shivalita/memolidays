@@ -16,7 +16,7 @@ class Souvenir {
   double longitude;
   String place;
   String createdAt;
-  List<File> thumbnails;
+  List<MemoryFile> thumbnails;
   String distance = "0 km";
 
   Souvenir({

@@ -15,7 +15,7 @@ class MasoneryGrid extends StatefulWidget {
 
 class _MasoneryGridState extends State<MasoneryGrid> {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-  List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+  List<MemoryFile> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
   @override
   Widget build(BuildContext context) {

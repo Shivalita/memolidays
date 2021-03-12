@@ -42,7 +42,7 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
     Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-    List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+    List<MemoryFile> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
       body: PageView.builder(

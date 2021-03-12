@@ -1,12 +1,11 @@
-class File {
-
+class MemoryFile {
   int id;
   int souvenirId;
   String path;
   String type;
   String token;
 
-  File({int id, int souvenirId, String path, String type, String token}) {
+  MemoryFile({int id, int souvenirId, String path, String type, String token}) {
     this.id = id;
     this.souvenirId = souvenirId;
     this.path = path;
@@ -14,9 +13,9 @@ class File {
     this.token = token;
   }
 
-  // Instanciate from json API response 
-  File.fromJson(Map<String, dynamic> json) {
-    id = json['id']; 
+  // Instanciate from json API response
+  MemoryFile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     souvenirId = int.parse(json['souvenir'].split('/').last);
     path = json['path'];
     type = json['type'];
@@ -24,10 +23,9 @@ class File {
   }
 
   // Instanciate from souvenir cover
-  File.fromCover(int souvenirId, String coverLink) {
+  MemoryFile.fromCover(int souvenirId, String coverLink) {
     id = 0;
     souvenirId = souvenirId;
-    path = coverLink; 
+    path = coverLink;
   }
-
 }
