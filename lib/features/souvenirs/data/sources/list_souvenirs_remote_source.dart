@@ -40,6 +40,14 @@ class ListSouvenirsRemoteSource {
     return categoriesList;
   }
 
+
+
+      Future<File> file( filename) async {
+      Directory dir = await getApplicationDocumentsDirectory();
+      String pathName = dir.path + filename;
+      print("pathname $pathName");
+      return File(pathName);
+      }
   // Get all user's souvenirs and call get files method for each one
   Future<List<Souvenir>> getAllSouvenirs(int userId) async {
     final String url = "http://" + LOCALHOST + "/api/souvenirs?user=$userId";
@@ -52,10 +60,8 @@ class ListSouvenirsRemoteSource {
         data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
     for (int i = 0; i < souvenirsList.length; i++) {
-
       List<Map<String, dynamic>> filesData =
           data[i]['files'].cast<Map<String, dynamic>>();
-
 
       // On a un tableau de Map de filedata
       // [
@@ -64,37 +70,26 @@ class ListSouvenirsRemoteSource {
       //    'path': 'path'
       //  }
       // ]
-
-
-
+    
+    
 
       // Pour chaque filedata, on veut générer un File (avec le path + nom du fichier + extension du fichier)
-      // et une URL de thumbnail
+      // et une URL de thumbnail = > Première étape faite, reste à récupérer l'url !!!!!!!!!!
 
+      filesData.forEach((fileData) =>
+        this.file(fileData['path'].split('/').last + "." + fileData['type']));
+      //print(fileData['path'].split('/').last + "." + fileData['type']));
+  
 
-
+     // var myFile = await file(fileName);
 
       // Pour chaque filedata, on veut créer une entite FileData en stockant le File et l'url
 
+     // File file = filesData.asMap().entries.map((entry) {
+       // return entry.value['path'].split('/').last;
+     // });
 
-
-
-
-      String fileName = filesData.asMap().entries.map((entry) {
-        return entry.value['path'].split('/').last;
-      });
-
-
-
-      Future<File> file(String filename) async {
-        Directory dir = await getApplicationDocumentsDirectory();
-        String pathName = dir.path + filename;
-        print( "pathname $pathName");
-        return File(pathName);
-      }
-
-      var myFile = await file(fileName);
-      print('file $myFile');
+      //print('file $myFile');
       List<FileData> filesList =
           filesData.map((fileData) => FileData.fromJson(fileData)).toList();
 
@@ -108,7 +103,7 @@ class ListSouvenirsRemoteSource {
 
     return souvenirsList;
   }
-
+      
   // -------------------- DELETE --------------------
 
   Future<void> deleteFile(int fileId) async {
