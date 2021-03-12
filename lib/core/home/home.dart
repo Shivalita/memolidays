@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memolidays/features/map/view/pages/map_page2.dart';
+import 'package:memolidays/features/map/view/pages/map_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
 import 'package:memolidays/features/souvenirs/view/pages/list_souvenirs_page.dart';
 import 'package:motion_tab_bar/MotionTabBarView.dart';
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
             Container(
               // child: MapPage()
-              child: MapPage2(),
+              child: MapPage(),
             ),
           ],
         ));
