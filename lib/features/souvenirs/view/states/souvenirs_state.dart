@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
+import 'package:memolidays/core/constantes.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/pin.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
@@ -26,7 +28,9 @@ class SouvenirsState {
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
+  Icon currentSouvenirIcon;
   final LocalSource localSource = LocalSource();
+  final Constantes constantes = Constantes();
 
   // On first user's display, get all categories & souvenirs
   Future<void> init(BuildContext context) async {
@@ -89,6 +93,17 @@ class SouvenirsState {
     }
 
     return allSouvenirs;
+  }
+
+  void getSouvenirIcon(Souvenir souvenir) {
+    int categoryId = souvenir.categoriesId[1];
+    Category category = allCategoriesList.firstWhere((category) => category.id == categoryId);
+    Pin pin = category.pin;
+
+    // Icon souvenirIcon = Icon(constantes.icons[pin.icon], color: constantes.colors[pin.color], size: 22);
+
+    Icon souvenirIcon = Icon(Icons.location_on, color: Colors.red, size: 22,);
+    currentSouvenirIcon = souvenirIcon;
   }
 
 
