@@ -53,7 +53,8 @@ class SouvenirsState {
     }
 
     on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      print('PPL exception getAllCategories souvenirs_state');
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Data retrieval failed : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
     
@@ -88,7 +89,8 @@ class SouvenirsState {
     }
 
     on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      print('PPL exception getSouvenirsList souvenirs_state');
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Data retrieval failed : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
 
