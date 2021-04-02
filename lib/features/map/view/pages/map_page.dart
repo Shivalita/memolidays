@@ -1,8 +1,13 @@
+// import 'dart:html';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong/latlong.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:user_location/user_location.dart';
 
@@ -21,12 +26,43 @@ class _MapPageState extends State<MapPage> {
 
   // Used to trigger showing/hiding of popups.
 
+
   @override
   void initState() {
     allSouvenirs = souvenirsState.state.allSouvenirsList;
     isLocationServiceEnabled = souvenirsState.state.isLocalizationEnabled;
 
     super.initState();
+
+    Widget getThumbnailsWidget(Souvenir souvenir) {
+      List<File> souvenirThumbnails = souvenir.thumbnails;
+      List<Widget> thumbnailsWidgetsList = [];
+
+      souvenirThumbnails.forEach((thumbnail) {
+        ClipRRect thumbnailClip = 
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12)) ,
+            child: Container(
+              height: 125,
+              width: 125,
+              child: CachedNetworkImage(
+                imageUrl: ThumbnailLink().getThumbnailLink(thumbnail.path, 250),
+                progressIndicatorBuilder: (context, url, downloadProgress) => 
+                Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                fit: BoxFit.cover,
+              )
+            )
+          );
+
+        thumbnailsWidgetsList.add(thumbnailClip);
+        thumbnailsWidgetsList.add(SizedBox(width: 5));
+      });
+        
+      return Row(
+        children: thumbnailsWidgetsList,
+      );
+    }
 
     allSouvenirs.forEach((souvenir) {
       LatLng point = LatLng(souvenir.latitude, souvenir.longitude);
@@ -62,49 +98,14 @@ class _MapPageState extends State<MapPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                child: Container(
-                                  height: 125,
-                                  width: 125,
-                                  child: Image.network("https://source.unsplash.com/random/?2", fit: BoxFit.cover)
-                                )
-                              ),
-                              SizedBox(width: 5),
-                              ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                child: Container(
-                                  
-                                  height: 125,
-                                  width: 125,
-                                  child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)
-                                )
-                              ),
-                              SizedBox(width: 5),
-                              ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
-                                child: Container(
-                                  height: 125,
-                                  width: 125,
-                                  child: Image.network("https://source.unsplash.com/random/?3", fit: BoxFit.cover)
-                                )
-                              ),
-                              SizedBox(width: 5),
-                              ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
-                                child: Container(
-                                  height: 125,
-                                  width: 125,
-                                  child: Image.network("https://source.unsplash.com/random/?4", fit: BoxFit.cover)
-                                )
-                              )
+                                getThumbnailsWidget(souvenir)
                               ]
                             ),
                           ),
                           SizedBox(height: 20),
                           Center(
                             child: Text(
-                              "Titre du Souvenir",
+                              souvenir.title,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic
@@ -122,7 +123,7 @@ class _MapPageState extends State<MapPage> {
                                     color: Colors.red, size: 25
                                   ),
                                   Text(
-                                    "SomeWhere",
+                                    souvenir.place,
                                     style: TextStyle(
                                       fontStyle: FontStyle.italic
                                     ),
@@ -130,7 +131,7 @@ class _MapPageState extends State<MapPage> {
                                 ],
                               ),
                               Text(
-                                "99/99/2020",
+                                souvenir.eventDate,
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic
                                 ),
