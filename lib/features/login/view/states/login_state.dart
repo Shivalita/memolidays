@@ -51,7 +51,8 @@ class LoginState {
       }
 
       on Exception {
-        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Google authentication failed.');
+        print('PPL exception signInGoogle login_state');
+        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Authentication failed.');
         errorSnackbar.displayErrorSnackbar();
       }
     }

@@ -54,7 +54,7 @@ class LoginRemoteSource {
     }
 
     catch (error) {
-      print('ERROR : $error');
+      print('GOOGLE SIGN IN ERROR : $error');
       throw Exception();
     }
 
@@ -68,7 +68,11 @@ class LoginRemoteSource {
     entity.User userEntity;
 
     final response = await http.get(url);
-    if (response.statusCode != 200) throw Exception;
+
+    if (response.statusCode != 200) {
+      print("GET USER ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
 
     final Map<String, dynamic> data = json.decode(response.body);
 
@@ -101,7 +105,11 @@ class LoginRemoteSource {
     };
 
     final response = await http.post(url, body: data, headers: headers);
-    if (response.statusCode != 201) throw Exception;
+
+    if (response.statusCode != 201) {
+      print("CREATE USER ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
 
     final Map<String, dynamic> responseJson = json.decode(response.body);
     return responseJson;

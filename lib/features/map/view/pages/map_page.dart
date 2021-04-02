@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:latlong/latlong.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -175,32 +176,41 @@ class _MapPageState extends State<MapPage> {
         markers: markers,
         updateMapLocationOnPositionChange: false,
         showMoveToCurrentLocationFloatingActionButton: false);
-    return Stack(
-      children: [
-        FlutterMap(
-          options: new MapOptions(
-            center: LatLng(46.611182, 2.436257),
-            zoom: 5.0,
-            plugins: [
-              UserLocationPlugin(),
+        //!
+    return WillPopScope(
+      onWillPop: () async {
+        print('ON WILL POP');
+        Get.toNamed('/home');
+        return true;
+      },
+      child: Stack(
+      // return Stack(
+        children: [
+          FlutterMap(
+            options: new MapOptions(
+              center: LatLng(46.611182, 2.436257),
+              zoom: 5.0,
+              plugins: [
+                UserLocationPlugin(),
+              ],
+            ),
+            layers: [MarkerLayerOptions(markers: markers), userLocationOptions],
+            children: [
+              TileLayerWidget(
+                options: TileLayerOptions(
+                urlTemplate:
+                    'https://api.mapbox.com/styles/v1/antonin06/ckfnx5e3j05m019s0o8pjvs60/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW50b25pbjA2IiwiYSI6ImNrZm53ejI3NDBsbGQycnM1YXlsYzhtNTcifQ.IrQsUXT8P7nQZpkwuDtPjw',
+                additionalOptions: {
+                  'accessToken':
+                      'pk.eyJ1IjoiYW50b25pbjA2IiwiYSI6ImNrZm53ejI3NDBsbGQycnM1YXlsYzhtNTcifQ.IrQsUXT8P7nQZpkwuDtPjw',
+                  'id': 'mapbox.satellite'
+                },
+              )),
+              MarkerLayerWidget(options: MarkerLayerOptions(markers: _markers)),
             ],
           ),
-          layers: [MarkerLayerOptions(markers: markers), userLocationOptions],
-          children: [
-            TileLayerWidget(
-              options: TileLayerOptions(
-              urlTemplate:
-                  'https://api.mapbox.com/styles/v1/antonin06/ckfnx5e3j05m019s0o8pjvs60/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW50b25pbjA2IiwiYSI6ImNrZm53ejI3NDBsbGQycnM1YXlsYzhtNTcifQ.IrQsUXT8P7nQZpkwuDtPjw',
-              additionalOptions: {
-                'accessToken':
-                    'pk.eyJ1IjoiYW50b25pbjA2IiwiYSI6ImNrZm53ejI3NDBsbGQycnM1YXlsYzhtNTcifQ.IrQsUXT8P7nQZpkwuDtPjw',
-                'id': 'mapbox.satellite'
-              },
-            )),
-            MarkerLayerWidget(options: MarkerLayerOptions(markers: _markers)),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 

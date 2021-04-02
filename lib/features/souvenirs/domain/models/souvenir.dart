@@ -1,3 +1,4 @@
+import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 
 class Souvenir {
@@ -5,6 +6,7 @@ class Souvenir {
   int id;
   int userId;
   List<int> categoriesId;
+  List<Category> categories;
   String title;
   String cover;
   String eventDate;
