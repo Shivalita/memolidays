@@ -34,125 +34,125 @@ class _MapPageState extends State<MapPage> {
       Icon souvenirIcon = souvenirsState.state.currentSouvenirIcon;
 
       Marker souvenirMarker = 
-          Marker(
-            point: point,
-            width: _markerSize,
-            height: _markerSize,
-            builder: (BuildContext context) => IconButton(
-            icon: souvenirIcon,
-            iconSize: _markerSize,
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
-                        // height: 250,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))
-                        ),
-                        child: Column(
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?2", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                  child: Container(
-                                    
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?3", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?4", fit: BoxFit.cover)
-                                  )
+        Marker(
+          point: point,
+          width: _markerSize,
+          height: _markerSize,
+          builder: (BuildContext context) => IconButton(
+          icon: souvenirIcon,
+          iconSize: _markerSize,
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      // height: 250,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)) ,
+                                child: Container(
+                                  height: 125,
+                                  width: 125,
+                                  child: Image.network("https://source.unsplash.com/random/?2", fit: BoxFit.cover)
                                 )
-                                ]
+                              ),
+                              SizedBox(width: 5),
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)) ,
+                                child: Container(
+                                  
+                                  height: 125,
+                                  width: 125,
+                                  child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)
+                                )
+                              ),
+                              SizedBox(width: 5),
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                child: Container(
+                                  height: 125,
+                                  width: 125,
+                                  child: Image.network("https://source.unsplash.com/random/?3", fit: BoxFit.cover)
+                                )
+                              ),
+                              SizedBox(width: 5),
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                child: Container(
+                                  height: 125,
+                                  width: 125,
+                                  child: Image.network("https://source.unsplash.com/random/?4", fit: BoxFit.cover)
+                                )
+                              )
+                              ]
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              "Titre du Souvenir",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic
                               ),
                             ),
-                            SizedBox(height: 20),
-                            Center(
-                              child: Text(
-                                "Titre du Souvenir",
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.red, size: 25
+                                  ),
+                                  Text(
+                                    "SomeWhere",
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                "99/99/2020",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic
                                 ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: Colors.red, size: 25
-                                    ),
-                                    Text(
-                                      "SomeWhere",
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.italic
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "99/99/2020",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            FloatingActionButton(
-                              onPressed: (){},
-                              child: Icon(Icons.arrow_forward, color: Colors.orange),
-                              backgroundColor: Colors.white,
-                              elevation: 3,
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          FloatingActionButton(
+                            onPressed: (){},
+                            child: Icon(Icons.arrow_forward, color: Colors.orange),
+                            backgroundColor: Colors.white,
+                            elevation: 3,
+                          ),
+                          SizedBox(height: 10),
+                        ],
                       ),
-                    );
-                  });
-            }),
-        anchorPos: AnchorPos.align(AnchorAlign.top),
-      );
+                    ),
+                  );
+                });
+          }),
+      anchorPos: AnchorPos.align(AnchorAlign.top),
+    );
 
       _markers.add(souvenirMarker);
     });
