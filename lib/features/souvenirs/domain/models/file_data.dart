@@ -21,7 +21,11 @@ class FileData {
     final String thumbnailId = this.path.split('/').last;
 
     String thumbnailUrl = 
+
+    //link working with Olivier's account
       "https://drive.google.com/thumbnail?&sz=w$size&id=$thumbnailId";
+
+    //link working with Perle's account
      // "https://drive.google.com/thumbnail?authuser=0&sz=s$size&id=$thumbnailId";
     return thumbnailUrl;
   }
