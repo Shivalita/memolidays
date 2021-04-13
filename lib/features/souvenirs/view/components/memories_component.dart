@@ -66,6 +66,11 @@ class MemoriesComponent extends StatelessWidget {
                                       height: 125,
                                       child: (Image(
                                         fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        // Display sized thumbnail from cache if stored, else store it
                                         image: NetworkToFileImage(
                                             scale: 1,
                                             url: souvenirs[i]
@@ -84,16 +89,7 @@ class MemoriesComponent extends StatelessWidget {
                                               child: CircularProgressIndicator(
                                                   strokeWidth: 2));
                                         },
-                                      ))
-                                      // Display sized thumbnail from cache if stored, else store it
-                                      /* child: CachedNetworkImage(
-                                imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].cover, 250),
-                                progressIndicatorBuilder: (context, url, downloadProgress) => 
-                                  Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
-                                fit: BoxFit.cover,
-                              ),*/
-                                      )),
+                                      )))),
                               Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),

@@ -70,62 +70,48 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailsPhoto(
-                          index: index
-                        ),
+                        builder: (context) => DetailsPhoto(index: index),
                       ),
                     );
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[350],
-                          offset: Offset(1.0, 2.0),
-                          blurRadius: 1.0,
-                          spreadRadius: 1.0
-                        ),
-                      ]
-                    ),
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[350],
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 1.0,
+                              spreadRadius: 1.0),
+                        ]),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkToFileImage(
-                        url: thumbnails[index].getThumbnailUrl(600),
-                        //scale: 1.0,
-                        //file:null),
-                        file: thumbnails[index].file),
-                      loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) {
-                          return Center(child: child);
-                        }
-                        return Center(
-                            child: CircularProgressIndicator(strokeWidth: 2));
-                      },
-                ),
-                      // Display sized thumbnail from cache if stored, else store it
-                     /* child : CachedNetworkImage(
-                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                          Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                         fit: BoxFit.cover,
-                      ),*/
+                        image: NetworkToFileImage(
+                            url: thumbnails[index].getThumbnailUrl(600),
+                            file: thumbnails[index].file),
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) {
+                            return Center(child: child);
+                          }
+                          return Center(
+                              child: CircularProgressIndicator(strokeWidth: 2));
+                        },
+                      ),
                     ),
                   ),
                 );
               },
               staggeredTileBuilder: (index) {
                 return StaggeredTile.count(1, index.isEven ? 1.2 : 1.8);
-              }
-          ),
+              }),
         ),
       ],
-    )
-  );
+    ));
   }
 }
