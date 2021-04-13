@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
 
 // ignore: must_be_immutable
 class SouvenirHeader extends StatelessWidget {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-
+  
   @override
   Widget build(BuildContext context) {
+    print(souvenir.thumbnails[0].file);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: Stack(
@@ -18,14 +20,28 @@ class SouvenirHeader extends StatelessWidget {
         children: <Widget>[
         Container(
           child: ClipRRect(
+            child:(Image(
+                      image: NetworkToFileImage(
+                        url: (souvenir.thumbnails[0].getThumbnailUrl(600)),
+                        file: souvenir.thumbnails[0].file,
+                        debug:true),
+                      
+                      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                                 if (loadingProgress == null) {
+                                     return Center(child: child);
+                                  }
+                                  return Center(
+                                      child: CircularProgressIndicator(strokeWidth: 2));
+                                },
+                     fit: BoxFit.cover, )),
             // Display sized thumbnail from cache if stored, else store it
-            child : CachedNetworkImage(
-              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.cover, 600),
+           /* child : CachedNetworkImage(
+              imageUrl: ThumbnailLink().getThumbnailLink('https://drive.google.com/file/d/1j8DFeEffxxSepC7gLBSjuF1-sGCaBT8P/view?usp=sharing', 600),
               progressIndicatorBuilder: (context, url, downloadProgress) => 
                 Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.cover,
-            ),
+            ),*/
           ),
         ),
         Row(

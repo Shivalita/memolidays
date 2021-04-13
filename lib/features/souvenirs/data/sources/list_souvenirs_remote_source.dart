@@ -40,14 +40,12 @@ class ListSouvenirsRemoteSource {
     return categoriesList;
   }
 
+  Future<File> file(filename) async {
+    Directory dir = await getApplicationDocumentsDirectory();
+    String pathName = dir.path + filename;
+    return File(pathName);
+  }
 
-
-      Future<File> file( filename) async {
-      Directory dir = await getApplicationDocumentsDirectory();
-      String pathName = dir.path + filename;
-      print("pathname $pathName");
-      return File(pathName);
-      }
   // Get all user's souvenirs and call get files method for each one
   Future<List<Souvenir>> getAllSouvenirs(int userId) async {
     final String url = "http://" + LOCALHOST + "/api/souvenirs?user=$userId";
@@ -55,7 +53,7 @@ class ListSouvenirsRemoteSource {
 
     if (response.statusCode != 200) throw Exception;
     List data = json.decode(response.body)['hydra:member'];
-
+    print(data[0]);
     List<Souvenir> souvenirsList =
         data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
@@ -63,47 +61,29 @@ class ListSouvenirsRemoteSource {
       List<Map<String, dynamic>> filesData =
           data[i]['files'].cast<Map<String, dynamic>>();
 
-      // On a un tableau de Map de filedata
-      // [
-      //  {
-      //    'id': 12,
-      //    'path': 'path'
-      //  }
-      // ]
-    
-    
+      List<FileData> filesDataList = [];
+      await Future.forEach(filesData, (fileData) async {
+        fileData['path'] =
+            "https://drive.google.com/file/d/15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy";
+        var myFile = await this
+            .file(fileData['path'].split('/').last + "." + fileData['type']);
+        fileData['file'] = myFile;
 
-      // Pour chaque filedata, on veut générer un File (avec le path + nom du fichier + extension du fichier)
-      // et une URL de thumbnail = > Première étape faite, reste à récupérer l'url !!!!!!!!!!
-
-      filesData.forEach((fileData) =>
-        this.file(fileData['path'].split('/').last + "." + fileData['type']));
-      //print(fileData['path'].split('/').last + "." + fileData['type']));
+        filesDataList.add(FileData.fromJson(fileData));
+      });
+      souvenirsList[i].thumbnails = filesDataList;
   
+      /*File coverImgFile =
+          await this.file('15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy.jpg');
 
-     // var myFile = await file(fileName);
-
-      // Pour chaque filedata, on veut créer une entite FileData en stockant le File et l'url
-
-     // File file = filesData.asMap().entries.map((entry) {
-       // return entry.value['path'].split('/').last;
-     // });
-
-      //print('file $myFile');
-      List<FileData> filesList =
-          filesData.map((fileData) => FileData.fromJson(fileData)).toList();
-
-      souvenirsList[i].thumbnails = filesList;
-
-      FileData coverFile =
-          FileData.fromCover(souvenirsList[i].id, souvenirsList[i].cover);
-
-      souvenirsList[i].thumbnails.insert(0, coverFile);
+      FileData coverFile = FileData.fromCover(
+          souvenirsList[i].id, souvenirsList[i].cover, coverImgFile);
+      //print(coverFile.file);
+      souvenirsList[i].thumbnails.insert(0, coverFile);*/
     }
-
     return souvenirsList;
   }
-      
+
   // -------------------- DELETE --------------------
 
   Future<void> deleteFile(int fileId) async {

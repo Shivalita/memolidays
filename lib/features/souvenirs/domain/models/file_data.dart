@@ -16,8 +16,15 @@ class FileData {
     this.token = token;
   }
 
-  // ! A FAIRE
-  get thumbnailUrl => path + 'blabla';
+  String getThumbnailUrl(int desiredSize) {
+    final String size = desiredSize.toString();
+    final String thumbnailId = this.path.split('/').last;
+
+    String thumbnailUrl = 
+      "https://drive.google.com/thumbnail?&sz=w$size&id=$thumbnailId";
+     // "https://drive.google.com/thumbnail?authuser=0&sz=s$size&id=$thumbnailId";
+    return thumbnailUrl;
+  }
 
   // Instanciate from json API response
   FileData.fromJson(Map<String, dynamic> json) {
@@ -26,12 +33,14 @@ class FileData {
     path = json['path'];
     type = json['type'];
     token = json['token'];
+    file = json['file'];
   }
 
   // Instanciate from souvenir cover
-  FileData.fromCover(int souvenirId, String coverLink) {
+  FileData.fromCover(int souvenirId, String coverLink, File coverImgFile) {
     id = 0;
     souvenirId = souvenirId;
     path = coverLink;
+    file = coverImgFile;
   }
 }
