@@ -63,14 +63,16 @@ class ListSouvenirsRemoteSource {
 
       List<FileData> filesDataList = [];
       await Future.forEach(filesData, (fileData) async {
-        fileData['path'] =
-            "https://drive.google.com/file/d/15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy";
-        var myFile = await this
-            .file(fileData['path'].split('/').last + "." + fileData['type']);
+
+        //Image link from google drive for tests
+        //fileData['path'] ="https://drive.google.com/file/d/15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy";
+
+        var myFile = await this.file(fileData['path'].split('/').last + "." + fileData['type']);
         fileData['file'] = myFile;
 
         filesDataList.add(FileData.fromJson(fileData));
       });
+
       souvenirsList[i].thumbnails = filesDataList;
   
       /*File coverImgFile =
