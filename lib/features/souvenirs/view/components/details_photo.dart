@@ -209,19 +209,19 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               body: Container(
                 child: Center(
                     child: Image(
-                    image: NetworkToFileImage(
-                      url: thumbnails[index].getThumbnailUrl(600),
-                      //file: null),
-                      file: thumbnails[index].file),
-                    loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) {
-                      return Center(child: child);
-                    }
-                    return Center(
-                        child: CircularProgressIndicator(strokeWidth: 2));
-                  },
-                  fit: BoxFit.cover,
+                      width:MediaQuery.of(context).size.width,
+                      image: NetworkToFileImage(
+                        url: thumbnails[index].getThumbnailUrl(600),
+                        file: thumbnails[index].file),
+                      loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) {
+                        return Center(child: child);
+                      }
+                      return Center(
+                          child: CircularProgressIndicator(strokeWidth: 2));
+                    },
+                    fit: BoxFit.cover,
                 )),
               ),
             );
