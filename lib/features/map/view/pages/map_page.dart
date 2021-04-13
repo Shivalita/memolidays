@@ -26,7 +26,6 @@ class _MapPageState extends State<MapPage> {
 
   // Used to trigger showing/hiding of popups.
 
-
   @override
   void initState() {
     allSouvenirs = souvenirsState.state.allSouvenirsList;
@@ -41,7 +40,7 @@ class _MapPageState extends State<MapPage> {
       souvenirThumbnails.forEach((thumbnail) {
         ClipRRect thumbnailClip = 
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(12)) ,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             child: Container(
               height: 125,
               width: 125,
@@ -140,7 +139,10 @@ class _MapPageState extends State<MapPage> {
                           ),
                           SizedBox(height: 10),
                           FloatingActionButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              souvenirsState.setState((state) => state.selectedSouvenir = souvenir); 
+                              Get.toNamed('/souvenir');
+                            },
                             child: Icon(Icons.arrow_forward, color: Colors.orange),
                             backgroundColor: Colors.white,
                             elevation: 3,
@@ -214,7 +216,6 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
-
 
   // void showPopupForFirstMarker() {
   //   _popupLayerController.togglePopup(_markers.first);
