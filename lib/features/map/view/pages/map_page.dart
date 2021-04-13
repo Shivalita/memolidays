@@ -1,8 +1,13 @@
+// import 'dart:html';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong/latlong.dart';
+import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:user_location/user_location.dart';
 
@@ -28,131 +33,129 @@ class _MapPageState extends State<MapPage> {
 
     super.initState();
 
+    Widget getThumbnailsWidget(Souvenir souvenir) {
+      List<File> souvenirThumbnails = souvenir.thumbnails;
+      List<Widget> thumbnailsWidgetsList = [];
+
+      souvenirThumbnails.forEach((thumbnail) {
+        ClipRRect thumbnailClip = 
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            child: Container(
+              height: 125,
+              width: 125,
+              child: CachedNetworkImage(
+                imageUrl: ThumbnailLink().getThumbnailLink(thumbnail.path, 250),
+                progressIndicatorBuilder: (context, url, downloadProgress) => 
+                Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                fit: BoxFit.cover,
+              )
+            )
+          );
+
+        thumbnailsWidgetsList.add(thumbnailClip);
+        thumbnailsWidgetsList.add(SizedBox(width: 5));
+      });
+        
+      return Row(
+        children: thumbnailsWidgetsList,
+      );
+    }
+
     allSouvenirs.forEach((souvenir) {
       LatLng point = LatLng(souvenir.latitude, souvenir.longitude);
       souvenirsState.setState((state) => state.getSouvenirIcon(souvenir));
       Icon souvenirIcon = souvenirsState.state.currentSouvenirIcon;
 
       Marker souvenirMarker = 
-          Marker(
-            point: point,
-            width: _markerSize,
-            height: _markerSize,
-            builder: (BuildContext context) => IconButton(
-            icon: souvenirIcon,
-            iconSize: _markerSize,
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
-                        // height: 250,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))
-                        ),
-                        child: Column(
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?2", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)) ,
-                                  child: Container(
-                                    
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?1", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?3", fit: BoxFit.cover)
-                                  )
-                                ),
-                                SizedBox(width: 5),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                  child: Container(
-                                    height: 125,
-                                    width: 125,
-                                    child: Image.network("https://source.unsplash.com/random/?4", fit: BoxFit.cover)
-                                  )
-                                )
-                                ]
+        Marker(
+          point: point,
+          width: _markerSize,
+          height: _markerSize,
+          builder: (BuildContext context) => IconButton(
+          icon: souvenirIcon,
+          iconSize: _markerSize,
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      // height: 250,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20))
+                      ),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                getThumbnailsWidget(souvenir)
+                              ]
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              souvenir.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic
                               ),
                             ),
-                            SizedBox(height: 20),
-                            Center(
-                              child: Text(
-                                "Titre du Souvenir",
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.red, size: 25
+                                  ),
+                                  Text(
+                                    souvenir.place,
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                souvenir.eventDate,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic
                                 ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: Colors.red, size: 25
-                                    ),
-                                    Text(
-                                      "SomeWhere",
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.italic
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "99/99/2020",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            FloatingActionButton(
-                              onPressed: (){},
-                              child: Icon(Icons.arrow_forward, color: Colors.orange),
-                              backgroundColor: Colors.white,
-                              elevation: 3,
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          FloatingActionButton(
+                            onPressed: (){
+                              souvenirsState.setState((state) => state.selectedSouvenir = souvenir); 
+                              Get.toNamed('/souvenir');
+                            },
+                            child: Icon(Icons.arrow_forward, color: Colors.orange),
+                            backgroundColor: Colors.white,
+                            elevation: 3,
+                          ),
+                          SizedBox(height: 10),
+                        ],
                       ),
-                    );
-                  });
-            }),
-        anchorPos: AnchorPos.align(AnchorAlign.top),
-      );
+                    ),
+                  );
+                });
+          }),
+      anchorPos: AnchorPos.align(AnchorAlign.top),
+    );
 
       _markers.add(souvenirMarker);
     });
@@ -213,7 +216,6 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
-
 
   // void showPopupForFirstMarker() {
   //   _popupLayerController.togglePopup(_markers.first);

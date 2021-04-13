@@ -127,13 +127,10 @@ class SouvenirsState {
   }
 
   void getSouvenirIcon(Souvenir souvenir) {
-    int categoryId = souvenir.categoriesId[1];
-    Category category = allCategoriesList.firstWhere((category) => category.id == categoryId);
-    Pin pin = category.pin;
-
-    // Icon souvenirIcon = Icon(constantes.icons[pin.icon], color: constantes.colors[pin.color], size: 22);
-
-    Icon souvenirIcon = Icon(Icons.location_on, color: Colors.red, size: 22,);
+    Category firstSouvenirCategory = souvenir.categories[0];
+    Pin pin = firstSouvenirCategory.pin;
+    
+    Icon souvenirIcon = Icon(constantes.icons[pin.icon], color: constantes.colors[pin.color], size: 22);
     currentSouvenirIcon = souvenirIcon;
   }
 
