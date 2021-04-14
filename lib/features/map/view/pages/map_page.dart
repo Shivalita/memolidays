@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:latlong/latlong.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:user_location/user_location.dart';
 
@@ -34,11 +34,11 @@ class _MapPageState extends State<MapPage> {
     super.initState();
 
     Widget getThumbnailsWidget(Souvenir souvenir) {
-      List<File> souvenirThumbnails = souvenir.thumbnails;
+      List<FileData> souvenirThumbnails = souvenir.thumbnails;
       List<Widget> thumbnailsWidgetsList = [];
 
       souvenirThumbnails.forEach((thumbnail) {
-        ClipRRect thumbnailClip = 
+        ClipRRect thumbnailClip =
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12)),
             child: Container(
@@ -46,7 +46,7 @@ class _MapPageState extends State<MapPage> {
               width: 125,
               child: CachedNetworkImage(
                 imageUrl: ThumbnailLink().getThumbnailLink(thumbnail.path, 250),
-                progressIndicatorBuilder: (context, url, downloadProgress) => 
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
                 Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
         thumbnailsWidgetsList.add(thumbnailClip);
         thumbnailsWidgetsList.add(SizedBox(width: 5));
       });
-        
+
       return Row(
         children: thumbnailsWidgetsList,
       );
@@ -68,7 +68,7 @@ class _MapPageState extends State<MapPage> {
       souvenirsState.setState((state) => state.getSouvenirIcon(souvenir));
       Icon souvenirIcon = souvenirsState.state.currentSouvenirIcon;
 
-      Marker souvenirMarker = 
+      Marker souvenirMarker =
         Marker(
           point: point,
           width: _markerSize,
@@ -140,7 +140,7 @@ class _MapPageState extends State<MapPage> {
                           SizedBox(height: 10),
                           FloatingActionButton(
                             onPressed: (){
-                              souvenirsState.setState((state) => state.selectedSouvenir = souvenir); 
+                              souvenirsState.setState((state) => state.selectedSouvenir = souvenir);
                               Get.toNamed('/souvenir');
                             },
                             child: Icon(Icons.arrow_forward, color: Colors.orange),
