@@ -55,4 +55,11 @@ class ListSouvenirsRepository {
     return updatedSouvenir;
   }
 
+
+  // -------------------- CREATE --------------------
+  Future<Souvenir> createSouvenir(Souvenir souvenir) async {
+    Souvenir newSouvenir = await listSouvenirsRemoteSource.createSouvenir(souvenir);
+    return newSouvenir;
+  }
+
 }

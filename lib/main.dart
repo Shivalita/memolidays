@@ -16,7 +16,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 final LocalSource localSource = LocalSource();
 
 //! Set this flag to FALSE for production
-bool isDevelopmentMode = true;
+bool isDevelopmentMode = false;
 
 bool checkIfConnected() {
   bool isConnected = false;

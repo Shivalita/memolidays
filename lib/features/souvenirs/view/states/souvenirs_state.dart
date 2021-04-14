@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
 import 'package:memolidays/core/constantes.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
 import 'package:memolidays/features/souvenirs/domain/models/pin.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:memolidays/features/souvenirs/domain/usecases/create_souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_category_souvenirs.dart';
@@ -17,6 +19,8 @@ import 'package:memolidays/features/souvenirs/domain/usecases/delete_souvenir.da
 import 'package:memolidays/features/souvenirs/domain/usecases/select_category.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SouvenirsState {
 
@@ -29,6 +33,8 @@ class SouvenirsState {
   bool isLocalizationEnabled;
   Position position;
   Icon currentSouvenirIcon;
+  bool isSetInputLocation = false;
+  Map<String, dynamic> inputLocation = {};
   final LocalSource localSource = LocalSource();
   final Constantes constantes = Constantes();
 
@@ -38,25 +44,12 @@ class SouvenirsState {
   Future<void> init(BuildContext context) async {
     if (allCategoriesList == null) {
       allCategoriesList = await getAllCategories(context);
-      // allSouvenirsList = await getSouvenirsList(context);
-      List<Souvenir> souvenirs = await getSouvenirsList(context);
-      allSouvenirsList = injectCategoriesIntoSouvenirs(souvenirs, allCategoriesList);
+      allSouvenirsList = await getSouvenirsList(context);
       souvenirsList = allSouvenirsList;
     }
 
     // Select "All" category by default
     selectedCategory = selectCategory(allCategoriesList[0]);
-  }
-
-  // Set categories instancies property for all souvenirs
-  List<Souvenir> injectCategoriesIntoSouvenirs(List<Souvenir> souvenirs, List<Category> allCategoriesList) {
-    souvenirs.forEach((souvenir) {
-      List<int> souvenirCategoriesId = souvenir.categoriesId;
-      List<Category> souvenirCategories = getSouvenirCategories(souvenirCategoriesId, allCategoriesList);
-      souvenir.categories = souvenirCategories;
-    });
-
-    return souvenirs;
   }
 
   // Get souvenir categories from all categories list by their id (excepted "all")
@@ -223,45 +216,73 @@ class SouvenirsState {
     Get.toNamed('/souvenir'); 
   }
 
+  // -------------------- CREATE --------------------
+  //! ON PROGRESS
+  
+  void updateLocationInput(MapBoxPlace place) {
+    if (place.properties.address != null) {
+      inputLocation['address'] = place.properties.address;
+    } else {
+      inputLocation['address'] = ' ';
+    }
 
-  //! CREATE PART - ON PROGRESS
+    inputLocation['place'] = place.text;
+    inputLocation['coordinates'] = place.geometry.coordinates;
 
-  // Future<String> getPlaceFromCoordinates(souvenir) async {
-  //   List<Placemark> placemarks = await placemarkFromCoordinates(souvenir.latitude, souvenir.longitude);
-  //   String souvenirPlace = placemarks[0].locality;
-  //   print(placemarks);
-  //   return souvenirPlace;
+    isSetInputLocation = true;
+  }
+
+  void addSouvenir(BuildContext context, Map<String, dynamic> data) async {
+    data['createdAt'] = DateTime.now();
+    
+    data['location'] = inputLocation;
+
+    Souvenir souvenir = Souvenir.fromForm(data);
+
+    // registerCategories(data);
+
+    try {
+      Souvenir newSouvenir = await CreateSouvenir()(souvenir);
+
+      allCategoriesList = await getAllCategories(context);
+      allSouvenirsList = await getSouvenirsList(context);
+
+      return Get.toNamed('/home');
+    }
+
+    on Exception {
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Souvenir couldn\'t be created, please try again.');
+      errorSnackbar.displayErrorSnackbar();
+    }
+  }
+
+  // void registerCategories(Map<String, dynamic> data) {
+  //   List<Category> existingCategories = [];
+  //   List<Category> newCategories = [];
+  //   List<Category> existingResults = [];
+  //   List<dynamic> categoriesList = data['categories'];
+
+  //   categoriesList.forEach((tag) {
+  //     tag.name = "${tag.name[0].toUpperCase()}${tag.name.substring(1)}";
+
+  //     existingResults = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
+  //     if (existingResults.length >= 1) {
+  //       existingCategories.insert(0, existingResults[0]);
+  //     } else {
+  //       newCategories.insert(0, tag);
+  //     }
+  //   });
+
+    // print('EXISTING CATEGORIES = ');
+    // existingCategories.forEach((category) {
+    //   print(category.name);
+    // });
+
+    // print('NEW CATEGORIES = ');
+    // newCategories.forEach((category) {
+    //   print(category.name);
+    // });
+
   // }
-
-  void addSouvenir(Map<String, dynamic> data) {
-    print('DATA = $data');
-
-    Souvenir newSouvenir = Souvenir.fromForm(data);
-
-    registerCategories(data, newSouvenir);
-  }
-
-  registerCategories(Map data, Souvenir newSouvenir) {
-    List<Category> existingCategories = [];
-    List<Category> newCategories = [];
-    List<Category> existingResult = [];
-    List<Category> newResult = [];
-    List<dynamic> categoriesList = data['categories'];
-
-    categoriesList.forEach((tag) {
-      existingResult = allCategoriesList.where((category) => (category.name.contains(tag.name))).toList();
-      if (existingResult.length >= 1) {
-        existingCategories.insert(0, existingResult[0]);
-      }
-    });
-
-    categoriesList.forEach((tag) {
-      newResult = allCategoriesList.where((category) => !(category.name.contains(tag.name))).toList();
-      if (newResult.length >= 1) {
-        newCategories.insert(0, newResult[0]);
-      }
-    });
-
-  }
 
 }

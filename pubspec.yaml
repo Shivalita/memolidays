@@ -61,6 +61,7 @@ dependencies:
       url: https://github.com/igaurab/user_location_plugin.git
   progress_state_button: ^1.0.1 #Customizable progress button
   flutter_dotenv: ^3.1.0
+  mapbox_search_flutter: ^1.0.6+1 #Location search
 
 dev_dependencies:
   flutter_test:

@@ -40,12 +40,11 @@ class Souvenir {
 
   // Instanciate from json API response 
   Souvenir.fromJson(Map<String, dynamic> json) {
-    List<String> categories = json['categories'].cast<String>();
     id = json['id'];
     title = json['title'];
     cover = json['cover'];
     userId = int.parse(json['user'].split('/').last);
-    eventDate = json['event_date'].split('T')[0];
+    eventDate = json['eventDate'].split('T')[0];
     email = json['email'];
     phone = json['phone'];
     comment = json['comment'];
@@ -54,40 +53,98 @@ class Souvenir {
     longitude = json['longitude'];
     place = json['place'];
     createdAt = json['createdAt'];
-    categoriesId = categories.map((category) => int.parse(category.split('/').last)).toList();
-    categoriesId.add(0);
   }
 
 
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user'] = "/api/users/13";
     data['title'] = this.title;
-    data['place'] = this.place;
-    data['categories'] = this.categoriesId;
-    data['event_date'] = this.eventDate;
+    data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
+    data['eventDate'] = this.eventDate;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['comment'] = this.comment;
+    data['address'] = this.address;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['place'] = this.place;
+    data['createdAt'] = this.createdAt;
+
+
+    List<Map<String, dynamic>> filesList = [
+      {
+        "path": "https://drive.google.com/file/d/1JKk-7UKpvz3TORsT5CUzbbo49dpAHHXh",
+        "type": "jpg",
+        "token": "string",
+      },
+      {
+        "path": " https://drive.google.com/file/d/14wIzc2VUn1mZINlh2N6GHkEKxRnO5qgG",
+        "type": "jpg",
+        "token": "string",
+      },
+      {
+        "path": "https://drive.google.com/file/d/1Y0kzalbwb2WxzrWCobapfQAzRWfmPw7-",
+        "type": "jpg",
+        "token": "string",
+      }
+    ];
+
+    data['files'] = filesList;
+
+
+    List<Map<String, dynamic>> categoriesList = [];
+
+    categories.forEach((category) {
+      if (category.id != null) {
+        Map<String, dynamic> existingCategory =  {
+          "@id": "/api/categories/3"
+        };
+
+        categoriesList.add(existingCategory);
+      } else {
+        Map<String, dynamic> pin = {
+          "icon": "attraction",
+          "color": "red",
+        };
+
+        Map<String, dynamic> newCategory =  {
+          "user": "/api/users/13",
+          "name": category.name,
+          "pin": pin
+        };
+
+        categoriesList.add(newCategory);
+      }
+    });
+
+    data['categories'] = categoriesList;
+    
     return data;
   }
 
-
   // Instanciate from form data
   Souvenir.fromForm(Map<String, dynamic> data) {
-    userId = data['userId'];
-    title = data['title'];
-    place = data['place'];
+    // userId = data['userId'];
+    title = data['title'][0].toUpperCase() + data['title'].substring(1);
     eventDate = data['eventDate'].toString();
     email = data['email'];
     phone = data['phone'];
     comment = data['comment'];
-    categoriesId = data['categories'];
+    categories = data['categories'].cast<Category>();
+
+    // List<String> categoriesNames = categories.cast<String>();
+    // categoriesId = categoriesNames.map((category) => int.parse(category.split('/').last)).toList();
+    // categoriesId = categories.map((category) => category.id).toList();
+    // categoriesId.add(0);
+    // 
     // cover = data['cover'];
-    // address = data['address'];
-    // latitude = map['latitude'];
-    // longitude = map['longitude'];
-    // createdAt = data['createdAt'];
+    place = data['location']['place'];
+    address = data['location']['address'];
+    longitude = data['location']['coordinates'][0];
+    latitude = data['location']['coordinates'][1];
+    createdAt = data['createdAt'].toString();
   }
 
 }
