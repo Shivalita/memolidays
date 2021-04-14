@@ -27,7 +27,11 @@ class ListSouvenirsRemoteSource {
 
     final http.Response response = await http.get(url);
 
-    if (response.statusCode != 200) throw Exception;
+    if (response.statusCode != 200) {
+      print("GET ALL CATEGORIES ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
+    
     List data = json.decode(response.body)['hydra:member'];
 
     List<Category> categoriesList =
@@ -51,7 +55,11 @@ class ListSouvenirsRemoteSource {
     final String url = "http://" + LOCALHOST + "/api/souvenirs?user=$userId";
     final http.Response response = await http.get(url);
 
-    if (response.statusCode != 200) throw Exception;
+    if (response.statusCode != 200) {
+      print("GET ALL SOUVENIRS ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
+
     List data = json.decode(response.body)['hydra:member'];
     print(data[0]);
     List<Souvenir> souvenirsList =
@@ -91,13 +99,21 @@ class ListSouvenirsRemoteSource {
   Future<void> deleteFile(int fileId) async {
     final String url = "http://" + LOCALHOST + "/api/files/$fileId";
     final response = await http.delete(url);
-    if (response.statusCode != 204) throw Exception;
+
+    if (response.statusCode != 204) {
+      print("DELETE FILE ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
   }
 
   Future<void> deleteSouvenir(int souvenirId) async {
     final String url = "http://" + LOCALHOST + "/api/souvenirs/$souvenirId";
     final response = await http.delete(url);
-    if (response.statusCode != 204) throw Exception;
+
+    if (response.statusCode != 204) {
+      print("DELETE SOUVENIR ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
   }
 
   // -------------------- UPDATE --------------------
@@ -115,7 +131,10 @@ class ListSouvenirsRemoteSource {
 
     final response = await http.patch(url, body: data, headers: headers);
 
-    if (response.statusCode != 200) throw Exception;
+    if (response.statusCode != 200) {
+      print("UPDATE SOUVENIR ERROR : status code ${response.statusCode}");
+      throw Exception;
+    }
 
     final Map<String, dynamic> responseJson = json.decode(response.body);
 

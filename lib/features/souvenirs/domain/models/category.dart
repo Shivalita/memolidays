@@ -1,14 +1,16 @@
+import 'package:memolidays/features/souvenirs/domain/models/pin.dart';
+
 class Category {
 
   int id;
   int userId;
-  int pinId;
+  Pin pin;
   String name;
 
-  Category({int id, int userId, int pinId, String name}) {
+  Category({int id, int userId, Pin pin, String name}) {
     this.id = id;
     this.userId = userId;
-    this.pinId = pinId;
+    this.pin = pin;
     this.name = name;
   }
 
@@ -16,7 +18,7 @@ class Category {
   Category.fromJson(Map<String, dynamic> data) {
     id = data['id']; 
     userId = int.parse(data['user'].split('/').last); 
-    pinId = data['pinId']; 
+    pin = Pin.fromJson(data['pin']); 
     name = data['name'];
   }
 
@@ -33,8 +35,8 @@ class Category {
     userId = data['userId'];
     name = data['name'];
     
-    if (data['pinId'] != null) {
-      pinId = data['pinId'];
+    if (data['pin'] != null) {
+      pin = data['pin'];
     }
 
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
+import 'package:memolidays/core/constantes.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/pin.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_categories.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/get_all_souvenirs.dart';
@@ -26,19 +28,50 @@ class SouvenirsState {
   Souvenir selectedSouvenir;
   bool isLocalizationEnabled;
   Position position;
+  Icon currentSouvenirIcon;
   final LocalSource localSource = LocalSource();
+  final Constantes constantes = Constantes();
+
+  // -------------------- INITIALIZATION --------------------
 
   // On first user's display, get all categories & souvenirs
   Future<void> init(BuildContext context) async {
     if (allCategoriesList == null) {
       allCategoriesList = await getAllCategories(context);
-      allSouvenirsList = await getSouvenirsList(context);
+      // allSouvenirsList = await getSouvenirsList(context);
+      List<Souvenir> souvenirs = await getSouvenirsList(context);
+      allSouvenirsList = injectCategoriesIntoSouvenirs(souvenirs, allCategoriesList);
       souvenirsList = allSouvenirsList;
     }
 
     // Select "All" category by default
     selectedCategory = selectCategory(allCategoriesList[0]);
   }
+
+  // Set categories instancies property for all souvenirs
+  List<Souvenir> injectCategoriesIntoSouvenirs(List<Souvenir> souvenirs, List<Category> allCategoriesList) {
+    souvenirs.forEach((souvenir) {
+      List<int> souvenirCategoriesId = souvenir.categoriesId;
+      List<Category> souvenirCategories = getSouvenirCategories(souvenirCategoriesId, allCategoriesList);
+      souvenir.categories = souvenirCategories;
+    });
+
+    return souvenirs;
+  }
+
+  // Get souvenir categories from all categories list by their id (excepted "all")
+  List<Category> getSouvenirCategories(List<int> souvenirCategoriesId, List<Category> allCategoriesList) {
+    List<Category> souvenirCategories = [];
+
+    souvenirCategoriesId.forEach((souvenirCategoryId) {
+      if(souvenirCategoryId != 0) {
+        Category souvenirCategory = allCategoriesList.firstWhere((category) => category.id == souvenirCategoryId);
+        souvenirCategories.add(souvenirCategory);
+      }
+    });
+
+    return souvenirCategories;
+  } 
 
   // -------------------- GET --------------------
 
@@ -49,7 +82,8 @@ class SouvenirsState {
     }
 
     on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      print('PPL exception getAllCategories souvenirs_state');
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Data retrieval failed : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
     
@@ -84,11 +118,20 @@ class SouvenirsState {
     }
 
     on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Server error : Please try again.');
+      print('PPL exception getSouvenirsList souvenirs_state');
+      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Data retrieval failed : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
 
     return allSouvenirs;
+  }
+
+  void getSouvenirIcon(Souvenir souvenir) {
+    Category firstSouvenirCategory = souvenir.categories[0];
+    Pin pin = firstSouvenirCategory.pin;
+    
+    Icon souvenirIcon = Icon(constantes.icons[pin.icon], color: constantes.colors[pin.color], size: 22);
+    currentSouvenirIcon = souvenirIcon;
   }
 
 

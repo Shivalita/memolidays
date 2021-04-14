@@ -24,7 +24,7 @@ class User {
     name = data['name']; 
     email = data['email'];
     avatar = data['avatar'];
-    isPremium = data['is_premium'];
+    isPremium = data['isPremium'];
   }
 
 
