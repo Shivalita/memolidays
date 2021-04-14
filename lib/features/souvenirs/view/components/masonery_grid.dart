@@ -4,7 +4,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
+
 import 'details_photo.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +17,7 @@ class MasoneryGrid extends StatefulWidget {
 
 class _MasoneryGridState extends State<MasoneryGrid> {
   Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-  List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+  List<FileData> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
 
   @override
   Widget build(BuildContext context) {
@@ -68,46 +70,48 @@ class _MasoneryGridState extends State<MasoneryGrid> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailsPhoto(
-                          index: index
-                        ),
+                        builder: (context) => DetailsPhoto(index: index),
                       ),
                     );
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[350],
-                          offset: Offset(1.0, 2.0),
-                          blurRadius: 1.0,
-                          spreadRadius: 1.0
-                        ),
-                      ]
-                    ),
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[350],
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 1.0,
+                              spreadRadius: 1.0),
+                        ]),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      // Display sized thumbnail from cache if stored, else store it
-                      child : CachedNetworkImage(
-                        imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
-                        progressIndicatorBuilder: (context, url, downloadProgress) => 
-                          Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      child: Image(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                         fit: BoxFit.cover,
-                      ),                     
+                        image: NetworkToFileImage(
+                            url: thumbnails[index].getThumbnailUrl(600),
+                            file: thumbnails[index].file),
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) {
+                            return Center(child: child);
+                          }
+                          return Center(
+                              child: CircularProgressIndicator(strokeWidth: 2));
+                        },
+                      ),
                     ),
-                  ),                  
+                  ),
                 );
               },
               staggeredTileBuilder: (index) {
                 return StaggeredTile.count(1, index.isEven ? 1.2 : 1.8);
-              }
-          ),
+              }),
         ),
       ],
-    )
-  );
+    ));
   }
 }

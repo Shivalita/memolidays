@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
 
 // ignore: must_be_immutable
 class SouvenirHeader extends StatelessWidget {
@@ -11,28 +12,35 @@ class SouvenirHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(souvenir.thumbnails[0].file);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
-      child: Stack(
-        alignment: Alignment.bottomLeft, 
-        children: <Widget>[
+      child: Stack(alignment: Alignment.bottomLeft, children: <Widget>[
         Container(
           child: ClipRRect(
-            // Display sized thumbnail from cache if stored, else store it
-            child : CachedNetworkImage(
-              imageUrl: ThumbnailLink().getThumbnailLink(souvenir.cover, 600),
-              progressIndicatorBuilder: (context, url, downloadProgress) => 
-                Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+            child: (Image(
+              width: MediaQuery.of(context).size.width,
+              // Display sized thumbnail from cache if stored, else store it
+              image: NetworkToFileImage(
+                  url: (souvenir.thumbnails[0].getThumbnailUrl(600)),
+                  file: souvenir.thumbnails[0].file,
+                  debug: true),
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent loadingProgress) {
+                if (loadingProgress == null) {
+                  return Center(child: child);
+                }
+                return Center(child: CircularProgressIndicator(strokeWidth: 2));
+              },
               fit: BoxFit.cover,
-            ),
+            )),
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width/1.5,
+              width: MediaQuery.of(context).size.width / 1.5,
               padding: EdgeInsets.all(10),
               child: Text(
                 souvenir.title,
@@ -53,32 +61,25 @@ class SouvenirHeader extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: new Color.fromRGBO(0, 0, 0, 0.5)
-              ),
-              padding: EdgeInsets.all(5),
-              child: Row(
-                children: [
-                  Text(
-                    souvenir.thumbnails.length.toString(),
-                    style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20
-                    )
-                  ),
-                  SizedBox(width: 5),
-                  Icon(Icons.photo_library, color: Colors.white, size: 25)
-                ],
-              )
-            )
+                margin: EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: new Color.fromRGBO(0, 0, 0, 0.5)),
+                padding: EdgeInsets.all(5),
+                child: Row(
+                  children: [
+                    Text(souvenir.thumbnails.length.toString(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20)),
+                    SizedBox(width: 5),
+                    Icon(Icons.photo_library, color: Colors.white, size: 25)
+                  ],
+                ))
           ],
         ),
-        ]
-      ),
+      ]),
     );
   }
-
 }
