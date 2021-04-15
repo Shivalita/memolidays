@@ -64,7 +64,7 @@ class SouvenirsState {
     });
 
     return souvenirCategories;
-  } 
+  }
 
   // -------------------- GET --------------------
 
@@ -79,7 +79,7 @@ class SouvenirsState {
       final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Data retrieval failed : Please try again.');
       errorSnackbar.displayErrorSnackbar();
     }
-    
+
     return allCategoriesList;
   }
 
@@ -122,7 +122,7 @@ class SouvenirsState {
   void getSouvenirIcon(Souvenir souvenir) {
     Category firstSouvenirCategory = souvenir.categories[0];
     Pin pin = firstSouvenirCategory.pin;
-    
+
     Icon souvenirIcon = Icon(constantes.icons[pin.icon], color: constantes.colors[pin.color], size: 22);
     currentSouvenirIcon = souvenirIcon;
   }
@@ -163,7 +163,7 @@ class SouvenirsState {
 
 
   // -------------------- UPDATE --------------------
-  
+
   // Select category & get related souvenirs
   Category selectCategory(Category category) {
     selectedCategory = SelectCategory()(category);
@@ -191,7 +191,7 @@ class SouvenirsState {
     // For each category (except 'All') replace id by an IRI in data to send
     categoriesId.removeWhere((categoryId) => categoryId == 0);
 
-    categoriesId.forEach((categoryId) { 
+    categoriesId.forEach((categoryId) {
       categoriesIRI.add('/api/categories/$categoryId');
     });
 
@@ -208,17 +208,17 @@ class SouvenirsState {
 
     // Replace old souvenir with new souvenir in souvenirs list
     allSouvenirsList[allSouvenirsList.indexWhere((souvenir) => souvenir.id == updatedSouvenir.id)] = updatedSouvenir;
-      
+
     // Set selected souvenir to new souvenir
     selectedSouvenir = updatedSouvenir;
 
     // Redirect to souvenir page
-    Get.toNamed('/souvenir'); 
+    Get.toNamed('/souvenir');
   }
 
   // -------------------- CREATE --------------------
   //! ON PROGRESS
-  
+
   void updateLocationInput(MapBoxPlace place) {
     if (place.properties.address != null) {
       inputLocation['address'] = place.properties.address;
@@ -232,9 +232,9 @@ class SouvenirsState {
     isSetInputLocation = true;
   }
 
-  void addSouvenir(BuildContext context, Map<String, dynamic> data) async {
+  Future<void> addSouvenir(BuildContext context, Map<String, dynamic> data) async {
     data['createdAt'] = DateTime.now();
-    
+
     data['location'] = inputLocation;
 
     Souvenir souvenir = Souvenir.fromForm(data);
@@ -246,8 +246,6 @@ class SouvenirsState {
 
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
-
-      return Get.toNamed('/home');
     }
 
     on Exception {

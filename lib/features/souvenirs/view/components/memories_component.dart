@@ -9,6 +9,9 @@ import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart'
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
+  MemoriesComponent(this.changeScreen, {Key key}) : super(key: key);
+  final Function changeScreen;
+
   List<Souvenir> souvenirs;
   bool isAnySouvenir;
   bool isLocationServiceEnabled;
@@ -35,7 +38,7 @@ class MemoriesComponent extends StatelessWidget {
               return GestureDetector(
                 // On tap store selected souvenir in state & redirect to souvenir page
                 onTap: () {
-                  souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]); 
+                  souvenirsState.setState((state) => state.selectedSouvenir = souvenirs[i]);
                   Get.toNamed('/souvenir');
                 },
                 child: Container(
@@ -64,7 +67,7 @@ class MemoriesComponent extends StatelessWidget {
                               // Display sized thumbnail from cache if stored, else store it
                               child: CachedNetworkImage(
                                 imageUrl: ThumbnailLink().getThumbnailLink(souvenirs[i].cover, 250),
-                                progressIndicatorBuilder: (context, url, downloadProgress) => 
+                                progressIndicatorBuilder: (context, url, downloadProgress) =>
                                   Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
                                 fit: BoxFit.cover,
@@ -144,7 +147,7 @@ class MemoriesComponent extends StatelessWidget {
                 ),
               );
             })
-          
+
           // Content to display when there are no memories yet
           ) : Container(
 
@@ -184,7 +187,7 @@ class MemoriesComponent extends StatelessWidget {
                   margin: EdgeInsets.only(top: 50),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(AddSouvenirsPage());
+                      Get.to(AddSouvenirsPage(changeScreen));
                     },
                   child: Container(
                     height: 125,

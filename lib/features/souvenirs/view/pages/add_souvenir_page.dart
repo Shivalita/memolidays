@@ -14,6 +14,9 @@ import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 
 class AddSouvenirsPage extends StatefulWidget {
+  AddSouvenirsPage(this.changeScreen, {Key key}) : super(key: key);
+  final Function changeScreen;
+
   @override
   _AddSouvenirsPageState createState() => _AddSouvenirsPageState();
 }
@@ -221,7 +224,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           color: Colors.green)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
 
-    
+
   }
 
   void onPressedIconWithText() {
@@ -236,7 +239,10 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                 Map<String, dynamic> data = _fbKey.currentState.value;
                 stateTextWithIcon = ButtonState.success;
                 Future.delayed(Duration(milliseconds : 1000), () {
-                  souvenirsState.setState((state) async => await state.addSouvenir(context, data));
+                  souvenirsState.setState((state) async {
+                    await state.addSouvenir(context, data);
+                    widget.changeScreen(0);
+                  });
                 });
             } else {
               stateTextWithIcon = ButtonState.fail;

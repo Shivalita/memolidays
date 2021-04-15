@@ -34,11 +34,11 @@ class Souvenir {
     this.latitude,
     this.longitude,
     this.place,
-    this.createdAt, 
+    this.createdAt,
   });
 
 
-  // Instanciate from json API response 
+  // Instanciate from json API response
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
@@ -59,7 +59,7 @@ class Souvenir {
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = "/api/users/13";
+    data['user'] = "/api/users/15";
     data['title'] = this.title;
     data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
     data['eventDate'] = this.eventDate;
@@ -110,7 +110,7 @@ class Souvenir {
         };
 
         Map<String, dynamic> newCategory =  {
-          "user": "/api/users/13",
+          "user": "/api/users/15",
           "name": category.name,
           "pin": pin
         };
@@ -120,7 +120,7 @@ class Souvenir {
     });
 
     data['categories'] = categoriesList;
-    
+
     return data;
   }
 
@@ -138,7 +138,7 @@ class Souvenir {
     // categoriesId = categoriesNames.map((category) => int.parse(category.split('/').last)).toList();
     // categoriesId = categories.map((category) => category.id).toList();
     // categoriesId.add(0);
-    // 
+    //
     // cover = data['cover'];
     place = data['location']['place'];
     address = data['location']['address'];
