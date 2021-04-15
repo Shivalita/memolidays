@@ -45,9 +45,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           title: Text(
           _tabController.index == 0 ? 'Home' :
           _tabController.index == 1 ? "Memories" :
-          "Map"
+          "Map", style: TextStyle(color: Colors.white),
         ),
           centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         drawer: MyDrawer(),
         bottomNavigationBar: ConvexAppBar(
