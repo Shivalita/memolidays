@@ -16,7 +16,7 @@ class ListSouvenirsPage extends StatelessWidget {
         onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
         onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
         onError: (error) {
-          print('STATES REBUILDER ON ERROR');
+          print('STATES REBUILDER ON ERROR :' + error.toString());
           return Container();
           // throw error;
         },

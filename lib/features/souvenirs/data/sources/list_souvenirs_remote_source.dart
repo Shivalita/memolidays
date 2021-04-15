@@ -86,6 +86,7 @@ class ListSouvenirsRemoteSource {
       /*File coverImgFile =
           await this.file('15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy.jpg');
       souvenirsList[i].thumbnails.insert(0, coverFile);
+      */
 
       List<Map<String, dynamic>> categoriesData = data[i]['categories'].cast<Map<String, dynamic>>();
 
@@ -100,11 +101,11 @@ class ListSouvenirsRemoteSource {
       souvenirsList[i].categoriesId.add(0);
     }
 
-      FileData coverFile = FileData.fromCover(
+      /*FileData coverFile = FileData.fromCover(
           souvenirsList[i].id, souvenirsList[i].cover, coverImgFile);
       //print(coverFile.file);
-      souvenirsList[i].thumbnails.insert(0, coverFile);*/
-    }
+      souvenirsList[i].thumbnails.insert(0, coverFile);
+    }*/
     return souvenirsList;
   }
 

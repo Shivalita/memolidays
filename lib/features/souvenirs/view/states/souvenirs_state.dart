@@ -237,6 +237,8 @@ class SouvenirsState {
 
     data['location'] = inputLocation;
 
+    data['userId'] = localSource.getUserId();
+
     Souvenir souvenir = Souvenir.fromForm(data);
 
     // registerCategories(data);

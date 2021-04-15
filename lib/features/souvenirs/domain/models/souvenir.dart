@@ -59,7 +59,7 @@ class Souvenir {
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = "/api/users/15";
+    data['user'] = "/api/users/" + this.userId.toString();
     data['title'] = this.title;
     data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
     data['eventDate'] = this.eventDate;
@@ -110,7 +110,7 @@ class Souvenir {
         };
 
         Map<String, dynamic> newCategory =  {
-          "user": "/api/users/15",
+          "user": "/api/users/" + this.userId.toString(),
           "name": category.name,
           "pin": pin
         };
