@@ -13,14 +13,19 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
+import 'dart:async';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import "package:flutter/foundation.dart";
+
 final LocalSource localSource = LocalSource();
 
 //! Set this flag to FALSE for production
-bool isDevelopmentMode = true;
+bool isDevelopmentMode = false;
 
 bool checkIfConnected() {
   bool isConnected = false;
-  
+
   if (!isDevelopmentMode) {
     if (localSource.getIsConnected() == true) {
       isConnected = true;
@@ -39,15 +44,15 @@ void main() async {
   await DotEnv.load(fileName: ".env");
 
   runApp(MyApp());
-   SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
   ]);
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  bool isConnected = checkIfConnected();
+    bool isConnected = checkIfConnected();
     return FutureBuilder(
       // Initialize FlutterFire (connection to Firebase)
       future: Firebase.initializeApp(),
@@ -62,7 +67,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.orange,
               scaffoldBackgroundColor: Colors.white,
               canvasColor: Colors.transparent,
-            ),        
+            ),
             // If connected yet redirect to home page, else to login page
             home: (isConnected == true) ? MyHomePage() : LoginPage(),
             debugShowCheckedModeBanner: false,
@@ -72,13 +77,10 @@ class MyApp extends StatelessWidget {
               GetPage(name: '/detailsphoto', page: () => DetailsPhoto()),
             ],
           );
-          
         }
 
         return Container(width: 0, height: 0);
       },
-
     );
   }
-
 }

@@ -17,6 +17,7 @@ class Input extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: FormBuilderTextField(
         attribute: attribute.toLowerCase(),
+        // initialValue: ' ',
         readOnly: false,
         decoration: InputDecoration(
           hintText: attribute,

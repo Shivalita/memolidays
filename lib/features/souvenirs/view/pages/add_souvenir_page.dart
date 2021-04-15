@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
+import 'package:memolidays/features/souvenirs/view/components/location_input.dart';
 import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
 import 'package:memolidays/features/souvenirs/view/components/tags.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,9 @@ import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 
 class AddSouvenirsPage extends StatefulWidget {
+  AddSouvenirsPage(this.changeScreen, {Key key}) : super(key: key);
+  final Function changeScreen;
+
   @override
   _AddSouvenirsPageState createState() => _AddSouvenirsPageState();
 }
@@ -29,7 +33,6 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
     super.initState();
     pickedDate = DateTime.now();
   }
-  
 
   //! Code Pour La Selection De Photo Via La Gallery Du Telephone
   List<Asset> images = List<Asset>();
@@ -159,15 +162,24 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                     ],
                   ),
                   SizedBox(height: 10),
+                  LocationInput(_fbKey),
+                  SizedBox(height: 10),
                   Input('Title', Icon(Icons.title_rounded, size: 20)),
                   SizedBox(height: 10),
-                  Input('Location', Icon(Icons.public, size: 20)),
-                  SizedBox(height: 10),
+                  // Input('Location', Icon(Icons.public, size: 20)),
                   Tags(),
                   SizedBox(height: 10),
                   DatePicker(),
                   SizedBox(height: 10),
-                  MoreInfo(),
+                  // MoreInfo(),
+                  Input('Comment', Icon(Icons.comment, size: 20)),
+                  SizedBox(height: 10),
+                  Input('Phone', Icon(Icons.phone, size: 20)),
+                  SizedBox(height: 10),
+                  Input('Email', Icon(Icons.mail, size: 20)),
+                  SizedBox(height: 10),
+
+
                   // RaisedButton(
                   //   elevation: 3,
                   //   child: Text('Valider'),
@@ -190,6 +202,8 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
         ));
   }
 
+
+
   Widget buildTextWithIcon() {
     return ProgressButton.icon(iconedButtons: {
       ButtonState.idle: IconedButton(
@@ -210,7 +224,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           color: Colors.green)
     }, onPressed: onPressedIconWithText, state: stateTextWithIcon);
 
-    
+
   }
 
   void onPressedIconWithText() {
@@ -220,12 +234,15 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
               Future.delayed(Duration(milliseconds : 500), () {
 
           setState(() {
-            // If form is validated, call update souvenir method
-            if (_fbKey.currentState.saveAndValidate()) {
+            // If form is validated, call add souvenir method
+            if (_fbKey.currentState.saveAndValidate() && souvenirsState.state.isSetInputLocation) {
                 Map<String, dynamic> data = _fbKey.currentState.value;
                 stateTextWithIcon = ButtonState.success;
                 Future.delayed(Duration(milliseconds : 1000), () {
-                  souvenirsState.setState((state) async => await state.addSouvenir(data));
+                  souvenirsState.setState((state) async {
+                    await state.addSouvenir(context, data);
+                    widget.changeScreen(0);
+                  });
                 });
             } else {
               stateTextWithIcon = ButtonState.fail;

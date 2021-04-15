@@ -4,6 +4,9 @@ import 'package:memolidays/features/souvenirs/view/components/category_component
 import 'package:memolidays/features/souvenirs/view/components/memories_component.dart';
 
 class ListSouvenirsPage extends StatelessWidget {
+  ListSouvenirsPage(this.changeScreen, {Key key}) : super(key: key);
+  final Function changeScreen;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +16,7 @@ class ListSouvenirsPage extends StatelessWidget {
         onIdle: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
         onWaiting: () => Center(child: SizedBox(child: CircularProgressIndicator(strokeWidth: 2))),
         onError: (error) {
-          print('STATES REBUILDER ON ERROR');
+          print('STATES REBUILDER ON ERROR :' + error.toString());
           return Container();
           // throw error;
         },
@@ -23,7 +26,7 @@ class ListSouvenirsPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   CategoryComponent(),
-                  MemoriesComponent(),
+                  MemoriesComponent(changeScreen),
                 ],
               ),
             )

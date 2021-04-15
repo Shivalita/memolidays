@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
 
 class DetailsPhoto extends StatefulWidget {
   final int index;
@@ -42,7 +43,8 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
   Widget build(BuildContext context) {
     PageController pageController = PageController(initialPage: widget.index);
     Souvenir souvenir = souvenirsState.state.selectedSouvenir;
-    List<File> thumbnails = souvenirsState.state.selectedSouvenir.thumbnails;
+    List<FileData> thumbnails =
+        souvenirsState.state.selectedSouvenir.thumbnails;
 
     return Scaffold(
       body: PageView.builder(
@@ -62,95 +64,86 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                     }),
                 actions: [
                   IconButton(
-                    icon: Icon(Icons.share),
-                    color: Colors.white,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SingleChildScrollView(
-                            child: Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[100],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Center(
-                                      child: Text(
-                                        "Share it with the world !",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic
+                      icon: Icon(Icons.share),
+                      color: Colors.white,
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SingleChildScrollView(
+                                  child: Container(
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Center(
+                                        child: Text(
+                                          "Share it with the world !",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle: FontStyle.italic),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.envelope,
-                                          size: 30,
-                                          color: HexColor("#000000"),
-                                        ),
-                                        onPressed: () {}
-                                      ),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.facebook,
-                                          size: 30,
-                                          color: HexColor("#0674E7"),
-                                        ),
-                                        onPressed: () {}
-                                      ),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.instagram,
-                                          size: 30,
-                                          color: HexColor("#C13584"),
-                                        ),
-                                        onPressed: () {}
-                                      ),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.twitter,
-                                          size: 30,
-                                          color: HexColor("#1da1f2"),
-                                        ),
-                                        onPressed: () {}
-                                      ),
-                                      IconButton(
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.userCircle,
-                                          size: 30,
-                                          color: Colors.orange,
-                                        ),
-                                        onPressed: () {}
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          );
-                        }
-                      );
-                    }
-                  ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.envelope,
+                                              size: 30,
+                                              color: HexColor("#000000"),
+                                            ),
+                                            onPressed: () {}),
+                                        IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.facebook,
+                                              size: 30,
+                                              color: HexColor("#0674E7"),
+                                            ),
+                                            onPressed: () {}),
+                                        IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.instagram,
+                                              size: 30,
+                                              color: HexColor("#C13584"),
+                                            ),
+                                            onPressed: () {}),
+                                        IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.twitter,
+                                              size: 30,
+                                              color: HexColor("#1da1f2"),
+                                            ),
+                                            onPressed: () {}),
+                                        IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.userCircle,
+                                              size: 30,
+                                              color: Colors.orange,
+                                            ),
+                                            onPressed: () {}),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ));
+                            });
+                      }),
                   IconButton(
                     icon: Icon(Icons.delete_forever),
                     color: Colors.white,
-                     // On pressed display a confirmation modal
+                    // On pressed display a confirmation modal
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -171,9 +164,8 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                         child: Text(
                                           "Are you sure you want to delete this photo ?",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FontStyle.italic
-                                          ),
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle: FontStyle.italic),
                                         ),
                                       ),
                                     ),
@@ -181,7 +173,8 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                       height: 10,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: <Widget>[
                                         RaisedButton(
                                           child: Text("No"),
@@ -195,7 +188,11 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
                                           color: Colors.green,
                                           // On pressed delete selected file & redirect to souvenir page
                                           onPressed: () {
-                                            souvenirsState.setState((state) => state.deleteFile(context, souvenir, thumbnails[index].id));
+                                            souvenirsState.setState((state) =>
+                                                state.deleteFile(
+                                                    context,
+                                                    souvenir,
+                                                    thumbnails[index].id));
                                           },
                                         )
                                       ],
@@ -211,15 +208,21 @@ class _DetailsPhotoState extends State<DetailsPhoto> {
               ),
               body: Container(
                 child: Center(
-                  child : CachedNetworkImage(
-                    imageUrl: ThumbnailLink().getThumbnailLink(thumbnails[index].path, 600),
-                    progressIndicatorBuilder: (context, url, downloadProgress) => 
-                      Center(child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 2)),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    child: Image(
+                      width:MediaQuery.of(context).size.width,
+                      image: NetworkToFileImage(
+                        url: thumbnails[index].getThumbnailUrl(600),
+                        file: thumbnails[index].file),
+                      loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) {
+                        return Center(child: child);
+                      }
+                      return Center(
+                          child: CircularProgressIndicator(strokeWidth: 2));
+                    },
                     fit: BoxFit.cover,
-                  )
-
-                ),
+                )),
               ),
             );
           }),
