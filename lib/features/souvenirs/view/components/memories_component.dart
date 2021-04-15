@@ -6,6 +6,7 @@ import 'package:memolidays/core/thumbnail_link.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/view/pages/add_souvenir_page.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
 
 // ignore: must_be_immutable
 class MemoriesComponent extends StatelessWidget {
@@ -79,68 +80,129 @@ class MemoriesComponent extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                               color: new Color.fromRGBO(0, 0, 0, 0.5)
                             ),
-                            padding: EdgeInsets.all(5),
-                            margin: EdgeInsets.all(5),
-                            child: Row(
-                              children: [
-                                // Displays souvenir's photos number
-                                Text(souvenirs[i].thumbnails.length.toString(), style: TextStyle(color: Colors.white)),
-                                SizedBox(width: 3,),
-                                Icon(Icons.photo_library, color: Colors.white, size: 17,)
-                              ],)
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          ]),
+                      child: Row(
+                        children: <Widget>[
+                          Stack(
+                            alignment: Alignment.bottomRight,
                             children: <Widget>[
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Center(
-                                child: Text(
-                                  souvenirs[i].title,
-                                  style: TextStyle(
-                                      fontSize: 17, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                      width: 125,
+                                      height: 125,
+                                      child: (Image(
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        // Display sized thumbnail from cache if stored, else store it
+                                        image: NetworkToFileImage(
+                                            scale: 1,
+                                            url: souvenirs[i]
+                                                .thumbnails[0]
+                                                .getThumbnailUrl(250),
+                                            file:
+                                                souvenirs[i].thumbnails[0].file,
+                                            debug: true),
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return Center(child: child);
+                                          }
+                                          return Center(
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2));
+                                        },
+                                      )))),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: new Color.fromRGBO(0, 0, 0, 0.5)),
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.all(5),
+                                  child: Row(
                                     children: [
-                                      Icon(Icons.location_on,
-                                          color: Colors.red, size: 25),
+                                      // Displays souvenir's photos number
                                       Text(
-                                        souvenirs[i].place,
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),
+                                          souvenirs[i]
+                                              .thumbnails
+                                              .length
+                                              .toString(),
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      SizedBox(
+                                        width: 3,
                                       ),
-                                    ],
-                                  ),
-                                  // If localization possible, display souvenir's distance
-                                  isLocationServiceEnabled ? Row(
-                                    children: [
-                                      FaIcon(FontAwesomeIcons.carSide,
-                                          color: Colors.lightBlue, size: 18),
-                                      SizedBox(width: 3),
-                                      Text(
-                                        souvenirs[i].distance,
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 13),
+                                      Icon(
+                                        Icons.photo_library,
+                                        color: Colors.white,
+                                        size: 17,
                                       )
                                     ],
-                                  ) : Container(),
-                                ],
-                              )
+                                  ))
                             ],
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      souvenirs[i].title,
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        children: [
+                                          Icon(Icons.location_on,
+                                              color: Colors.red, size: 25),
+                                          Text(
+                                            souvenirs[i].place,
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic),
+                                          ),
+                                        ],
+                                      ),
+                                      // If localization possible, display souvenir's distance
+                                      isLocationServiceEnabled
+                                          ? Row(
+                                              children: [
+                                                FaIcon(FontAwesomeIcons.carSide,
+                                                    color: Colors.lightBlue,
+                                                    size: 18),
+                                                SizedBox(width: 3),
+                                                Text(
+                                                  souvenirs[i].distance,
+                                                  style: TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      fontSize: 13),
+                                                )
+                                              ],
+                                            )
+                                          : Container(),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -151,10 +213,13 @@ class MemoriesComponent extends StatelessWidget {
           // Content to display when there are no memories yet
           ) : Container(
 
+            // Content to display when there are no memories yet
+            )
+        : Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                 Container(
+                Container(
                   margin: EdgeInsets.only(top: 50),
                   child: Text(
                     "Welcome to Memolidays",
@@ -180,40 +245,35 @@ class MemoriesComponent extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: new Color.fromRGBO(0, 0, 0, 0.5)
-                  ),
+                      borderRadius: BorderRadius.circular(12),
+                      color: new Color.fromRGBO(0, 0, 0, 0.5)),
                   padding: EdgeInsets.all(1),
                   margin: EdgeInsets.only(top: 50),
                   child: GestureDetector(
                     onTap: () {
                       Get.to(AddSouvenirsPage(changeScreen));
                     },
-                  child: Container(
-                    height: 125,
-                    width: 125,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.orange,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0, 3),
-                          blurRadius: 5.0,
-                        ),
-                      ]
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.add_a_photo)
-                      ],
-                    )
+                    child: Container(
+                        height: 125,
+                        width: 125,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.orange,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, 3),
+                                blurRadius: 5.0,
+                              ),
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[Icon(Icons.add_a_photo)],
+                        )),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
   }
 }
