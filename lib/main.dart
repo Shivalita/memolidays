@@ -21,7 +21,7 @@ import "package:flutter/foundation.dart";
 final LocalSource localSource = LocalSource();
 
 //! Set this flag to FALSE for production
-bool isDevelopmentMode = true;
+bool isDevelopmentMode = false;
 
 bool checkIfConnected() {
   bool isConnected = false;

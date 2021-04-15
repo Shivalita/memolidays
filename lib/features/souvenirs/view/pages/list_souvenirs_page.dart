@@ -4,6 +4,9 @@ import 'package:memolidays/features/souvenirs/view/components/category_component
 import 'package:memolidays/features/souvenirs/view/components/memories_component.dart';
 
 class ListSouvenirsPage extends StatelessWidget {
+  ListSouvenirsPage(this.changeScreen, {Key key}) : super(key: key);
+  final Function changeScreen;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +26,7 @@ class ListSouvenirsPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   CategoryComponent(),
-                  MemoriesComponent(),
+                  MemoriesComponent(changeScreen),
                 ],
               ),
             )

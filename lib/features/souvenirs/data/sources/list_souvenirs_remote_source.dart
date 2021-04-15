@@ -31,7 +31,7 @@ class ListSouvenirsRemoteSource {
       print("GET ALL CATEGORIES ERROR : status code ${response.statusCode}");
       throw Exception;
     }
-    
+
     List data = json.decode(response.body)['hydra:member'];
 
     List<Category> categoriesList =
@@ -82,9 +82,23 @@ class ListSouvenirsRemoteSource {
       });
 
       souvenirsList[i].thumbnails = filesDataList;
-  
+
       /*File coverImgFile =
           await this.file('15LWkpR_PZ6Q67u4N2PdplIXfbI5Kgjxy.jpg');
+      souvenirsList[i].thumbnails.insert(0, coverFile);
+
+      List<Map<String, dynamic>> categoriesData = data[i]['categories'].cast<Map<String, dynamic>>();
+
+      List<Category> categoriesList = categoriesData.map(
+        (categoriesData) => Category.fromJson(categoriesData)
+      ).toList();
+
+      souvenirsList[i].categories = categoriesList;
+
+      souvenirsList[i].categoriesId = categoriesList.map((category) => category.id).toList();
+
+      souvenirsList[i].categoriesId.add(0);
+    }
 
       FileData coverFile = FileData.fromCover(
           souvenirsList[i].id, souvenirsList[i].cover, coverImgFile);
@@ -140,5 +154,31 @@ class ListSouvenirsRemoteSource {
 
     Souvenir updatedSouvenir = Souvenir.fromJson(responseJson);
     return updatedSouvenir;
+  }
+
+
+  // -------------------- CREATE --------------------
+  Future<Souvenir> createSouvenir(Souvenir souvenir) async {
+    String url = "http://" + LOCALHOST + "/api/souvenirs";
+
+    String data = json.encode(souvenir.toJson());
+    print(data);
+
+    Map<String,String> headers = {
+      "Content-Type": "application/ld+json",
+    };
+
+    final response = await http.post(url, body: data, headers: headers);
+
+    if (response.statusCode != 201) {
+      print("CREATE SOUVENIR ERROR : status code ${response.statusCode}");
+      print(response.body);
+      throw Exception;
+    }
+
+    final Map<String, dynamic> responseJson = json.decode(response.body);
+
+    Souvenir newSouvenir = Souvenir.fromJson(responseJson);
+    return newSouvenir;
   }
 }
