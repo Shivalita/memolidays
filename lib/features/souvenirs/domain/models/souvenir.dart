@@ -126,7 +126,7 @@ class Souvenir {
 
   // Instanciate from form data
   Souvenir.fromForm(Map<String, dynamic> data) {
-    // userId = data['userId'];
+    userId = data['userId'];
     title = data['title'][0].toUpperCase() + data['title'].substring(1);
     eventDate = data['eventDate'].toString();
     email = data['email'];
