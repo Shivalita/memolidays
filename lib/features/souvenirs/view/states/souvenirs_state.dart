@@ -195,17 +195,11 @@ class SouvenirsState {
     // Remove category 'All' from categories list
     data['categories'].removeWhere((category) => category.id == 0);
 
-<<<<<<< HEAD
     // categoriesId.forEach((categoryId) { 
     //   categoriesIRI.add('/api/categories/$categoryId');
     // });
 
     // data['categories'] = categoriesIRI;
-=======
-    categoriesId.forEach((categoryId) {
-      categoriesIRI.add('/api/categories/$categoryId');
-    });
->>>>>>> 9ae2c68b61512b1921dc5815e6879eabb0f74786
 
     //!
     data['location'] = inputLocation;
@@ -266,11 +260,8 @@ class SouvenirsState {
 
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
-<<<<<<< HEAD
 
       Get.toNamed('/home');
-=======
->>>>>>> 9ae2c68b61512b1921dc5815e6879eabb0f74786
     }
 
     on Exception {
