@@ -1,5 +1,5 @@
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
-import 'package:memolidays/features/souvenirs/domain/models/file.dart';
 
 class Souvenir {
 
@@ -19,7 +19,7 @@ class Souvenir {
   double longitude;
   String place;
   String createdAt;
-  List<File> thumbnails;
+  List<FileData> thumbnails;
   String distance = "0 km";
 
   Souvenir({
@@ -35,11 +35,11 @@ class Souvenir {
     this.latitude,
     this.longitude,
     this.place,
-    this.createdAt, 
+    this.createdAt,
   });
 
 
-  // Instanciate from json API response 
+  // Instanciate from json API response
   Souvenir.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
@@ -60,9 +60,13 @@ class Souvenir {
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+<<<<<<< HEAD
 
     // data['user'] = "/api/users/13";
     data['user'] = "/api/users/" + this.userId.toString();
+=======
+    data['user'] = "/api/users/15";
+>>>>>>> 9ae2c68b61512b1921dc5815e6879eabb0f74786
     data['title'] = this.title;
     data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
     data['eventDate'] = this.eventDate;
@@ -113,9 +117,14 @@ class Souvenir {
         };
 
         Map<String, dynamic> newCategory =  {
+<<<<<<< HEAD
           // "user": "/api/users/13",
           "user": "/api/users/" + this.userId.toString(),
           "name": category.name[0].toUpperCase() + category.name.substring(1),
+=======
+          "user": "/api/users/15",
+          "name": category.name,
+>>>>>>> 9ae2c68b61512b1921dc5815e6879eabb0f74786
           "pin": pin
         };
 
@@ -124,7 +133,7 @@ class Souvenir {
     });
 
     data['categories'] = categoriesList;
-    
+
     return data;
   }
 
@@ -142,7 +151,7 @@ class Souvenir {
     // categoriesId = categoriesNames.map((category) => int.parse(category.split('/').last)).toList();
     // categoriesId = categories.map((category) => category.id).toList();
     // categoriesId.add(0);
-    // 
+    //
     // cover = data['cover'];
     place = data['location']['place'];
     address = data['location']['address'];
