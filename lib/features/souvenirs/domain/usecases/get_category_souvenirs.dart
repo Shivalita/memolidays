@@ -17,5 +17,5 @@ class GetCategorySouvenirs {
 
     return currentsouvenirsList;
   }
-  
+
 }

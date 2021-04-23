@@ -60,8 +60,6 @@ class Souvenir {
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
-    // data['user'] = "/api/users/13";
     data['user'] = "/api/users/" + this.userId.toString();
     data['title'] = this.title;
     data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
