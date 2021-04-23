@@ -7,6 +7,7 @@ class Souvenir {
   int userId;
   List<int> categoriesId;
   List<Category> categories;
+  List<String> categoriesIris;
   String title;
   String cover;
   String eventDate;
@@ -59,7 +60,9 @@ class Souvenir {
   // Convert to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = "/api/users/13";
+
+    // data['user'] = "/api/users/13";
+    data['user'] = "/api/users/" + this.userId.toString();
     data['title'] = this.title;
     data['cover'] = "https://drive.google.com/file/d/1tzwvblfizjQgsMt5aaouH6KrooyFCB4B";
     data['eventDate'] = this.eventDate;
@@ -99,7 +102,7 @@ class Souvenir {
     categories.forEach((category) {
       if (category.id != null) {
         Map<String, dynamic> existingCategory =  {
-          "@id": "/api/categories/3"
+          "@id": "/api/categories/" + category.id.toString()
         };
 
         categoriesList.add(existingCategory);
@@ -110,8 +113,9 @@ class Souvenir {
         };
 
         Map<String, dynamic> newCategory =  {
-          "user": "/api/users/13",
-          "name": category.name,
+          // "user": "/api/users/13",
+          "user": "/api/users/" + this.userId.toString(),
+          "name": category.name[0].toUpperCase() + category.name.substring(1),
           "pin": pin
         };
 
@@ -126,7 +130,7 @@ class Souvenir {
 
   // Instanciate from form data
   Souvenir.fromForm(Map<String, dynamic> data) {
-    // userId = data['userId'];
+    userId = data['userId'];
     title = data['title'][0].toUpperCase() + data['title'].substring(1);
     eventDate = data['eventDate'].toString();
     email = data['email'];

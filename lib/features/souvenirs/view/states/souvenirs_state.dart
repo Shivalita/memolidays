@@ -178,24 +178,36 @@ class SouvenirsState {
 
     if (souvenirCategoriesId.contains(category.id)) {
       temporaryCategoriesId.removeWhere((categoryId) => categoryId == category.id);
+      souvenir.categories.removeWhere((souvenirCategory) => souvenirCategory.id == category.id);
     } else {
       temporaryCategoriesId.add(category.id);
+      souvenir.categories.add(category);
     }
+
+    
   }
 
   // Update souvenir in database and state
   Future<void> updateSouvenir(Map<String, dynamic> data) async {
-    List<String> categoriesIRI = [];
-    List<int> categoriesId = data['categories'];
+    // List<String> categoriesIRI = [];
+    // List<int> categoriesId = data['categories'];
 
-    // For each category (except 'All') replace id by an IRI in data to send
-    categoriesId.removeWhere((categoryId) => categoryId == 0);
+    // Remove category 'All' from categories list
+    data['categories'].removeWhere((category) => category.id == 0);
 
-    categoriesId.forEach((categoryId) { 
-      categoriesIRI.add('/api/categories/$categoryId');
-    });
+    // categoriesId.forEach((categoryId) { 
+    //   categoriesIRI.add('/api/categories/$categoryId');
+    // });
 
-    data['categories'] = categoriesIRI;
+    // data['categories'] = categoriesIRI;
+
+    //!
+    data['location'] = inputLocation;
+
+    data['userId'] = localSource.getUserId();
+
+    print('STATE UPDATE DATA = ');
+    print(data);
 
     // Instanciate a new souvenir with form data and send it for database update
     int souvenirId = selectedSouvenir.id;
@@ -237,6 +249,8 @@ class SouvenirsState {
     
     data['location'] = inputLocation;
 
+    data['userId'] = localSource.getUserId();
+
     Souvenir souvenir = Souvenir.fromForm(data);
 
     // registerCategories(data);
@@ -247,7 +261,7 @@ class SouvenirsState {
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
 
-      return Get.toNamed('/home');
+      Get.toNamed('/home');
     }
 
     on Exception {

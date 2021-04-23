@@ -6,11 +6,6 @@ import 'package:memolidays/features/souvenirs/dependencies.dart';
 class LocationInput extends StatelessWidget {
   String attribute;
   Icon icon;
-  GlobalKey<FormBuilderState> fbKey;
-
-  LocationInput(GlobalKey<FormBuilderState> fbKey) {
-    this.fbKey = fbKey;
-  }
 
   @override
   Widget build(BuildContext context) {

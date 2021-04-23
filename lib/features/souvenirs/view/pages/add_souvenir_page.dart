@@ -159,7 +159,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  LocationInput(_fbKey),
+                  LocationInput(),
                   SizedBox(height: 10),
                   Input('Title', Icon(Icons.title_rounded, size: 20)),
                   SizedBox(height: 10),

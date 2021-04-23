@@ -113,6 +113,8 @@ class ListSouvenirsRemoteSource {
     String url = "http://" + LOCALHOST + "/api/souvenirs/$souvenirId";
 
     String data = json.encode(newSouvenirData.toJson());
+    print('REMOTE SOURCE UPDATE DATA = ');
+    print(data);
 
     Map<String,String> headers = {
       'Content-type' : 'application/merge-patch+json;charset=UTF-8', 
@@ -137,7 +139,6 @@ class ListSouvenirsRemoteSource {
     String url = "http://" + LOCALHOST + "/api/souvenirs";
 
     String data = json.encode(souvenir.toJson());
-    print(data);
 
     Map<String,String> headers = {
       "Content-Type": "application/ld+json", 

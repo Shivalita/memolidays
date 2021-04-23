@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:memolidays/features/souvenirs/view/components/location_input.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
@@ -101,11 +102,12 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                 initialValue: {
                   'title': souvenir.title, 
                   'place': souvenir.place,
-                  'categories': souvenir.categoriesId,
+                  'categories': souvenir.categories,
                   'eventDate' : souvenir.eventDate,
                   'email': souvenir.email,
                   'phone' : souvenir.phone,
-                  'comment' : souvenir.comment
+                  'comment' : souvenir.comment,
+                  'createdAt': souvenir.createdAt
                 },
                 key: _fbKey,
                 child: Container(
@@ -116,10 +118,11 @@ class _UpdateSouvenirPageState extends State<UpdateSouvenirPage> {
                       SizedBox(height: 20),
                       UpdateTags(),
                       SizedBox(height: 40),
+                      LocationInput(),
+                      SizedBox(height: 20),
                       Input('Title', Icon(Icons.title_rounded, size: 20)),
                       SizedBox(height: 20),
-                      Input('Place', Icon(Icons.public, size: 20)),
-                      SizedBox(height: 20),
+                      // Input('Place', Icon(Icons.public, size: 20)),
                       UpdateDatePicker(),
                       SizedBox(height: 20),
                       Input('Comment', Icon(Icons.comment, size: 20)),
