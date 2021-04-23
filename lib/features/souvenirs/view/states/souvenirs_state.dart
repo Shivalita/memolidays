@@ -202,7 +202,10 @@ class SouvenirsState {
     // data['categories'] = categoriesIRI;
 
     //!
-    data['location'] = inputLocation;
+    if (isSetInputLocation) {
+      print('PPL isSetInputLocation');
+      data['location'] = inputLocation;
+    }
 
     data['userId'] = localSource.getUserId();
 
@@ -232,6 +235,8 @@ class SouvenirsState {
   //! ON PROGRESS
 
   void updateLocationInput(MapBoxPlace place) {
+    print('PPL UPDATE LOCATION INPUT');
+
     if (place.properties.address != null) {
       inputLocation['address'] = place.properties.address;
     } else {

@@ -22,21 +22,21 @@ class Souvenir {
   List<FileData> thumbnails;
   String distance = "0 km";
 
-  Souvenir({
-    this.id,
-    this.userId,
-    this.title,
-    this.cover,
-    this.eventDate,
-    this.email,
-    this.phone,
-    this.comment,
-    this.address,
-    this.latitude,
-    this.longitude,
-    this.place,
-    this.createdAt,
-  });
+  // Souvenir({
+  //   this.id,
+  //   this.userId,
+  //   this.title,
+  //   this.cover,
+  //   this.eventDate,
+  //   this.email,
+  //   this.phone,
+  //   this.comment,
+  //   this.address,
+  //   this.latitude,
+  //   this.longitude,
+  //   this.place,
+  //   this.createdAt,
+  // });
 
 
   // Instanciate from json API response
@@ -135,6 +135,7 @@ class Souvenir {
     phone = data['phone'];
     comment = data['comment'];
     categories = data['categories'].cast<Category>();
+    createdAt = data['createdAt'].toString();
 
     // List<String> categoriesNames = categories.cast<String>();
     // categoriesId = categoriesNames.map((category) => int.parse(category.split('/').last)).toList();
@@ -142,11 +143,12 @@ class Souvenir {
     // categoriesId.add(0);
     //
     // cover = data['cover'];
-    place = data['location']['place'];
-    address = data['location']['address'];
-    longitude = data['location']['coordinates'][0];
-    latitude = data['location']['coordinates'][1];
-    createdAt = data['createdAt'].toString();
+    if (data['location'] != null && data['location'].isNotEmpty) {
+      place = data['location']['place'];
+      address = data['location']['address'];
+      longitude = data['location']['coordinates'][0];
+      latitude = data['location']['coordinates'][1];
+    }
   }
 
 }

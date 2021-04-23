@@ -12,7 +12,6 @@ class SouvenirHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(souvenir.thumbnails[0].file);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: Stack(alignment: Alignment.bottomLeft, children: <Widget>[

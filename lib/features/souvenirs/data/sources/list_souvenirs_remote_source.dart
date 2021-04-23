@@ -61,7 +61,6 @@ class ListSouvenirsRemoteSource {
     }
 
     List data = json.decode(response.body)['hydra:member'];
-    print(data[0]);
     List<Souvenir> souvenirsList =
         data.map((souvenir) => Souvenir.fromJson(souvenir)).toList();
 
@@ -134,8 +133,7 @@ class ListSouvenirsRemoteSource {
   // -------------------- UPDATE --------------------
 
   // Update souvenir and return new souvenir from updated data
-  Future<Souvenir> updateSouvenir(
-      int souvenirId, Souvenir newSouvenirData) async {
+  Future<Souvenir> updateSouvenir(int souvenirId, Souvenir newSouvenirData) async {
     String url = "http://" + LOCALHOST + "/api/souvenirs/$souvenirId";
 
     String data = json.encode(newSouvenirData.toJson());
@@ -164,6 +162,8 @@ class ListSouvenirsRemoteSource {
     String url = "http://" + LOCALHOST + "/api/souvenirs";
 
     String data = json.encode(souvenir.toJson());
+    print('REMOTE SOURCE CREATE DATA = ');
+    print(data);
 
     Map<String,String> headers = {
       "Content-Type": "application/ld+json",
@@ -173,7 +173,6 @@ class ListSouvenirsRemoteSource {
 
     if (response.statusCode != 201) {
       print("CREATE SOUVENIR ERROR : status code ${response.statusCode}");
-      print(response.body);
       throw Exception;
     }
 

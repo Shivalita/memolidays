@@ -11,14 +11,13 @@ class UpdateTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
-        child: Row(children: <Widget>[
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: rowChips(context, allCategoriesList),
-          )
-      ])),
-      );
+      child: Column(children: <Widget>[
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: rowChips(context, allCategoriesList),
+        )
+      ]),
+    );
   }
 
 
