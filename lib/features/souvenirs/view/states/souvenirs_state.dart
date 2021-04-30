@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
 import 'package:memolidays/core/constantes.dart';
@@ -21,6 +25,7 @@ import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.da
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class SouvenirsState {
 
@@ -249,7 +254,16 @@ class SouvenirsState {
     isSetInputLocation = true;
   }
 
-  Future<void> addSouvenir(BuildContext context, Map<String, dynamic> data) async {
+  Future<void> addSouvenir(BuildContext context, Map<String, dynamic> data, List<Asset> galleryFiles) async {
+    //!
+    // print('----- GALLERY -----');
+    // Asset firstGalleryFile = galleryFiles[0];
+    // print(firstGalleryFile);
+    // ByteData byteData = await firstGalleryFile.getByteData();
+    // print(byteData);
+
+    
+
     data['createdAt'] = DateTime.now();
 
     data['location'] = inputLocation;
@@ -266,7 +280,7 @@ class SouvenirsState {
       allCategoriesList = await getAllCategories(context);
       allSouvenirsList = await getSouvenirsList(context);
 
-      Get.toNamed('/home');
+      // Get.toNamed('/home');
     }
 
     on Exception {

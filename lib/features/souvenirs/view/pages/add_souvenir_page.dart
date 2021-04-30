@@ -1,14 +1,11 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
 import 'package:memolidays/features/souvenirs/view/components/location_input.dart';
-import 'package:memolidays/features/souvenirs/view/components/more_info.dart';
 import 'package:memolidays/features/souvenirs/view/components/tags.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
@@ -39,7 +36,10 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   String _error;
 
   Widget buildGridView() {
-    if (images.isNotEmpty)
+    if (images.isNotEmpty) {
+      print('GALLERY PHOTOS = ');
+      print(images);
+      print(images[0].metadata);
       return Container(
         child: GridView.count(
           padding: EdgeInsets.all(10),
@@ -57,6 +57,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
           }),
         ),
       );
+    }
     else
       return Container(color: Colors.red);
   }
@@ -71,7 +72,8 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
+        maxImages: 15,
+        enableCamera: true
       );
     } on Exception catch (e) {
       error = e.toString();
@@ -84,42 +86,118 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
     });
   }
 
-  //! Code Pour La Prise de Photo Via La Camera
-  File _image;
-  final picker = ImagePicker();
+  // //! Code Pour La Prise de Photo Via La Camera
+  // // File _image;
+  // File _image;
+  // final picker = ImagePicker();
 
-  getImage() async {
-    final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 100);
+  // getImage() async {
+  //   final pickedFile =
+  //       await picker.getImage(source: ImageSource.camera, imageQuality: 100);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+    
+  // }
+  
+  // _imgFromCamera() async {
+  //   PickedFile image = await picker.getImage(
+  //     source: ImageSource.camera, imageQuality: 50
+  //   );
 
-  Widget cameraView() {
-    if (_image != null)
-      return ClipRRect(
-          child: Container(
-              child: Align(
-                  alignment: Alignment.center,
-                  widthFactor: 0.5,
-                  heightFactor: 0.5,
-                  child: Image.file(
-                    _image,
-                    height: 230,
-                    width: 230,
-                  ))));
-    else
-      return Container();
-  }
+  //   setState(() {
+  //     _image = File(image.path);
+  //   });
+  // }
+
+  // _imgFromGallery() async {
+  //   PickedFile image = await  picker.getImage(
+  //       source: ImageSource.gallery, imageQuality: 50
+  //   );
+
+  //   setState(() {
+  //     _image = File(image.path);
+  //   });
+  // }
+
+// void _showPicker(context) {
+//   showModalBottomSheet(
+//       context: context,
+//       builder: (BuildContext bc) {
+//         return SafeArea(
+//           child: Container(
+//             child: new Wrap(
+//               children: <Widget>[
+//                 new ListTile(
+//                     leading: new Icon(Icons.photo_library),
+//                     title: new Text('Photo Library'),
+//                     onTap: () {
+//                       _imgFromGallery();
+//                       Navigator.of(context).pop();
+//                     }),
+//                 new ListTile(
+//                   leading: new Icon(Icons.photo_camera),
+//                   title: new Text('Camera'),
+//                   onTap: () {
+//                     _imgFromCamera();
+//                     Navigator.of(context).pop();
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       }
+//     );
+// }
+
+  // Widget cameraView() {
+  //   if (_image != null) {
+  //     // print('CAMERA PHOTO = ');
+  //     // print(_image);
+  //     // print(_image.path);
+  //     return ClipRRect(
+  //         child: Container(
+  //             child: Align(
+  //                 alignment: Alignment.center,
+  //                 widthFactor: 0.5,
+  //                 heightFactor: 0.5,
+  //                 child: Image.file(
+  //                   _image,
+  //                   height: 230,
+  //                   width: 230,
+  //                 ))));
+  //   }
+  //   else
+  //     return Container();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // List<AssetEntity> assets = <AssetEntity>[];
+
+    // AssetPicker.pickAssets(
+    //   context,
+    //   maxAssets: 9,
+    //   pageSize: 320,
+    //   pathThumbSize: 80,
+    //   gridCount: 4,
+    //   requestType: RequestType.image,
+    //   selectedAssets: assets,
+    //   themeColor: Colors.cyan,
+    //   // pickerTheme: ThemeData.dark(), // This cannot be set when the `themeColor` was provided.
+    //   // textDelegate: DefaultTextDelegate(),
+    //   sortPathDelegate: CommonSortPathDelegate(),
+    //   routeCurve: Curves.easeIn,
+    //   routeDuration: const Duration(milliseconds: 500),
+    // ).then((List<AssetEntity> assets) {
+    //   print(assets);
+    // });
     return souvenirsState.rebuilder(() => Container(
           padding: EdgeInsets.all(10),
           child: SingleChildScrollView(
@@ -127,22 +205,58 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
               key: _fbKey,
               child: Column(
                 children: <Widget>[
+                  // //! HOLY FOCK
+                  // SizedBox(
+                  //   height: 32,
+                  // ),
+                  // Center(
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       _showPicker(context);
+                  //     },
+                  //     child: CircleAvatar(
+                  //       radius: 55,
+                  //       backgroundColor: Color(0xffFDCF09),
+                  //       child: _image != null
+                  //           ? ClipRRect(
+                  //               borderRadius: BorderRadius.circular(50),
+                  //               child: Image.file(
+                  //                 _image,
+                  //                 width: 100,
+                  //                 height: 100,
+                  //                 fit: BoxFit.fitHeight,
+                  //               ),
+                  //             )
+                  //           : Container(
+                  //               decoration: BoxDecoration(
+                  //                 color: Colors.grey[200],
+                  //                 borderRadius: BorderRadius.circular(50)),
+                  //               width: 100,
+                  //               height: 100,
+                  //               child: Icon(
+                  //                 Icons.camera_alt,
+                  //                 color: Colors.grey[800],
+                  //               ),
+                  //             ),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     padding: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        FloatingActionButton(
-                          onPressed: () {
-                            getImage();
-                          },
-                          child: Icon(
-                            Icons.photo_camera,
-                            size: 35,
-                          ),
-                          elevation: 3,
-                          backgroundColor: Colors.white,
-                        ),
+                        // FloatingActionButton(
+                        //   onPressed: () {
+                        //     getImage();
+                        //   },
+                        //   child: Icon(
+                        //     Icons.photo_camera,
+                        //     size: 35,
+                        //   ),
+                        //   elevation: 3,
+                        //   backgroundColor: Colors.white,
+                        // ),
                         FloatingActionButton(
                           onPressed: loadAssets,
                           child: Icon(
@@ -158,7 +272,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                   Stack(
                     children: [
                       buildGridView(),
-                      cameraView(),
+                      // cameraView(),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -240,7 +354,7 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                 stateTextWithIcon = ButtonState.success;
                 Future.delayed(Duration(milliseconds : 1000), () {
                   souvenirsState.setState((state) async {
-                    await state.addSouvenir(context, data);
+                    await state.addSouvenir(context, data, images);
                     widget.changeScreen(0);
                   });
                 });

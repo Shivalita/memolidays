@@ -1,42 +1,57 @@
 {
   "project_info": {
-    "project_number": "170801950601",
-    "firebase_url": "https://memolidays3.firebaseio.com",
-    "project_id": "memolidays3",
-    "storage_bucket": "memolidays3.appspot.com"
+    "project_number": "1030506967261",
+    "project_id": "memolidays-v1",
+    "storage_bucket": "memolidays-v1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:170801950601:android:0e679f8f4d58e8bb8cfb58",
+        "mobilesdk_app_id": "1:1030506967261:android:568de83bedfaeafdbb6b34",
         "android_client_info": {
           "package_name": "com.example.memolidays"
         }
       },
       "oauth_client": [
         {
-          "client_id": "170801950601-fg9g5g7mita9h3u9pghcqc6ttu1gns55.apps.googleusercontent.com",
+          "client_id": "1030506967261-68l3sfih8jgqe7p8m5uvgld2h41elrv1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.memolidays",
-            "certificate_hash": "7F00FC68C5609375916E65F50FAB5EA524EE2FA5"
+            "certificate_hash": "7f00fc68c5609375916e65f50fab5ea524ee2fa5"
           }
         },
         {
-          "client_id": "170801950601-9khruf34o1mf784a9no5hkg1aonug78d.apps.googleusercontent.com",
+          "client_id": "1030506967261-6jlo8umohlle4jd8p3p948qs1f3d7678.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memolidays",
+            "certificate_hash": "a46bed1299ed9230bbabe6ce237e877de5da49eb"
+          }
+        },
+        {
+          "client_id": "1030506967261-8u6mfghupq7c2v39a1rtv2til3rvlisp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memolidays",
+            "certificate_hash": "f4505c407fc252efe8d8c7ffe200f8cd534bee29"
+          }
+        },
+        {
+          "client_id": "1030506967261-tcnj7k4odtmkoh1rof3u9rehoh202obq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCwYdc_1EcSZQjHG8v2hJt08TphtrM95Mg"
+          "current_key": "AIzaSyD9qtHb8eJC0wo1o9bWppR8UBYhb_f2bbg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "170801950601-9khruf34o1mf784a9no5hkg1aonug78d.apps.googleusercontent.com",
+              "client_id": "1030506967261-tcnj7k4odtmkoh1rof3u9rehoh202obq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

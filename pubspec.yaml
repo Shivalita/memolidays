@@ -60,11 +60,14 @@ dependencies:
     git:
       url: https://github.com/igaurab/user_location_plugin.git
   progress_state_button: ^1.0.1 #Customizable progress button
-  flutter_dotenv: ^3.1.0
+  flutter_dotenv: ^3.1.0 #Set a .env file
   mapbox_search_flutter: ^1.0.6+1 #Location search
   convex_bottom_bar: ^2.7.1+2
   path_provider: ^1.4.4
   network_to_file_image: ^2.3.8
+  # googleapis_auth: ^1.1.0 #Get credentials to access Google APIs
+  googleapis: ^1.0.0 #Get access to Google APIs
+  # wechat_assets_picker: ^4.2.2 # Multiple files picker (images + audio + video)
 
 dev_dependencies:
   flutter_test:
