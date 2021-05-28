@@ -2,20 +2,20 @@ import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/login/domain/models/user.dart';
 import 'package:memolidays/features/login/data/sources/login_remote_source.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
-
+import 'package:memolidays/core/google_drive_remote_source.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
 
 class LoginRepository {
 
   final LoginRemoteSource loginRemoteSource = LoginRemoteSource();
+  final GoogleDriveRemoteSource googleDriveRemoteSource = GoogleDriveRemoteSource();
   final  LocalSource localSource = LocalSource();
+  User user;
 
   // Singleton initialization
   LoginRepository._();
   static LoginRepository _cache;
   factory LoginRepository() => _cache ??= LoginRepository._();
-
-  User user;
-
 
   // If connected get user from local storage, else call login method & set isConnected to true
   Future<User> login() async {
@@ -23,12 +23,12 @@ class LoginRepository {
 
     if (isConnected != null && isConnected == true) {
       user = getUserFromLocalStorage();
-
     } else {
       user = await loginRemoteSource.login();
       localSource.storeUserData(user.id, user.googleId, user.name, user.email, user.avatar, user.isPremium);
     }
 
+    await googleDriveRemoteSource.authenticateDriveApi();
     localSource.setIsConnected(true);
     return user;
   }

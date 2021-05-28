@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:googleapis/drive/v3.dart';
 
 class LocalSource {
   // Get instanciated local storage box
   Box<dynamic> storageBox = Hive.box('storageBox');
 
-  // Local storage setters
+  // Store in local storage
   void storeUserData(int id, String googleId, String name, String email, String avatar, bool isPremium) {
     storageBox.put('id', id);
     storageBox.put('googleId', googleId);
@@ -22,7 +23,7 @@ class LocalSource {
     storageBox.put('isConnected', isConnected);
   }
 
-  // Local storage getters
+  // Retrieve data from local storage
   bool getIsConnected() {
     bool isConnected = storageBox.get('isConnected');
     return isConnected;
@@ -63,7 +64,7 @@ class LocalSource {
     return name;
   }
 
-  String geteMail() {
+  String getEmail() {
     String email = storageBox.get('email');
     return email;
   }

@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:memolidays/features/login/domain/models/google_auth_client.dart';
 import 'package:memolidays/features/login/domain/models/user.dart' as entity;
 import 'package:http/http.dart' as http;
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:google_sign_in/google_sign_in.dart' as signIn;
-
 
 class LoginRemoteSource {
 
@@ -40,28 +36,8 @@ class LoginRemoteSource {
   // Set Google authentication
   Future<User> signInWithGoogle() async {
     try {
-      //! REPRENDRE CA
-      // final googleSignIn = signIn.GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
-      // final signIn.GoogleSignInAccount account = await googleSignIn.signIn();
-      // print("User account $account");
-
-      // final authHeaders = await account.authHeaders;
-      // final authenticateClient = GoogleAuthClient(authHeaders);
-      // final driveApi = drive.DriveApi(authenticateClient);
-
-      // final Stream<List<int>> mediaStream =
-      //     Future.value([104, 105]).asStream().asBroadcastStream();
-      // var media = new drive.Media(mediaStream, 2);
-      // var driveFile = new drive.File();
-      // driveFile.name = "hello_world.txt";
-      // final result = await driveApi.files.create(driveFile, uploadMedia: media);
-      // print("Upload result: $result");
-      //!
-
-
       final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,

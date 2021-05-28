@@ -50,9 +50,10 @@ class LoginState {
         }
       }
 
-      on Exception {
+      on Exception catch(error) {
         print('PPL exception signInGoogle login_state');
-        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Authentication failed.');
+        localSource.setIsConnected(false);
+        final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : $error');
         errorSnackbar.displayErrorSnackbar();
       }
     }

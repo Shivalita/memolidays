@@ -7,8 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 import 'package:memolidays/core/components/error_snackbar.dart';
 import 'package:memolidays/core/constantes.dart';
+import 'package:memolidays/core/google_drive_remote_source.dart';
 import 'package:memolidays/features/login/data/sources/local_source.dart';
 import 'package:memolidays/features/souvenirs/domain/models/category.dart';
+import 'package:memolidays/features/souvenirs/domain/models/file_data.dart';
 import 'package:memolidays/features/souvenirs/domain/models/pin.dart';
 import 'package:memolidays/features/souvenirs/domain/models/souvenir.dart';
 import 'package:memolidays/features/souvenirs/domain/usecases/create_souvenir.dart';
@@ -25,7 +27,7 @@ import 'package:memolidays/features/souvenirs/domain/usecases/update_souvenir.da
 import 'package:memolidays/features/souvenirs/view/pages/souvenir_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class SouvenirsState {
 
@@ -42,6 +44,7 @@ class SouvenirsState {
   Map<String, dynamic> inputLocation = {};
   final LocalSource localSource = LocalSource();
   final Constantes constantes = Constantes();
+  final GoogleDriveRemoteSource googleDriveRemoteSource = GoogleDriveRemoteSource();
 
   // -------------------- INITIALIZATION --------------------
 
@@ -240,8 +243,6 @@ class SouvenirsState {
   //! ON PROGRESS
 
   void updateLocationInput(MapBoxPlace place) {
-    print('PPL UPDATE LOCATION INPUT');
-
     if (place.properties.address != null) {
       inputLocation['address'] = place.properties.address;
     } else {
@@ -254,39 +255,43 @@ class SouvenirsState {
     isSetInputLocation = true;
   }
 
-  Future<void> addSouvenir(BuildContext context, Map<String, dynamic> data, List<Asset> galleryFiles) async {
-    //!
-    // print('----- GALLERY -----');
-    // Asset firstGalleryFile = galleryFiles[0];
-    // print(firstGalleryFile);
-    // ByteData byteData = await firstGalleryFile.getByteData();
-    // print(byteData);
+  Future<void> addSouvenir(BuildContext context, Map<String, dynamic> data, List<AssetEntity> files) async {
+    List<FileData> driveFiles = [];
 
-    
-
+    files.forEach((file) async {
+      var uploadedFile = await googleDriveRemoteSource.uploadFileToGoogleDrive(file, file.title);
+      print('FILE : $uploadedFile');
+      print('FILE ID: ${uploadedFile.id}');
+      print('FILE NAME : ${uploadedFile.name}');
+      // print('FILE DRIVE ID: ${uploadedFile.driveId}');
+      // print('FILE EXTENSION: ${uploadedFile.fileExtension}');
+      // print('FILE FULL EXTENSION: ${uploadedFile.fullFileExtension}');
+      // print('FILE PROPERTIES: ${uploadedFile.appProperties}');
+    });
+ 
     data['createdAt'] = DateTime.now();
 
     data['location'] = inputLocation;
 
     data['userId'] = localSource.getUserId();
 
-    Souvenir souvenir = Souvenir.fromForm(data);
+    // Souvenir souvenir = Souvenir.fromForm(data);
 
-    // registerCategories(data);
+    // // registerCategories(data);
 
-    try {
-      Souvenir newSouvenir = await CreateSouvenir()(souvenir);
+    // try {
+    //   Souvenir newSouvenir = await CreateSouvenir()(souvenir);
 
-      allCategoriesList = await getAllCategories(context);
-      allSouvenirsList = await getSouvenirsList(context);
+    //   allCategoriesList = await getAllCategories(context);
+    //   allSouvenirsList = await getSouvenirsList(context);
 
-      // Get.toNamed('/home');
-    }
+    //   // Get.toNamed('/home');
+    // }
 
-    on Exception {
-      final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Souvenir couldn\'t be created, please try again.');
-      errorSnackbar.displayErrorSnackbar();
-    }
+    // on Exception {
+    //   final ErrorSnackbar errorSnackbar = ErrorSnackbar(context, 'Error : Souvenir couldn\'t be created, please try again.');
+    //   errorSnackbar.displayErrorSnackbar();
+    // }
   }
 
   // void registerCategories(Map<String, dynamic> data) {
