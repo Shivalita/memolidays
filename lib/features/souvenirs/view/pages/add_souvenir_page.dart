@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:memolidays/features/souvenirs/dependencies.dart';
 import 'package:memolidays/features/souvenirs/view/components/date_picker.dart';
 import 'package:memolidays/features/souvenirs/view/components/input.dart';
@@ -22,9 +23,12 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   ButtonState stateOnlyText = ButtonState.idle;
   ButtonState stateTextWithIcon = ButtonState.idle;
-
   DateTime pickedDate;
+  // storageFilePicker
   List<AssetEntity> assets = [];
+  // cameraFilePicker  
+  File _image;
+
 
   @override
   void initState() {
@@ -32,14 +36,14 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
     pickedDate = DateTime.now();
   }
 
-  openImagePicker() async {
+  openStorageFilePicker() async {
     final List<AssetEntity> result = await AssetPicker.pickAssets(
       context,
       maxAssets: 15,
       pageSize: 320,
       pathThumbSize: 80,
       gridCount: 4,
-      // requestType: RequestType.image,
+      requestType: RequestType.image,
       selectedAssets: assets,
       themeColor: Colors.orange,
       textDelegate: EnglishTextDelegate(),
@@ -51,6 +55,19 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
       assets = result;
     });
   }
+
+  Future openCameraFilePicker() async {
+    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
 
    Widget buildGridView() {
     if (assets.isNotEmpty) {
@@ -91,9 +108,18 @@ class _AddSouvenirsPageState extends State<AddSouvenirsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         FloatingActionButton(
-                          onPressed: openImagePicker,
+                          onPressed: openStorageFilePicker,
                           child: Icon(
                             Icons.photo_library,
+                            size: 35,
+                          ),
+                          elevation: 3,
+                          backgroundColor: Colors.white,
+                        ),
+                        FloatingActionButton(
+                          onPressed: () => openCameraFilePicker(),
+                          child: Icon(
+                            Icons.camera_enhance,
                             size: 35,
                           ),
                           elevation: 3,

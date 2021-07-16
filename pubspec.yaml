@@ -46,7 +46,6 @@ dependencies:
   hexcolor: ^1.0.6 #For hexadecimal colors
   flutter_svg: ^0.19.1 #Enable SVG files
   url_launcher: ^5.7.5 #Android and iOS url launching
-  image_picker: ^0.6.7+12 #Pick images in device & take photos with camera
   cached_network_image: ^2.3.3 #Load and cache network images
   intl: ^0.16.1 #Localization & date formatting
   flutter_map: ^0.10.1+1 #Interactive map
@@ -66,7 +65,7 @@ dependencies:
   network_to_file_image: ^2.3.8
   googleapis: ^1.0.0 #Get access to Google APIs
   wechat_assets_picker: ^4.2.2 #Pick multiple files from device storage (images/audio/video)
-  wechat_camera_picker: ^2.0.0 #Pick file directly from device camera
+  image_picker: ^0.6.7+12 #Pick file directly from device camera
 
 dev_dependencies:
   flutter_test:
